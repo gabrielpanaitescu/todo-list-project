@@ -1,0 +1,26 @@
+{
+  "name": "todo-list-project",
+  "version": "1.0.0",
+  "description": "Todo List project. Practice Webpack and ES6 modules. Also practice writing cleaner, maintainable and extendable code by using the SOLID principles and code decoupling.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --config webpack.prod.js",
+    "watch": "webpack --progress --watch --config webpack.dev.js",
+    "start": "webpack serve --open --config webpack.dev.js",
+    "gh-deploy": "git push origin :gh-pages && git subtree push --prefix dist origin gh-pages",
+    "gh-deploy-init": "git push origin && git subtree push --prefix dist origin gh-pages"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^7.1.2",
+    "html-webpack-plugin": "^5.6.0",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^5.10.0"
+  }
+}
