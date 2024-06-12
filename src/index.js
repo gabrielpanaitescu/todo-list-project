@@ -1,1 +1,1 @@
-import './components/createDOM.js'
+import './components/manageDOM.js'
