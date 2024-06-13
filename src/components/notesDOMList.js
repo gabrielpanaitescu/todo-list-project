@@ -49,7 +49,9 @@ export default function updateNotesDOM(project, appendToID) {
         };
 
         const editNoteBtnHandler = () => {
-            project.updateNote(note, editNoteTitleInput.value, editNoteDescriptionInput.value);
+            if (!editNoteTitleInput.validity.valid || !editNoteDescriptionInput.validity.valid) return;
+            
+            project.editNote(note, editNoteTitleInput.value, editNoteDescriptionInput.value);
             updateNotesDOM(project, 'notes-list');
         };
 

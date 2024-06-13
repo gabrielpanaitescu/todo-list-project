@@ -146,8 +146,10 @@ function createTasksContainer(project) {
     const createTaskBtnHandler = (project) => {
         if (!taskTitleInput.validity.valid || !taskDescriptionInput.validity.valid || !taskImportanceSelect.validity.valid || !taskDuedateInput.validity.valid) return;
 
-        project.addTask(createTask(taskTitleInput.value, taskDescriptionInput.value, taskImportanceSelect.value, new Date(taskDuedateInput.value), false));
-        updateTasksDOM(project.tasks, 'tasks-list');
+        project.addTask(createTask(taskTitleInput.value, taskDescriptionInput.value, taskImportanceSelect.value, taskDuedateInput.value, false));
+        updateTasksDOM(project, 'tasks-list');
+
+        console.log(taskDuedateInput.value);
     }
 
     createTaskBtn.addEventListener('click', () => {

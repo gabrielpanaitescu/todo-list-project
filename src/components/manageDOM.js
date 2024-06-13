@@ -19,8 +19,8 @@ const renderProject = (project) => {
     const projectContainer = createProjectDOMContainer(project);
     main.appendChild(projectContainer);
     
-    renderTasks(project.tasks, 'tasks-list');
-    renderChecklists(project.checklists);
+    renderTasks(project, 'tasks-list');
+    renderChecklists(project, 'checklists-list');
     renderNotes(project, 'notes-list');
 };
 
@@ -29,14 +29,14 @@ const renderDefaultProject = () => {
     renderProject(personalProject);
 };
 
-const renderTasks = (tasks, appendToID) => {
-    if (tasks.length < 1) return;
-    updateTasksDOM(tasks, appendToID);
+const renderTasks = (project, appendToID) => {
+    if (project.tasks.length < 1) return;
+    updateTasksDOM(project, appendToID);
 };
 
-const renderChecklists = (checklists) => {
-    if (checklists.length < 1) return;
-    updateChecklistsDOM(checklists);
+const renderChecklists = (project) => {
+    if (project.checklists.length < 1) return;
+    updateChecklistsDOM(project);
 };
 
 const renderNotes = (project, appendToID) => {
