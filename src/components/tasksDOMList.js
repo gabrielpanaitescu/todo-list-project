@@ -1,4 +1,4 @@
-import { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods.js';
+import { createTextElem, createDivContainer, createButton, createLabel, createInput } from './DOMElementCreationMethods.js';
 import './tasksDOMListStyle.css'
 import { format } from "date-fns";
 
@@ -13,4 +13,6 @@ export default function updateTasksDOM(tasks, appendToID) {
         const formattedDate = format(task.dueDate, 'MM/dd/yyyy');
         createTextElem('p', `Due date: ${formattedDate}`, taskWrapper);
     });
+
+    
 }

@@ -21,7 +21,7 @@ const renderProject = (project) => {
     
     renderTasks(project.tasks, 'tasks-list');
     renderChecklists(project.checklists);
-    renderNotes(project.notes, 'notes-list');
+    renderNotes(project, 'notes-list');
 };
 
 const renderDefaultProject = () => {
@@ -39,9 +39,9 @@ const renderChecklists = (checklists) => {
     updateChecklistsDOM(checklists);
 };
 
-const renderNotes = (notes, appendToID) => {
-    if (notes.length < 1) return;
-    updateNotesDOM(notes, appendToID);
+const renderNotes = (project, appendToID) => {
+    if (project.notes.length < 1) return;
+    updateNotesDOM(project, appendToID);
 };
 
 

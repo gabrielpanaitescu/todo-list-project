@@ -30,8 +30,14 @@ const projectProto = {
         this.checklists.push(checklistObj)
     },
     // to see if arguments can be changed to a single on => the item that needs to be removed
-    removeItem(itemType, itemIndex) {
-        this[itemType].splice(itemIndex, 1);
+    removeItem(itemType, item) {
+        this[itemType] = this[itemType].filter(elem => elem !== item);
+    },
+
+    updateNote(note, title, description) {
+        const noteIndex = this.notes.indexOf(note);
+        this.notes[noteIndex].title = title;
+        this.notes[noteIndex].description = description;
     }
 };
 

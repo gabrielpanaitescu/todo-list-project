@@ -18,27 +18,26 @@ export default function createProjectDOMContainer(project) {
     const createRemoveProjectBtn = () => {
         const removeProjectModalContainer = createDivContainer('project-remove', '', projectContainer);
         removeProjectModalContainer.classList.add('modal-container');
-        const openProjectRemoveModal = createButton('x', 'remove-button', '', removeProjectModalContainer);
+        const openProjectRemoveModal = createButton('x', 'open-modal-button', '', removeProjectModalContainer);
         const projectRemoveModal = document.createElement('dialog');
-        const formRemoveProject = document.createElement('form');
-        formRemoveProject.method = 'dialog';
-        const label = document.createElement('label');
-        label.textContent = 'Are you sure?';
-        formRemoveProject.appendChild(label);
-        createButton('Cancel', 'button', '', formRemoveProject);
-        const removeProjectBtn = createButton('Remove', 'button', '', formRemoveProject);
-        projectRemoveModal.appendChild(formRemoveProject);
+
+        createTextElem('p', 'Are you sure you want to delete this project?', projectRemoveModal);
+
+        const cancelBtn = createButton('Cancel', 'cancel-button', '', projectRemoveModal);
+        const removeProjectBtn = createButton('Confirm', 'submit-button', '', projectRemoveModal);
+
         removeProjectModalContainer.appendChild(projectRemoveModal);
 
         const removeProjectBtnHandler = (project) => {
             projectsManager.deleteProject(project);
-            console.log(projectsManager.projectsArr);
             nav.renderNav();
             renderDefaultProject();
             // or clearMain();
         }
         
         openProjectRemoveModal.addEventListener('click', () => projectRemoveModal.showModal());
+
+        cancelBtn.addEventListener('click', () => projectRemoveModal.close());
 
         removeProjectBtn.addEventListener('click', () => {
             removeProjectBtnHandler(project);
@@ -70,9 +69,9 @@ function createNotesContainer(project) {
     const noteTitleInput = createInput('text', 'noteTitle', 'noteTitle', true, 3, addNoteForm);
     createLabel('noteDescription', 'Note description', addNoteForm);
     const noteDescriptionInput = createInput('textarea', 'noteDescription', 'noteDescription', true, '', addNoteForm);
-    const createNoteBtn = createButton('Add note', 'submit-button', '', addNoteForm);
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addNoteForm);
     cancelBtn.type = 'button';
+    const createNoteBtn = createButton('Confirm', 'submit-button', '', addNoteForm);
     noteCreateModal.appendChild(addNoteForm);
 
     const notesList = document.createElement('ul');
@@ -81,12 +80,9 @@ function createNotesContainer(project) {
 
     const createNoteBtnHandler = (project) => {
         if (!noteTitleInput.validity.valid || !noteDescriptionInput.validity.valid) return;
-
         project.addNote(createNote(noteTitleInput.value, noteDescriptionInput.value));
-        updateNotesDOM(project.notes, 'notes-list');
-
-
-    }
+        updateNotesDOM(project, 'notes-list');
+    };
 
     createNoteBtn.addEventListener('click', () => {
         createNoteBtnHandler(project);
@@ -136,9 +132,10 @@ function createTasksContainer(project) {
     createLabel('taskDueDate', 'Due date: ', addTaskForm);
     const taskDuedateInput = createInput('date', 'taskDueDate', 'taskDueDate', true, '', addTaskForm);
 
-    const createTaskBtn = createButton('Add task', 'submit-button', '', addTaskForm);
+
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addTaskForm);
     cancelBtn.type = 'button';
+    const createTaskBtn = createButton('Confirm', 'submit-button', '', addTaskForm);
     taskCreateModal.appendChild(addTaskForm);
 
     const tasksList = document.createElement('ul');

@@ -22,8 +22,8 @@ const createNavElement = () => {
     addProjectForm.method = 'dialog';
     createLabel('projectTitle', 'Project title: ', addProjectForm);
     const inputProjectTitle = createInput('text', 'projectTitle', 'projectTitle', true, 3, addProjectForm);
-    const createProjectBtn = createButton('Ok', 'submit-button','', addProjectForm);
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addProjectForm);
+    const createProjectBtn = createButton('Confirm', 'submit-button','', addProjectForm);
     cancelBtn.type = 'button';
 
     createTextElem('h2', 'My projects', nav);
