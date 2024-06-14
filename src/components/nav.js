@@ -31,6 +31,7 @@ const createNavElement = () => {
     const projectsNavContainer = createDivContainer('nav-container', 'projects-nav-container', nav);
 
     const projectBtnHandler = (project) => {
+        console.log(project);
         renderProject(project);
     };
 

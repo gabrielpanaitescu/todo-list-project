@@ -58,19 +58,19 @@ const createProject = (title) => {
 
 const createNote = (title, description) => ({ title, description });
 
-const createTask = (title, description, importance, dueDate, completed) => ({ title, description, importance, dueDate: formatForDateInput(dueDate), completed });
+const createTask = (title, description, importance, dueDate, completed = false) => ({ title, description, importance, dueDate: formatForDateInput(dueDate), completed });
 
 const createListItem = (title) => ({ title, completed: false });
 
-const createChecklist = (title, completed, list) => {
+const createChecklist = (title, dueDate, listItems, completed = false) => {
 
     const processListItemsToObjects = (arr) => {
         return arr.map(item => createListItem(item))
     };
 
-    list = processListItemsToObjects(list);
+    listItems = processListItemsToObjects(listItems);
 
-    return { title, completed, list };
+    return { title, dueDate: formatForDateInput(dueDate), listItems, completed };
 };
 
 function formatForDateInput(date) {
@@ -84,19 +84,19 @@ projectsManager.addProject(newProject2);
 
 newProject.addNote(createNote('Note title', 'description'));
 newProject.addTask(createTask('Task 1', 'description', 'High', new Date(), false));
-newProject.addChecklist(createChecklist('Checklist 1', false, ['Item 1', 'Item 2']));
+newProject.addChecklist(createChecklist('Checklist 1', new Date(), ['Item 1', 'Item 2']));
 
 newProject2.addNote(createNote('Note 2 title', 'description'));
 newProject2.addNote(createNote('Note 3 title', 'Other description'));
 newProject2.addTask(createTask('Task 2', 'description', 'High', new Date(), false));
-newProject2.addChecklist(createChecklist('Checklist 2', false, ['Item 2', 'Item 3']));
+newProject2.addChecklist(createChecklist('Checklist 2', new Date(), ['Item 2', 'Item 3']));
 
 
 const newProject3 = createProject('Project 2');
 projectsManager.addProject(newProject3);
 newProject3.addNote(createNote('Note 3 title', 'description'));
 newProject3.addTask(createTask('Task 3', 'description', 'High', new Date()), false);
-newProject3.addChecklist(createChecklist('Checklist 3', false, ['Item 2', 'Item 3']));
+newProject3.addChecklist(createChecklist('Checklist 3', new Date(), ['Item 2', 'Item 3']));
 
 console.log(newProject);
 

@@ -5,17 +5,19 @@ export default function updateTasksDOM(project, appendToID) {
     const tasksList = document.getElementById(appendToID);
     tasksList.replaceChildren();
 
-    console.log(project);
-
     project.tasks.forEach((task) => {
-        const taskWrapper = createDivContainer('task-wrapper', '', tasksList);
+        const taskWrapper = document.createElement('li');
+        taskWrapper.classList.add('task-item');
+        tasksList.appendChild(taskWrapper);
+
         createTextElem('h4', task.title, taskWrapper);
         createTextElem('p', task.description, taskWrapper);
         createTextElem('p', `Importance: ${task.importance}`, taskWrapper);
         const formattedDateForDisplay = format(task.dueDate, 'MM/dd/yyyy');
         createTextElem('p', `Due date: ${formattedDateForDisplay}`, taskWrapper);
 
-        const viewTaskContainer = createDivContainer('modal-container', '', tasksList);
+        const viewTaskContainer = createDivContainer('modal-container', '', taskWrapper);
+        viewTaskContainer.classList.add('view-task-modal');
         const openViewTaskModal = createButton('View details', 'open-modal-button', '', viewTaskContainer);
         const viewTaskModal = document.createElement('dialog');
         viewTaskContainer.appendChild(viewTaskModal);
@@ -25,7 +27,8 @@ export default function updateTasksDOM(project, appendToID) {
         createTextElem('p', 'Due date: ' + formattedDateForDisplay, viewTaskModal);
         const closeViewTaskModalBtn = createButton('Close', 'cancel-button', '', viewTaskModal);
     
-        const editTaskContainer = createDivContainer('modal-container', '', tasksList);
+        const editTaskContainer = createDivContainer('modal-container', '', taskWrapper);
+        editTaskContainer.classList.add('edit-task-modal');
         const openEditTaskModal = createButton('Edit task', 'open-modal-button', '', editTaskContainer);
         const editTaskModal = document.createElement('dialog');
         editTaskContainer.appendChild(editTaskModal);
@@ -39,26 +42,23 @@ export default function updateTasksDOM(project, appendToID) {
         const editTaskImportanceSelect = createImportanceSelectElem('editTask', editTaskForm);
         createLabel('editTaskDueDate', 'Due date: ', editTaskForm);
         const editTaskDuedateInput = createInput('date', 'editTaskDueDate', 'editTaskDueDate', true, '', editTaskForm);
-
         const cancelEditBtn = createButton('Cancel', 'cancel-button', '', editTaskForm);
         cancelEditBtn.type = 'button';
         const editTaskBtn = createButton('Confirm', 'submit-button', '', editTaskForm);
         editTaskModal.appendChild(editTaskForm);
     
-        const taskRemoveContainer = createDivContainer('modal-container', '', tasksList);
-        taskRemoveContainer.classList.add('remove-task');
+        const taskRemoveContainer = createDivContainer('modal-container', '', taskWrapper);
+        taskRemoveContainer.classList.add('remove-task-modal');
         const openTaskRemoveModal = createButton('x', 'open-modal-button', '', taskRemoveContainer);
         const taskRemoveModal = document.createElement('dialog');
         taskRemoveContainer.appendChild(taskRemoveModal);
         createTextElem('p', 'Are you sure you want to delete this task?', taskRemoveModal);
-    
         const cancelTaskRemoveBtn = createButton('Cancel', 'cancel-button', '', taskRemoveModal);
         const removeTaskBtn = createButton('Confirm', 'submit-button', '', taskRemoveModal);
     
         const removeTaskBtnHandler = () => {
             project.removeItem('tasks', task);
             updateTasksDOM(project, 'tasks-list');
-            console.log(project);
         };
     
         const editTaskBtnHandler = () => {
@@ -81,7 +81,6 @@ export default function updateTasksDOM(project, appendToID) {
         });
     
         openEditTaskModal.addEventListener('click', () => {
-            console.log(typeof task.dueDate);
             editTaskTitleInput.value = task.title;
             editTaskDescriptionInput.value = task.description;
             editTaskImportanceSelect.value = task.importance;

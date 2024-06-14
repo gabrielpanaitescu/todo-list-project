@@ -6,11 +6,15 @@ export default function updateNotesDOM(project, appendToID) {
     notesList.replaceChildren();
 
     project.notes.forEach((note) => {
-        const noteWrapper = createDivContainer('note-wrapper', '', notesList);
+        const noteWrapper = document.createElement('li');
+        noteWrapper.classList.add('note-item');
+        notesList.appendChild(noteWrapper);
+
         createTextElem('h4', note.title, noteWrapper);
         createTextElem('p', note.description, noteWrapper);
 
-        const viewNoteContainer = createDivContainer('modal-container', '', notesList);
+        const viewNoteContainer = createDivContainer('modal-container', '', noteWrapper);
+        viewNoteContainer.classList.add('view-note-modal');
         const openViewNoteModal = createButton('View details', 'open-modal-button', '', viewNoteContainer);
         const viewNoteModal = document.createElement('dialog');
         viewNoteContainer.appendChild(viewNoteModal);
@@ -18,7 +22,8 @@ export default function updateNotesDOM(project, appendToID) {
         createTextElem('p', 'Description: ' + note.description, viewNoteModal);
         const closeViewNoteModalBtn = createButton('Close', 'cancel-button', '', viewNoteModal);
 
-        const editNoteContainer = createDivContainer('modal-container', '', notesList);
+        const editNoteContainer = createDivContainer('modal-container', '', noteWrapper);
+        editNoteContainer.classList.add('edit-note-modal');
         const openEditNoteModal = createButton('Edit note', 'open-modal-button', '', editNoteContainer);
         const editNoteModal = document.createElement('dialog');
         editNoteContainer.appendChild(editNoteModal);
@@ -33,13 +38,12 @@ export default function updateNotesDOM(project, appendToID) {
         const editNoteBtn = createButton('Confirm', 'submit-button', '', editNoteForm);
         editNoteModal.appendChild(editNoteForm);
 
-        const noteRemoveContainer = createDivContainer('modal-container', '', notesList);
-        noteRemoveContainer.classList.add('remove-notes');
+        const noteRemoveContainer = createDivContainer('modal-container', '', noteWrapper);
+        noteRemoveContainer.classList.add('remove-note-modal');
         const openNoteRemoveModal = createButton('x', 'open-modal-button', '', noteRemoveContainer);
         const noteRemoveModal = document.createElement('dialog');
         noteRemoveContainer.appendChild(noteRemoveModal);
         createTextElem('p', 'Are you sure you want to delete this note?', noteRemoveModal);
-        
         const cancelNoteRemoveBtn = createButton('Cancel', 'cancel-button', '', noteRemoveModal);
         const removeNoteBtn = createButton('Confirm', 'submit-button', '', noteRemoveModal);
 
