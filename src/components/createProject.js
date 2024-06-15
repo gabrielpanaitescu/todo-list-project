@@ -87,19 +87,19 @@ const newProject2 = createProject('Project 1');
 projectsManager.addProject(newProject2);
 
 newProject.addNote(createNote('Note title', 'description'));
-newProject.addTask(createTask('Task 1', 'description', 'High', new Date(), false));
+newProject.addTask(createTask('Task 1', 'description', 'High', new Date(), true));
 newProject.addChecklist(createChecklist('Checklist 1', new Date(), ['Item 1', 'Item 2']));
 
 newProject2.addNote(createNote('Note 2 title', 'description'));
 newProject2.addNote(createNote('Note 3 title', 'Other description'));
-newProject2.addTask(createTask('Task 2', 'description', 'High', new Date(), false));
+newProject2.addTask(createTask('Task 2', 'description', 'High', new Date()));
 newProject2.addChecklist(createChecklist('Checklist 2', new Date(), ['Item 2', 'Item 3']));
 
 
 const newProject3 = createProject('Project 2');
 projectsManager.addProject(newProject3);
 newProject3.addNote(createNote('Note 3 title', 'description'));
-newProject3.addTask(createTask('Task 3', 'description', 'High', new Date()), false);
+newProject3.addTask(createTask('Task 3', 'description', 'High', new Date()));
 newProject3.addChecklist(createChecklist('Checklist 3', new Date(), ['Item 2', 'Item 3']));
 
 console.log(newProject);
@@ -114,50 +114,3 @@ console.log(newProject);
 
 export { projectsManager, createProject, createNote, createTask, createChecklist, createListItem };
 
-
-
-
-
-// const listItemsInputs = (() => {
-//     let inputs = [];
-
-//     const addInput = () => {
-//         inputs.push(createInput('text', '', '', true, 3));
-//     };
-
-//     addInput();
-
-//     const appendInputsTo = (target) => {
-//         inputs.forEach(input => {
-//             target.appendChild(input);
-//         });
-//     }
-
-//     return { appendInputs };
-// })();
-// listItemsInputs.appendInputsTo(listItemsFieldset);
-
-
-
-// const inputsContainer = createDivContainer('list-item-container', '', document.body);
-
-// function listItemsInputs(nrOfInputs = 1) {
-//     let inputs = [];
-//     inputsContainer.replaceChildren();
-
-//     const addInputButton = createButton('+', '', '', inputsContainer);
-//     let numberOfInputs = nrOfInputs;
-
-//     for(let i = 0; i < numberOfInputs; i++) {
-//         const listItemInput = createInput('text', `listItemInput${i}`, `listItemInput${i}`, true, 3, inputsContainer);
-//     }
-
-//     addInputButton.addEventListener('click', () => { 
-//         numberOfInputs++
-//         listItemsInputs(numberOfInputs);
-//         console.log(numberOfInputs);
-//     });
-
-// }
-
-// listItemsInputs();

@@ -9,7 +9,10 @@ export default function updateTasksDOM(project, appendToID) {
         const taskWrapper = document.createElement('li');
         taskWrapper.classList.add('task-item');
         tasksList.appendChild(taskWrapper);
-
+        
+        const taskCompletionCheckbox = createInput('checkbox', '', '', '', '', taskWrapper);
+        taskCompletionCheckbox.classList.add('completion-checkbox');
+        if (task.completed) taskCompletionCheckbox.checked = true;
         createTextElem('h4', task.title, taskWrapper);
         createTextElem('p', task.description, taskWrapper);
         createTextElem('p', `Importance: ${task.importance}`, taskWrapper);
@@ -67,6 +70,13 @@ export default function updateTasksDOM(project, appendToID) {
             project.editTask(task, editTaskTitleInput.value, editTaskDescriptionInput.value, editTaskImportanceSelect.value, editTaskDuedateInput.value);
             updateTasksDOM(project, 'tasks-list');
         };
+
+        const taskCompletionCheckboxHandler = () => {
+            if (taskCompletionCheckbox.checked) task.completed = true;
+            if (!taskCompletionCheckbox.checked) task.completed = false;
+        };
+
+        taskCompletionCheckbox.addEventListener('click', taskCompletionCheckboxHandler);
     
         editTaskBtn.addEventListener('click', editTaskBtnHandler);
     
