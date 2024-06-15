@@ -65,12 +65,16 @@ const createListItem = (title) => ({ title, completed: false });
 const createChecklist = (title, dueDate, listItems, completed = false) => {
 
     const processListItemsToObjects = (arr) => {
-        return arr.map(item => createListItem(item))
+        if (arr.length >= 1) return arr.map(item => createListItem(item));
+        return null;
     };
 
     listItems = processListItemsToObjects(listItems);
 
-    return { title, dueDate: formatForDateInput(dueDate), listItems, completed };
+    if (!dueDate) dueDate = null;
+    if (dueDate) dueDate = formatForDateInput(dueDate);
+
+    return { title, dueDate, listItems, completed };
 };
 
 function formatForDateInput(date) {
@@ -111,3 +115,49 @@ console.log(newProject);
 export { projectsManager, createProject, createNote, createTask, createChecklist, createListItem };
 
 
+
+
+
+// const listItemsInputs = (() => {
+//     let inputs = [];
+
+//     const addInput = () => {
+//         inputs.push(createInput('text', '', '', true, 3));
+//     };
+
+//     addInput();
+
+//     const appendInputsTo = (target) => {
+//         inputs.forEach(input => {
+//             target.appendChild(input);
+//         });
+//     }
+
+//     return { appendInputs };
+// })();
+// listItemsInputs.appendInputsTo(listItemsFieldset);
+
+
+
+// const inputsContainer = createDivContainer('list-item-container', '', document.body);
+
+// function listItemsInputs(nrOfInputs = 1) {
+//     let inputs = [];
+//     inputsContainer.replaceChildren();
+
+//     const addInputButton = createButton('+', '', '', inputsContainer);
+//     let numberOfInputs = nrOfInputs;
+
+//     for(let i = 0; i < numberOfInputs; i++) {
+//         const listItemInput = createInput('text', `listItemInput${i}`, `listItemInput${i}`, true, 3, inputsContainer);
+//     }
+
+//     addInputButton.addEventListener('click', () => { 
+//         numberOfInputs++
+//         listItemsInputs(numberOfInputs);
+//         console.log(numberOfInputs);
+//     });
+
+// }
+
+// listItemsInputs();

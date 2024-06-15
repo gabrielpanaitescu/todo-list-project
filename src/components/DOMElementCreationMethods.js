@@ -32,12 +32,12 @@ const createLabel = (htmlFor, text, parentForm) => {
 
 const createInput = (type, name, id, required, minLength, parentForm) => {
     const input = document.createElement('input');
-    input.type = type;
-    input.name = name;
-    input.id = id;
+    if (type) input.type = type;
+    if (name) input.name = name;
+    if (id) input.id = id;
     if (required) input.required = required;
     if (minLength) input.minLength = minLength;
-    parentForm.appendChild(input);
+    if (parentForm) parentForm.appendChild(input);
     return input;
 }
 

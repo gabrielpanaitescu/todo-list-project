@@ -21,7 +21,7 @@ const createNavElement = () => {
     projectModal.appendChild(addProjectForm);
     addProjectForm.method = 'dialog';
     createLabel('projectTitle', 'Project title: ', addProjectForm);
-    const inputProjectTitle = createInput('text', 'projectTitle', 'projectTitle', true, 3, addProjectForm);
+    const inputProjectTitle = createInput('text', 'projectTitle', 'projectTitle', true, '', addProjectForm);
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addProjectForm);
     const createProjectBtn = createButton('Confirm', 'submit-button','', addProjectForm);
     cancelBtn.type = 'button';

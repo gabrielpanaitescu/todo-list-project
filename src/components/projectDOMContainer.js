@@ -20,12 +20,9 @@ export default function createProjectDOMContainer(project) {
         removeProjectModalContainer.classList.add('modal-container');
         const openProjectRemoveModal = createButton('x', 'open-modal-button', '', removeProjectModalContainer);
         const projectRemoveModal = document.createElement('dialog');
-
         createTextElem('p', 'Are you sure you want to delete this project?', projectRemoveModal);
-
         const cancelBtn = createButton('Cancel', 'cancel-button', '', projectRemoveModal);
         const removeProjectBtn = createButton('Confirm', 'submit-button', '', projectRemoveModal);
-
         removeProjectModalContainer.appendChild(projectRemoveModal);
 
         const removeProjectBtnHandler = (project) => {
@@ -54,9 +51,7 @@ export default function createProjectDOMContainer(project) {
 function createNotesContainer(project) {
     const notesContainer = document.createElement('div');
     notesContainer.classList.add('notes-container', 'sub-project-container');
-
     createTextElem('h3', 'Notes', notesContainer);
-
     const noteCreateContainer = createDivContainer('create-notes', '', notesContainer);
     noteCreateContainer.classList.add('modal-container');
     const openNoteCreateModal = createButton('Add note', 'open-modal-button', '', noteCreateContainer);
@@ -66,7 +61,7 @@ function createNotesContainer(project) {
     const addNoteForm = document.createElement('form');
     addNoteForm.method = 'dialog';
     createLabel('noteTitle', 'Note title', addNoteForm);
-    const noteTitleInput = createInput('text', 'noteTitle', 'noteTitle', true, 3, addNoteForm);
+    const noteTitleInput = createInput('text', 'noteTitle', 'noteTitle', true, '', addNoteForm);
     createLabel('noteDescription', 'Note description', addNoteForm);
     const noteDescriptionInput = createInput('textarea', 'noteDescription', 'noteDescription', true, '', addNoteForm);
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addNoteForm);
@@ -79,7 +74,7 @@ function createNotesContainer(project) {
     notesContainer.appendChild(notesList);
 
     const createNoteBtnHandler = (project) => {
-        if (!noteTitleInput.validity.valid || !noteDescriptionInput.validity.valid) return;
+        if (!addNoteForm.checkValidity()) return;
         project.addNote(createNote(noteTitleInput.value, noteDescriptionInput.value));
         updateNotesDOM(project, 'notes-list');
     };
@@ -112,9 +107,7 @@ function createNotesContainer(project) {
 function createTasksContainer(project) {
     const tasksContainer = document.createElement('div');
     tasksContainer.classList.add('tasks-container', 'sub-project-container');
-
     createTextElem('h3', 'Tasks', tasksContainer);
-
     const taskCreateContainer = createDivContainer('create-tasks', '', tasksContainer);
     taskCreateContainer.classList.add('modal-container');
     const openTaskCreateModal = createButton('Add task', 'open-modal-button', '', taskCreateContainer);
@@ -124,14 +117,13 @@ function createTasksContainer(project) {
     const addTaskForm = document.createElement('form');
     addTaskForm.method = 'dialog';
     createLabel('taskTitle', 'Task title', addTaskForm); 
-    const taskTitleInput = createInput('text', 'taskTitle', 'taskTitle', true, 3, addTaskForm);
+    const taskTitleInput = createInput('text', 'taskTitle', 'taskTitle', true, '', addTaskForm);
     createLabel('taskDescription', 'Task description', addTaskForm);
     const taskDescriptionInput = createInput('textarea', 'taskDescription', 'taskDescription', true, '', addTaskForm);
     createLabel('taskImportance', 'Importance', addTaskForm);
     const taskImportanceSelect = createImportanceSelectElem('task', addTaskForm);
     createLabel('taskDueDate', 'Due date: ', addTaskForm);
     const taskDuedateInput = createInput('date', 'taskDueDate', 'taskDueDate', true, '', addTaskForm);
-
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addTaskForm);
     cancelBtn.type = 'button';
     const createTaskBtn = createButton('Confirm', 'submit-button', '', addTaskForm);
@@ -142,7 +134,7 @@ function createTasksContainer(project) {
     tasksContainer.appendChild(tasksList);
 
     const createTaskBtnHandler = (project) => {
-        if (!taskTitleInput.validity.valid || !taskDescriptionInput.validity.valid || !taskImportanceSelect.validity.valid || !taskDuedateInput.validity.valid) return;
+        if (!addTaskForm.checkValidity()) return;
 
         project.addTask(createTask(taskTitleInput.value, taskDescriptionInput.value, taskImportanceSelect.value, taskDuedateInput.value));
         updateTasksDOM(project, 'tasks-list');
@@ -178,9 +170,7 @@ function createTasksContainer(project) {
 function createChecklistsContainer(project) {
     const checklistsContainer = document.createElement('div');
     checklistsContainer.classList.add('checklists-container', 'sub-project-container');
-
     createTextElem('h3', 'Checklists', checklistsContainer);
-
     const checklistCreateContainer = createDivContainer('create-checklists', '', checklistsContainer);
     checklistCreateContainer.classList.add('modal-container');
     const openChecklistCreateModal = createButton('Add checklist', 'open-modal-button', '', checklistCreateContainer);
@@ -190,26 +180,56 @@ function createChecklistsContainer(project) {
     const addChecklistForm = document.createElement('form');
     addChecklistForm.method = 'dialog';
     createLabel('checklistTitle', 'Checklist title', addChecklistForm); 
-    const checklistTitleInput = createInput('text', 'checklistTitle', 'checklistTitle', true, 3, addChecklistForm);
-
+    const checklistTitleInput = createInput('text', 'checklistTitle', 'checklistTitle', true, '', addChecklistForm);
     createLabel('checklistDueDate', 'Due date: ', addChecklistForm);
-    const checklistDuedateInput = createInput('date', 'checklistDueDate', 'checklistDueDate', true, '', addChecklistForm);
+    const checklistDuedateInput = createInput('date', 'checklistDueDate', 'checklistDueDate', '', '', addChecklistForm);
+
+    const listItemsFieldset = document.createElement('fieldset');
+    listItemsFieldset.classList.add('list-items-fieldset');
+    addChecklistForm.appendChild(listItemsFieldset);
+    const listItemsLegend = document.createElement('legend');
+    listItemsLegend.textContent = 'Checklist items';
+    listItemsFieldset.appendChild(listItemsLegend);
+    const createListItemInput = createButton('+', '', 'create-list-item-button', listItemsFieldset);
+    createListItemInput.type = 'button';
+    createLabel('create-list-item-button', 'Press here to add new a new checklist item', listItemsFieldset);
+    const listItemsContainer = createDivContainer('list-item-container', '', listItemsFieldset);
+    const emptyListItemsContainerMessage = createTextElem('p', 'No items currently added. You can add them now, or later, after the checklist is created.', listItemsFieldset);
+
+    const createListItemInputRow = () => {
+        const listItemRowContainer = createDivContainer('list-item-row', '', listItemsContainer)
+        const listItemInput = createInput('text', '', '', true, '', listItemRowContainer);
+        const removeContainerBtn = createButton('x', '', '', listItemRowContainer);
+        removeContainerBtn.classList.add('remove-item-button')
+        removeContainerBtn.addEventListener('click', () => {
+            listItemRowContainer.parentElement.removeChild(listItemRowContainer);
+            if (listItemsContainer.children.length < 1) emptyListItemsContainerMessage.style.display = 'block';
+        });
+        if (listItemsContainer.children.length >= 1) emptyListItemsContainerMessage.style.display = 'none';
+    };
+
+    createListItemInput.addEventListener('click', createListItemInputRow);
 
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addChecklistForm);
     cancelBtn.type = 'button';
     const createChecklistBtn = createButton('Confirm', 'submit-button', '', addChecklistForm);
     checklistCreateModal.appendChild(addChecklistForm);
 
+
     const checklistsList = document.createElement('ul');
     checklistsList.id = 'checklists-list';
     checklistsContainer.appendChild(checklistsList);
 
     const createChecklistBtnHandler = (project) => {
-        if (!checklistTitleInput.validity.valid || !checklistDuedateInput.validity.valid) return;
+        if (!addChecklistForm.checkValidity()) return;
 
-        project.addChecklist(createChecklist(checklistTitleInput.value, checklistDuedateInput.value, ['TestItem1', 'TestItem2'], false));
+        const listItemsValuesArray = Array.from(document.querySelectorAll('.list-item-container input[type="text"]')).map(input => input.value);
+
+        console.log(listItemsValuesArray);
+
+        project.addChecklist(createChecklist(checklistTitleInput.value, checklistDuedateInput.value, listItemsValuesArray, false));
         updateChecklistsDOM(project, 'checklists-list');
-    }
+    };
 
     createChecklistBtn.addEventListener('click', () => {
         createChecklistBtnHandler(project);
@@ -224,14 +244,14 @@ function createChecklistsContainer(project) {
     });
 
     addChecklistForm.addEventListener('submit', (e) => {
+        listItemsContainer.replaceChildren();
         checklistTitleInput.removeAttribute('required');
-        checklistDuedateInput.removeAttribute('required');
         addChecklistForm.reset();
         setTimeout(() => {
             checklistTitleInput.setAttribute('required', '');
-            checklistDuedateInput.setAttribute('required', '');
         }, 100);
     });
 
     return checklistsContainer;
 }
+
