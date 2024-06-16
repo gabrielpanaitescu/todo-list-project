@@ -1,0 +1,24 @@
+input:read-only {
+    border: 1px solid black;
+}
+
+input:focus:read-only {
+    outline: none;
+}
+
+/* to remove */
+input,
+select {
+    display: block;
+}
+
+label:has(+ input:focus:read-write)::after {
+    content: '';
+    background-image: url(./icons/edit-icon.png);
+    background-size: contain; /* or specify width and height */
+    background-repeat: no-repeat;
+    width: 17px; /* Desired width */
+    height: 17px; /* Desired height */
+    position: absolute;
+    transform: translate(20%, 7%);
+}

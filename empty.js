@@ -1,5 +1,6 @@
-import { createTextElem, createDivContainer, createButton, createLabel, createInput  } from './DOMElementCreationMethods.js';
+//notesDOMList.js backup
 
+import { createTextElem, createDivContainer, createButton, createLabel, createInput  } from './DOMElementCreationMethods.js';
 
 export default function updateNotesDOM(project, appendToID) {
     const notesList = document.getElementById(appendToID);
@@ -12,23 +13,31 @@ export default function updateNotesDOM(project, appendToID) {
 
         createTextElem('h4', note.title, noteWrapper);
         createTextElem('p', note.description, noteWrapper);
-  
+
+        const viewNoteContainer = createDivContainer('modal-container', '', noteWrapper);
+        viewNoteContainer.classList.add('view-note-modal');
+        const openViewNoteModal = createButton('View details', 'open-modal-button', '', viewNoteContainer);
+        const viewNoteModal = document.createElement('dialog');
+        viewNoteContainer.appendChild(viewNoteModal);
+        createTextElem('p', 'Title: ' + note.title, viewNoteModal);
+        createTextElem('p', 'Description: ' + note.description, viewNoteModal);
+        const closeViewNoteModalBtn = createButton('Close', 'cancel-button', '', viewNoteModal);
+
         const editNoteContainer = createDivContainer('modal-container', '', noteWrapper);
         editNoteContainer.classList.add('edit-note-modal');
-        const openEditNoteModal = createButton('View/Edit', 'open-modal-button', '', editNoteContainer);
+        const openEditNoteModal = createButton('Edit note', 'open-modal-button', '', editNoteContainer);
         const editNoteModal = document.createElement('dialog');
         editNoteContainer.appendChild(editNoteModal);
         const editNoteForm = document.createElement('form');
         editNoteForm.method = 'dialog';
-        createLabel('editNoteTitle', 'Note title    ', editNoteForm);
+        createLabel('editNoteTitle', 'Note title', editNoteForm);
         const editNoteTitleInput = createInput('text', 'editNoteTitle', 'editNoteTitle', true, '', editNoteForm);
         createLabel('editNoteDescription', 'Note description', editNoteForm);
         const editNoteDescriptionInput = createInput('textarea', 'editNoteDescription', 'editNoteDescription', true, '', editNoteForm);
         const cancelEditBtn = createButton('Cancel', 'cancel-button', '', editNoteForm);
         cancelEditBtn.type = 'button';
-        const editNoteBtn = createButton('Save and close', 'submit-button', '', editNoteForm);
+        const editNoteBtn = createButton('Confirm', 'submit-button', '', editNoteForm);
         editNoteModal.appendChild(editNoteForm);
-        let editNoteInputsArr = document.querySelectorAll('.edit-note-modal input');
 
         const noteRemoveContainer = createDivContainer('modal-container', '', noteWrapper);
         noteRemoveContainer.classList.add('remove-note-modal');
@@ -51,20 +60,6 @@ export default function updateNotesDOM(project, appendToID) {
             updateNotesDOM(project, 'notes-list');
         };
 
-        const editNoteInputsClickHandler = (e) => {
-            e.target.readOnly = false;
-        };
-
-        const editNoteInputsFocusOutHandler = (e) => {
-            e.target.readOnly = true;
-        }
-            
-        editNoteInputsArr.forEach(input => {
-            input.readOnly = true;
-            input.addEventListener('click', editNoteInputsClickHandler);
-            input.addEventListener('focusout', editNoteInputsFocusOutHandler);
-        });
-
         editNoteBtn.addEventListener('click', editNoteBtnHandler);
 
         editNoteForm.addEventListener('submit', (e) => {
@@ -84,6 +79,10 @@ export default function updateNotesDOM(project, appendToID) {
         });
 
         cancelEditBtn.addEventListener('click', () => editNoteModal.close());
+
+        openViewNoteModal.addEventListener('click', () => viewNoteModal.showModal());
+
+        closeViewNoteModalBtn.addEventListener('click', () => viewNoteModal.close());
 
         openNoteRemoveModal.addEventListener('click', () => noteRemoveModal.showModal());
 
