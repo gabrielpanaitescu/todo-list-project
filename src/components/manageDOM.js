@@ -15,9 +15,13 @@ const clearMain = () => {
 }
 
 const renderProject = (project) => {
+    nav.renderNav();
     clearMain();
     const projectContainer = createProjectDOMContainer(project);
     main.appendChild(projectContainer);
+
+    const projectIndex = projectsManager.projectsArr.indexOf(project);
+    nav.createEditProjectTitleButton(projectIndex, project);
     
     renderTasks(project, 'tasks-list');
     renderChecklists(project, 'checklists-list');

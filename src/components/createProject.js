@@ -50,6 +50,14 @@ const projectProto = {
         targetTask.importance = importance;
         targetTask.dueDate = formatForDateInput(dueDate);
     },
+    editChecklist(checklist, title, dueDate, listItems) {
+        const checklistIndex = this.checklists.indexOf(checklist);
+        const targetChecklist = this.checklists[checklistIndex];
+        targetChecklist.title = title;
+        if (!dueDate) targetChecklist.dueDate = null;
+        if (dueDate) targetChecklist.dueDate = formatForDateInput(dueDate);
+        targetChecklist.listItems = listItems;
+    },
 };
 
 const createProject = (title) => {
@@ -60,14 +68,14 @@ const createNote = (title, description) => ({ title, description });
 
 const createTask = (title, description, importance, dueDate, completed = false) => ({ title, description, importance, dueDate: formatForDateInput(dueDate), completed });
 
-const createListItem = (title) => ({ title, completed: false });
+const createListItem = (title, completed = false) => ({ title, completed });
+
+function processListItemsToObjects(arr) {
+    if (arr.length < 1) return [];
+    return arr.map(item => createListItem(item));
+};
 
 const createChecklist = (title, dueDate, listItems, completed = false) => {
-
-    const processListItemsToObjects = (arr) => {
-        if (arr.length >= 1) return arr.map(item => createListItem(item));
-        return null;
-    };
 
     listItems = processListItemsToObjects(listItems);
 

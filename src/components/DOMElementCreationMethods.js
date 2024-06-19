@@ -24,8 +24,8 @@ const createButton = (text, className, idName, parent) => {
 
 const createLabel = (htmlFor, text, parentForm) => {
     const label = document.createElement('label');
-    label.htmlFor = htmlFor;
-    label.textContent = text;
+    if (htmlFor) label.htmlFor = htmlFor;
+    if (text) label.textContent = text;
     parentForm.appendChild(label);
     return label;
 };

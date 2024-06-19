@@ -15,6 +15,7 @@ export default function updateNotesDOM(project, appendToID) {
   
         const editNoteContainer = createDivContainer('modal-container', '', noteWrapper);
         editNoteContainer.classList.add('edit-note-modal');
+        editNoteContainer.classList.add('edit-container');
         const openEditNoteModal = createButton('View/Edit', 'open-modal-button', '', editNoteContainer);
         const editNoteModal = document.createElement('dialog');
         editNoteContainer.appendChild(editNoteModal);
@@ -28,7 +29,7 @@ export default function updateNotesDOM(project, appendToID) {
         cancelEditBtn.type = 'button';
         const editNoteBtn = createButton('Save and close', 'submit-button', '', editNoteForm);
         editNoteModal.appendChild(editNoteForm);
-        let editNoteInputsArr = document.querySelectorAll('.edit-note-modal input');
+        let editNoteInputsArr = editNoteForm.querySelectorAll('input');
 
         const noteRemoveContainer = createDivContainer('modal-container', '', noteWrapper);
         noteRemoveContainer.classList.add('remove-note-modal');
@@ -45,24 +46,26 @@ export default function updateNotesDOM(project, appendToID) {
         };
 
         const editNoteBtnHandler = () => {
+            editNoteInputsArr.forEach(input => input.readOnly = false);
+
             if (!editNoteForm.checkValidity()) return;
             
             project.editNote(note, editNoteTitleInput.value, editNoteDescriptionInput.value);
             updateNotesDOM(project, 'notes-list');
         };
 
-        const editNoteInputsClickHandler = (e) => {
+        const editNoteInputsToReadWrite = (e) => {
             e.target.readOnly = false;
         };
 
-        const editNoteInputsFocusOutHandler = (e) => {
+        const editNoteInputsToReadOnly = (e) => {
             e.target.readOnly = true;
         }
             
         editNoteInputsArr.forEach(input => {
             input.readOnly = true;
-            input.addEventListener('click', editNoteInputsClickHandler);
-            input.addEventListener('focusout', editNoteInputsFocusOutHandler);
+            input.addEventListener('click', editNoteInputsToReadWrite);
+            input.addEventListener('focusout', editNoteInputsToReadOnly);
         });
 
         editNoteBtn.addEventListener('click', editNoteBtnHandler);

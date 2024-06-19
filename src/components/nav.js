@@ -15,6 +15,7 @@ const createNavElement = () => {
     const projectCreateContainer = createDivContainer('project-create', '', nav);
     projectCreateContainer.classList.add('modal-container');
     const openProjectCreateModal = createButton('Add project', 'open-modal-button', '', projectCreateContainer);
+
     const projectModal = document.createElement('dialog');
     projectCreateContainer.appendChild(projectModal);
     const addProjectForm = document.createElement('form');
@@ -35,17 +36,87 @@ const createNavElement = () => {
         renderProject(project);
     };
 
+
     const createNavItem = (project) => {
         const projectBtnContainer = createDivContainer('project-btn-container', '', projectsNavContainer);
 
-        const projectBtn = createButton(project.title, 'project-button', '', projectBtnContainer);
+        projectBtnContainer.dataset.projectIndex = projectsManager.projectsArr.indexOf(project);
 
+        const projectBtn = createButton(project.title, 'nav-project-button', '', projectBtnContainer);
         projectBtn.addEventListener('click', () => {
             projectBtnHandler(project);
         });
 
         return projectBtn;
     };
+
+    function createEditProjectTitleButton(index, project) {        
+        const editProjectTitleContainer = createDivContainer('modal-container', '', '');
+
+        console.log(index);
+
+        const targetContainer = Array.from(document.querySelectorAll('.project-btn-container')).find(elem => elem.dataset.projectIndex == index);
+
+        targetContainer.appendChild(editProjectTitleContainer)
+
+        editProjectTitleContainer.classList.add('edit-project-title-modal');
+        editProjectTitleContainer.classList.add('edit-container');
+
+        const openEditProjectTitleModal = createButton('Edit title', 'open-modal-button', '', editProjectTitleContainer);
+        const editProjectTitleModal = document.createElement('dialog');
+        editProjectTitleContainer.appendChild(editProjectTitleModal);
+        const editProjectTitleForm = document.createElement('form');
+        editProjectTitleForm.method = 'dialog';
+        createLabel('editProjectTitleTitle', 'Project title', editProjectTitleForm);
+        const editProjectTitleTitleInput = createInput('text', 'editProjectTitleTitle', 'editProjectTitleTitle', true, '', editProjectTitleForm);
+        editProjectTitleTitleInput.readOnly = true;
+
+        const cancelEditBtn = createButton('Cancel', 'cancel-button', '', editProjectTitleForm);
+        cancelEditBtn.type = 'button';
+
+        const editProjectTitleBtn = createButton('Save and close', 'submit-button', '', editProjectTitleForm);
+        editProjectTitleModal.appendChild(editProjectTitleForm);
+
+
+        const editProjectTitleBtnHandler = () => {
+            editProjectTitleTitleInput.readOnly = false;
+
+            if (!editProjectTitleForm.checkValidity()) return;
+            
+            project.title = editProjectTitleTitleInput.value;
+
+            renderNav();
+            renderProject(project);
+        };
+
+        const editProjectTitleInputsToReadWrite = (e) => {
+            e.target.readOnly = false;
+        };
+
+        const editProjectTitleInputsToReadOnly = (e) => {
+            e.target.readOnly = true;
+        }
+            
+        editProjectTitleTitleInput.addEventListener('click', editProjectTitleInputsToReadWrite);
+        editProjectTitleTitleInput.addEventListener('focusout', editProjectTitleInputsToReadOnly);
+
+        editProjectTitleBtn.addEventListener('click', editProjectTitleBtnHandler);
+
+        editProjectTitleForm.addEventListener('submit', (e) => {
+            editProjectTitleTitleInput.removeAttribute('required');
+            editProjectTitleForm.reset();
+            setTimeout(() => {
+                editProjectTitleTitleInput.setAttribute('required', '');
+            }, 100);
+        });
+
+        openEditProjectTitleModal.addEventListener('click', () => {
+            editProjectTitleTitleInput.value = project.title;
+            editProjectTitleModal.showModal();
+        });
+
+        cancelEditBtn.addEventListener('click', () => editProjectTitleModal.close());
+    }
 
     const renderNav = () => {
         projectsNavContainer.replaceChildren();
@@ -85,7 +156,7 @@ const createNavElement = () => {
 
     renderNav();
 
-    return { navDOMElem: nav, renderNav };
+    return { navDOMElem: nav, renderNav, createEditProjectTitleButton };
 };
 
 export default createNavElement();

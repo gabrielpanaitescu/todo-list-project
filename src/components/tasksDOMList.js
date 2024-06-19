@@ -21,6 +21,7 @@ export default function updateTasksDOM(project, appendToID) {
     
         const editTaskContainer = createDivContainer('modal-container', '', taskWrapper);
         editTaskContainer.classList.add('edit-task-modal');
+        editTaskContainer.classList.add('edit-container');
         const openEditTaskModal = createButton('View/Edit', 'open-modal-button', '', editTaskContainer);
         const editTaskModal = document.createElement('dialog');
         editTaskContainer.appendChild(editTaskModal);
@@ -38,7 +39,7 @@ export default function updateTasksDOM(project, appendToID) {
         cancelEditBtn.type = 'button';
         const editTaskBtn = createButton('Confirm', 'submit-button', '', editTaskForm);
         editTaskModal.appendChild(editTaskForm);
-        const editTaskInputsArr = document.querySelectorAll('.edit-task-modal input');
+        const editTaskInputsArr = editTaskForm.querySelectorAll('input');
 
         const taskRemoveContainer = createDivContainer('modal-container', '', taskWrapper);
         taskRemoveContainer.classList.add('remove-task-modal');
@@ -49,13 +50,14 @@ export default function updateTasksDOM(project, appendToID) {
         const cancelTaskRemoveBtn = createButton('Cancel', 'cancel-button', '', taskRemoveModal);
         const removeTaskBtn = createButton('Confirm', 'submit-button', '', taskRemoveModal);
  
-
         const removeTaskBtnHandler = () => {
             project.removeItem('tasks', task);
             updateTasksDOM(project, 'tasks-list');
         };
     
         const editTaskBtnHandler = () => {
+            editTaskInputsArr.forEach(input => input.readOnly = false);
+
             if (!editTaskForm.checkValidity()) return;
 
             project.editTask(task, editTaskTitleInput.value, editTaskDescriptionInput.value, editTaskImportanceSelect.value, editTaskDuedateInput.value);

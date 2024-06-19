@@ -1,18 +1,18 @@
-input:read-only {
-    border: 1px solid black;
-}
-
-input:focus:read-only {
-    outline: none;
-}
-
 /* to remove */
 input,
 select {
     display: block;
 }
 
-label:has(+ input:focus:read-write)::after {
+/* input:read-only {
+    border: 1px solid black;
+} */
+
+input:focus:read-only {
+    outline: none;
+}
+
+.edit-container label:has(+ input:focus:read-write)::after {
     content: '';
     background-image: url(./icons/edit-icon.png);
     background-size: contain; /* or specify width and height */
@@ -21,4 +21,8 @@ label:has(+ input:focus:read-write)::after {
     height: 17px; /* Desired height */
     position: absolute;
     transform: translate(20%, 7%);
+}
+
+.list-items-fieldset label:has(+ input:focus:read-write)::after {
+    left: 60%;
 }
