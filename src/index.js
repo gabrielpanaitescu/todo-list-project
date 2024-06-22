@@ -1,5 +1,6 @@
 import './components/manageDOM.js'
 import './components/inputEditItemStyle.css';
+import './style.css'
 
 // Function to disable autocomplete/suggestions on inputs
 function disableAutocomplete() {

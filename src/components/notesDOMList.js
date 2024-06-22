@@ -1,9 +1,15 @@
 import { createTextElem, createDivContainer, createButton, createLabel, createInput  } from './DOMElementCreationMethods.js';
+import { projectsManager } from './createProject.js';
 
 
 export default function updateNotesDOM(project, appendToID) {
     const notesList = document.getElementById(appendToID);
     notesList.replaceChildren();
+
+    if (project.notes.length < 1) {
+        createTextElem('h4', 'No notes found', notesList);
+        return;
+    }
 
     project.notes.forEach((note) => {
         const noteWrapper = document.createElement('li');
@@ -31,6 +37,22 @@ export default function updateNotesDOM(project, appendToID) {
         editNoteModal.appendChild(editNoteForm);
         let editNoteInputsArr = editNoteForm.querySelectorAll('input');
 
+        const moveNoteContainer = createDivContainer('move-item-container', '', noteWrapper);
+        createLabel('move-note', 'Move to project: ', moveNoteContainer);
+        const moveNoteSelect = document.createElement('select');
+        moveNoteSelect.classList.add('move-item');
+        moveNoteSelect.id = 'move-note';
+        moveNoteContainer.appendChild(moveNoteSelect);
+        projectsManager.projectsArr.forEach((projectObj, index) => {
+            const moveNoteOption = document.createElement('option');
+            moveNoteOption.value = projectObj.title;
+            if (project.title === projectObj.title) moveNoteOption.setAttribute('selected', '');
+            if (moveNoteOption.selected) moveNoteOption.setAttribute('disabled', '');
+            moveNoteOption.dataset.projectIndex = index;
+            moveNoteOption.textContent = projectObj.title; 
+            moveNoteSelect.appendChild(moveNoteOption);
+        });
+
         const noteRemoveContainer = createDivContainer('modal-container', '', noteWrapper);
         noteRemoveContainer.classList.add('remove-note-modal');
         const openNoteRemoveModal = createButton('x', 'open-modal-button', '', noteRemoveContainer);
@@ -41,7 +63,7 @@ export default function updateNotesDOM(project, appendToID) {
         const removeNoteBtn = createButton('Confirm', 'submit-button', '', noteRemoveModal);
 
         const removeNoteBtnHandler = () => {
-            project.removeItem('notes', note);
+            projectsManager.removeItemFromProject('notes', note);
             updateNotesDOM(project, 'notes-list');
         };
 

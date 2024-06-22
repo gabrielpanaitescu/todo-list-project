@@ -1,10 +1,16 @@
 import { createButton, createDivContainer, createTextElem, createInput, createLabel } from './DOMElementCreationMethods.js';
 import { format } from "date-fns";
 import { createListItem } from './createProject.js';
+import { projectsManager } from './createProject.js';
 
-export default function updateChecklistsDOM(project) {
-    const checklistsList = document.getElementById('checklists-list');
+export default function updateChecklistsDOM(project, appendToID) {
+    const checklistsList = document.getElementById(appendToID);
     checklistsList.replaceChildren();
+
+    if (project.checklists.length < 1) {
+        createTextElem('h4', 'No checklists found', checklistsList);
+        return;
+    }
 
     project.checklists.forEach((checklist) => {
         const checklistWrapper = document.createElement('li');
@@ -66,8 +72,8 @@ export default function updateChecklistsDOM(project) {
         const removeChecklistBtn = createButton('Confirm', 'submit-button', '', checklistRemoveModal);
     
         const removeChecklistBtnHandler = () => {
-            project.removeItem('checklists', checklist);
-            updateChecklistsDOM(project, 'checklists-list');
+            projectsManager.removeItemFromProject('checklists', checklist);
+            updateChecklistsDOM(project, appendToID);
         };
     
         const editChecklistBtnHandler = () => {
@@ -92,7 +98,7 @@ export default function updateChecklistsDOM(project) {
 
             project.editChecklist(checklist, editChecklistTitleInput.value, editChecklistDuedateInput.value, editedListItemsArr);
             
-            updateChecklistsDOM(project, 'checklists-list');
+            updateChecklistsDOM(project, appendToID);
         };
 
         const editChecklistInputsClickHandler = (e) => {

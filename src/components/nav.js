@@ -1,5 +1,5 @@
 import { projectsManager, createProject } from "./createProject";
-import { renderProject } from "./manageDOM.js"
+import { renderProject, renderAllItems } from "./manageDOM.js"
 import { createButton, createDivContainer, createTextElem, createLabel, createInput } from './DOMElementCreationMethods.js';
 
 const createNavElement = () => {
@@ -8,23 +8,28 @@ const createNavElement = () => {
     createTextElem('h1', 'todo list', nav);
 
     const quickNavContainer = createDivContainer('nav-container', 'quick-nav-container', nav);
-    const allTasksBtn = createButton('All tasks', 'quick-nav-btn', '', quickNavContainer);
-    const todayTasksBtn = createButton('Today', 'quick-nav-btn', '', quickNavContainer);
-    const nextWeekTasksBtn = createButton('Next 7 days', 'quick-nav-btn', '', quickNavContainer);
+    const allItemsBtn = createButton('All items', 'quick-nav-btn', '', quickNavContainer);
+
+    allItemsBtn.addEventListener('click', () => {
+        renderAllItems();
+    });
+
+    const todayItemsBtn = createButton('Today', 'quick-nav-btn', '', quickNavContainer);
+    const nextWeekItemsBtn = createButton('Next 7 days', 'quick-nav-btn', '', quickNavContainer);
 
     const projectCreateContainer = createDivContainer('project-create', '', nav);
     projectCreateContainer.classList.add('modal-container');
-    const openProjectCreateModal = createButton('Add project', 'open-modal-button', '', projectCreateContainer);
+    const openProjectCreateModal = createButton('Create new project', 'open-modal-button', '', projectCreateContainer);
 
     const projectModal = document.createElement('dialog');
     projectCreateContainer.appendChild(projectModal);
-    const addProjectForm = document.createElement('form');
-    projectModal.appendChild(addProjectForm);
-    addProjectForm.method = 'dialog';
-    createLabel('projectTitle', 'Project title: ', addProjectForm);
-    const inputProjectTitle = createInput('text', 'projectTitle', 'projectTitle', true, '', addProjectForm);
-    const cancelBtn = createButton('Cancel', 'cancel-button', '', addProjectForm);
-    const createProjectBtn = createButton('Confirm', 'submit-button','', addProjectForm);
+    const createProjectForm = document.createElement('form');
+    projectModal.appendChild(createProjectForm);
+    createProjectForm.method = 'dialog';
+    createLabel('projectTitle', 'Project title: ', createProjectForm);
+    const inputProjectTitle = createInput('text', 'projectTitle', 'projectTitle', true, '', createProjectForm);
+    const cancelBtn = createButton('Cancel', 'cancel-button', '', createProjectForm);
+    const createProjectBtn = createButton('Confirm', 'submit-button','', createProjectForm);
     cancelBtn.type = 'button';
 
     createTextElem('h2', 'My projects', nav);
@@ -52,8 +57,6 @@ const createNavElement = () => {
 
     function createEditProjectTitleButton(index, project) {        
         const editProjectTitleContainer = createDivContainer('modal-container', '', '');
-
-        console.log(index);
 
         const targetContainer = Array.from(document.querySelectorAll('.project-btn-container')).find(elem => elem.dataset.projectIndex == index);
 
@@ -142,9 +145,9 @@ const createNavElement = () => {
         projectModal.close();
     });
 
-    addProjectForm.addEventListener('submit', (e) => {
+    createProjectForm.addEventListener('submit', (e) => {
         inputProjectTitle.removeAttribute('required');
-        addProjectForm.reset();
+        createProjectForm.reset();
         setTimeout(() => {
             inputProjectTitle.setAttribute('required', '');
         }, 100);

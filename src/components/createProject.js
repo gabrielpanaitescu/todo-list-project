@@ -1,47 +1,24 @@
 import { format } from "date-fns";
 
-const projectsManager = {
-    projectsArr: [],
-    addProject(projectObj) {
-        if (this.projectsArr.find((item) => item.title === projectObj.title)) throw Error('Project with this name already exists');
-        this.projectsArr.push(projectObj);
-    },
-    // to see if the arguments can be reduced to a single one (the item that needs to be moved)
-    moveProjectItem(itemType, itemIndex, initialProjectIndex, targetProjectIndex) {
-        const itemLocation = this.projectsArr[initialProjectIndex][itemType];
-        const targetLocation = this.projectsArr[targetProjectIndex][itemType];
-        targetLocation.push(itemLocation[itemIndex]);
-        itemLocation.splice(itemIndex, 1);
-    },
-    deleteProject(project) {
-        this.projectsArr = this.projectsArr.filter(elem => elem !== project);
-    }
-};
-
 const projectProto = {
     addNote(noteObj)  {
         this.notes.push(noteObj)
     },
-    
     addTask(taskObj)  {
         this.tasks.push(taskObj)
     },
-
      addChecklist(checklistObj)  {
         this.checklists.push(checklistObj)
     },
-    // to see if arguments can be changed to a single on => the item that needs to be removed
     removeItem(itemType, item) {
         this[itemType] = this[itemType].filter(elem => elem !== item);
     },
-
     editNote(note, title, description) {
         const noteIndex = this.notes.indexOf(note);
         const targetNote = this.notes[noteIndex] 
         targetNote.title = title;
         targetNote.description = description;
     },
-
     editTask(task, title, description, importance, dueDate) {
         const taskIndex = this.tasks.indexOf(task);
         const targetTask = this.tasks[taskIndex];
@@ -59,6 +36,56 @@ const projectProto = {
         targetChecklist.listItems = listItems;
     },
 };
+
+const projectsManager = {
+    projectsArr: [],
+    dummyProjectsArr: [],
+    addProject(projectObj) {
+        if (this.projectsArr.find((item) => item.title === projectObj.title)) throw Error('Project with this name already exists');
+        this.projectsArr.push(projectObj);
+    },
+    // to see if the arguments can be reduced to a single one (the item that needs to be moved)
+    findOriginProject(itemType, item) {
+        return this.projectsArr
+        .find(project => project[itemType]
+        .find(elem => elem === item));
+    },
+    moveItemToProject(itemType, item, targetProject) {
+        const originProject = this.projectsArr
+                                .find(project => project[itemType]
+                                .find(elem => elem === item));
+        originProject[itemType] = originProject[itemType].filter(elem => elem !== item);
+        targetProject[itemType].push(item);
+    },
+    removeItemFromProject(itemType, item) {
+        const originProject = this.findOriginProject(itemType, item);
+
+        originProject.removeItem(itemType, item);
+        if (itemType === 'tasks') dummyProjectWithAllTasks.updateTasksArr();
+        if (itemType === 'checklists') dummyProjectWithAllChecklists.updateChecklistsArr();
+    },
+    deleteProject(project) {
+        this.projectsArr = this.projectsArr.filter(elem => elem !== project);
+    },
+};
+
+const dummyProjectWithAllTasks = Object.assign(Object.create(projectProto), { title: 'allTasksProject', tasks: [], updateTasksArr() {
+    // projectsManager.projectsArr.map(project => project.tasks).forEach(array => array.forEach(task => this.tasks.push(task)));
+    this.tasks =  projectsManager.projectsArr.reduce((accum, currValue) => {
+       accum.push(...currValue.tasks);
+       return accum;
+    }, []);
+} });
+projectsManager.dummyProjectsArr.push(dummyProjectWithAllTasks);
+
+const dummyProjectWithAllChecklists = Object.assign(Object.create(projectProto), { title: 'allChecklistsProject', checklists: [], updateChecklistsArr() {
+    // projectsManager.projectsArr.map(project => project.checklists).forEach(array => array.forEach(checklist => this.checklists.push(checklist)));
+    this.checklists =  projectsManager.projectsArr.reduce((accum, currValue) => {
+       accum.push(...currValue.checklists);
+       return accum;
+    }, []);
+} });
+projectsManager.dummyProjectsArr.push(dummyProjectWithAllChecklists);
 
 const createProject = (title) => {
     return Object.assign(Object.create(projectProto), { title, notes: [], tasks: [], checklists: [] })
@@ -102,6 +129,7 @@ newProject2.addNote(createNote('Note 2 title', 'description'));
 newProject2.addNote(createNote('Note 3 title', 'Other description'));
 newProject2.addTask(createTask('Task 2', 'description', 'High', new Date()));
 newProject2.addChecklist(createChecklist('Checklist 2', new Date(), ['Item 2', 'Item 3']));
+newProject2.addTask(createTask('Task new', 'fff', 'High', new Date()));
 
 
 const newProject3 = createProject('Project 2');
@@ -111,14 +139,19 @@ newProject3.addTask(createTask('Task 3', 'description', 'High', new Date()));
 newProject3.addChecklist(createChecklist('Checklist 3', new Date(), ['Item 2', 'Item 3']));
 
 console.log(newProject);
-
+console.log(projectsManager);
 // move example
 // projectsManager.moveProjectItem('notes', 0, 0, 1);
 // console.log(projectsManager);
 
-// remove example
-// newProject2.removeItem('notes', 0);
-// console.log(projectsManager);
+
+const task1 = newProject.tasks[0];
+console.log(task1);
+
+projectsManager.moveItemToProject('tasks', task1, newProject2);
+
+console.log(projectsManager);
+
 
 export { projectsManager, createProject, createNote, createTask, createChecklist, createListItem };
 

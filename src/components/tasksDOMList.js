@@ -1,9 +1,15 @@
 import { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods.js';
 import { format } from "date-fns";
+import { projectsManager } from './createProject.js';
 
 export default function updateTasksDOM(project, appendToID) {
     const tasksList = document.getElementById(appendToID);
     tasksList.replaceChildren();
+
+    if (project.tasks.length < 1) {
+        createTextElem('h4', 'No tasks found', tasksList);
+        return;
+    }
 
     project.tasks.forEach((task) => {
         const taskWrapper = document.createElement('li');
@@ -51,8 +57,8 @@ export default function updateTasksDOM(project, appendToID) {
         const removeTaskBtn = createButton('Confirm', 'submit-button', '', taskRemoveModal);
  
         const removeTaskBtnHandler = () => {
-            project.removeItem('tasks', task);
-            updateTasksDOM(project, 'tasks-list');
+            projectsManager.removeItemFromProject('tasks', task);
+            updateTasksDOM(project, appendToID);
         };
     
         const editTaskBtnHandler = () => {
@@ -61,7 +67,7 @@ export default function updateTasksDOM(project, appendToID) {
             if (!editTaskForm.checkValidity()) return;
 
             project.editTask(task, editTaskTitleInput.value, editTaskDescriptionInput.value, editTaskImportanceSelect.value, editTaskDuedateInput.value);
-            updateTasksDOM(project, 'tasks-list');
+            updateTasksDOM(project, appendToID);
         };
 
         const editTaskInputsClickHandler = (e) => {

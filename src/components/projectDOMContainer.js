@@ -1,7 +1,7 @@
 import { projectsManager, createProject, createNote, createTask, createChecklist, createListItem } from './createProject.js';
 import { createButton, createDivContainer, createTextElem, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods.js';
 import nav from './nav.js';
-import { clearMain, renderDefaultProject } from './manageDOM.js';
+import { displayEmptyMainMessage, clearMain, renderDefaultProject } from './manageDOM.js';
 import updateTasksDOM from './tasksDOMList.js';
 import updateNotesDOM from './notesDOMList.js';
 import updateChecklistsDOM from './checklistsDOMList.js';
@@ -27,9 +27,16 @@ export default function createProjectDOMContainer(project) {
 
         const removeProjectBtnHandler = (project) => {
             projectsManager.deleteProject(project);
+
             nav.renderNav();
-            renderDefaultProject();
-            // or clearMain();
+
+            // non-deletable Personal project version
+            // render first project in the array when a project is deleted
+            // if (projectsManager.projectsArr.length >= 1) {
+            //     renderDefaultProject();
+            //     return;
+            // }
+            displayEmptyMainMessage();
         }
         
         openProjectRemoveModal.addEventListener('click', () => projectRemoveModal.showModal());
@@ -41,9 +48,13 @@ export default function createProjectDOMContainer(project) {
         });
     };
 
-    if (project.title !== 'Personal') {
-        createRemoveProjectBtn();
-    };
+    // non-deletable Personal project version
+    // this will not add a remove project button to the default Personal project
+    // this only works if no edit title button is added from nav.js to the Personal project nav container
+    // if (project.title !== 'Personal') {
+    //     createRemoveProjectBtn();
+    // };
+    createRemoveProjectBtn();
 
     return projectContainer;
 }
