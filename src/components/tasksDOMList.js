@@ -47,6 +47,23 @@ export default function updateTasksDOM(project, appendToID) {
         editTaskModal.appendChild(editTaskForm);
         const editTaskInputsArr = editTaskForm.querySelectorAll('input');
 
+        const moveTaskContainer = createDivContainer('move-item-container', '', taskWrapper);
+        createLabel('move-task', 'Move to project: ', moveTaskContainer);
+        const moveTaskSelect = document.createElement('select');
+        moveTaskSelect.classList.add('move-item');
+        moveTaskSelect.id = 'move-task';
+        moveTaskContainer.appendChild(moveTaskSelect);
+        projectsManager.projectsArr.forEach((projectObj, index) => {
+            const moveTaskOption = document.createElement('option');
+            moveTaskOption.value = projectObj.title;
+            const originProject = projectsManager.findOriginProject('tasks', task);
+            if (originProject.title === projectObj.title) moveTaskOption.setAttribute('selected', '');
+            if (moveTaskOption.selected) moveTaskOption.setAttribute('disabled', '');
+            moveTaskOption.dataset.projectIndex = index;
+            moveTaskOption.textContent = projectObj.title; 
+            moveTaskSelect.appendChild(moveTaskOption);
+        });
+
         const taskRemoveContainer = createDivContainer('modal-container', '', taskWrapper);
         taskRemoveContainer.classList.add('remove-task-modal');
         const openTaskRemoveModal = createButton('x', 'open-modal-button', '', taskRemoveContainer);
@@ -60,6 +77,13 @@ export default function updateTasksDOM(project, appendToID) {
             projectsManager.removeItemFromProject('tasks', task);
             updateTasksDOM(project, appendToID);
         };
+
+        const moveTaskHandler = (e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            projectsManager.moveItemToProject('tasks', task, selectedOption.dataset.projectIndex);
+            updateTasksDOM(project, appendToID);
+            console.log(project);
+        };        
     
         const editTaskBtnHandler = () => {
             editTaskInputsArr.forEach(input => input.readOnly = false);
@@ -88,6 +112,8 @@ export default function updateTasksDOM(project, appendToID) {
             if (taskCompletionCheckbox.checked) task.completed = true;
             if (!taskCompletionCheckbox.checked) task.completed = false;
         };
+
+        moveTaskSelect.addEventListener('change', moveTaskHandler);
 
         taskCompletionCheckbox.addEventListener('click', taskCompletionCheckboxHandler);
     

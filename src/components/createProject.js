@@ -50,17 +50,19 @@ const projectsManager = {
         .find(project => project[itemType]
         .find(elem => elem === item));
     },
-    moveItemToProject(itemType, item, targetProject) {
-        const originProject = this.projectsArr
-                                .find(project => project[itemType]
-                                .find(elem => elem === item));
+    moveItemToProject(itemType, item, targetProjectIndex) {
+        const targetProject = this.projectsArr[targetProjectIndex];
+        const originProject = this.findOriginProject(itemType, item);
         originProject[itemType] = originProject[itemType].filter(elem => elem !== item);
         targetProject[itemType].push(item);
+
+        // no update required to dummy projects as the change happens to an element inside the task component; updating the array will only change the order of the tasks upon moving action, as the tasks at the moment of writing this comment, are not sorted, but created and appended in the order of the projectsArray looping, from first created to last
     },
     removeItemFromProject(itemType, item) {
         const originProject = this.findOriginProject(itemType, item);
-
         originProject.removeItem(itemType, item);
+
+        // update dummy projects that contains all tasks/checklists in order to reflect the change when the quick nav buttons (ex All items) are used; 
         if (itemType === 'tasks') dummyProjectWithAllTasks.updateTasksArr();
         if (itemType === 'checklists') dummyProjectWithAllChecklists.updateChecklistsArr();
     },
@@ -145,12 +147,10 @@ console.log(projectsManager);
 // console.log(projectsManager);
 
 
-const task1 = newProject.tasks[0];
-console.log(task1);
-
-projectsManager.moveItemToProject('tasks', task1, newProject2);
-
-console.log(projectsManager);
+// const task1 = newProject.tasks[0];
+// console.log(task1);
+// projectsManager.moveItemToProject('tasks', task1, 1);
+// console.log(projectsManager);
 
 
 export { projectsManager, createProject, createNote, createTask, createChecklist, createListItem };

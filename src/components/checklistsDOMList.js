@@ -62,6 +62,23 @@ export default function updateChecklistsDOM(project, appendToID) {
         editChecklistModal.appendChild(editChecklistForm);
         let editChecklistInputsHTMLCollection = editChecklistForm.getElementsByClassName('edit-checklist-input');
     
+        const moveChecklistContainer = createDivContainer('move-item-container', '', checklistWrapper);
+        createLabel('move-checklist', 'Move to project: ', moveChecklistContainer);
+        const moveChecklistSelect = document.createElement('select');
+        moveChecklistSelect.classList.add('move-item');
+        moveChecklistSelect.id = 'move-checklist';
+        moveChecklistContainer.appendChild(moveChecklistSelect);
+        projectsManager.projectsArr.forEach((projectObj, index) => {
+            const moveChecklistOption = document.createElement('option');
+            moveChecklistOption.value = projectObj.title;
+            const originProject = projectsManager.findOriginProject('checklists', checklist);
+            if (originProject.title === projectObj.title) moveChecklistOption.setAttribute('selected', '');
+            if (moveChecklistOption.selected) moveChecklistOption.setAttribute('disabled', '');
+            moveChecklistOption.dataset.projectIndex = index;
+            moveChecklistOption.textContent = projectObj.title; 
+            moveChecklistSelect.appendChild(moveChecklistOption);
+        });
+
         const checklistRemoveContainer = createDivContainer('modal-container', '', checklistWrapper);
         checklistRemoveContainer.classList.add('remove-checklist-modal');
         const openChecklistRemoveModal = createButton('x', 'open-modal-button', '', checklistRemoveContainer);
@@ -76,6 +93,12 @@ export default function updateChecklistsDOM(project, appendToID) {
             updateChecklistsDOM(project, appendToID);
         };
     
+        const moveChecklistHandler = (e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            projectsManager.moveItemToProject('checklists', checklist, selectedOption.dataset.projectIndex);
+            updateChecklistsDOM(project, appendToID);
+        };
+
         const editChecklistBtnHandler = () => {
             Array.from(editChecklistInputsHTMLCollection).forEach(input => input.readOnly = false);
 
@@ -163,6 +186,8 @@ export default function updateChecklistsDOM(project, appendToID) {
                 createListItemInputRow(listItem);
             });
         };
+
+        moveChecklistSelect.addEventListener('change', moveChecklistHandler);
 
         createListItemInputBtn.addEventListener('click', () => {
             createListItemInputRow();

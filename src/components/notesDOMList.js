@@ -46,7 +46,8 @@ export default function updateNotesDOM(project, appendToID) {
         projectsManager.projectsArr.forEach((projectObj, index) => {
             const moveNoteOption = document.createElement('option');
             moveNoteOption.value = projectObj.title;
-            if (project.title === projectObj.title) moveNoteOption.setAttribute('selected', '');
+            const originProject = projectsManager.findOriginProject('notes', note);
+            if (originProject.title === projectObj.title) moveNoteOption.setAttribute('selected', '');
             if (moveNoteOption.selected) moveNoteOption.setAttribute('disabled', '');
             moveNoteOption.dataset.projectIndex = index;
             moveNoteOption.textContent = projectObj.title; 
@@ -64,7 +65,13 @@ export default function updateNotesDOM(project, appendToID) {
 
         const removeNoteBtnHandler = () => {
             projectsManager.removeItemFromProject('notes', note);
-            updateNotesDOM(project, 'notes-list');
+            updateNotesDOM(project, appendToID);
+        };
+
+        const moveNoteHandler = (e) => {
+            const selectedOption = e.target.options[e.target.selectedIndex];
+            projectsManager.moveItemToProject('notes', note, selectedOption.dataset.projectIndex);
+            updateNotesDOM(project, appendToID);
         };
 
         const editNoteBtnHandler = () => {
@@ -73,7 +80,7 @@ export default function updateNotesDOM(project, appendToID) {
             if (!editNoteForm.checkValidity()) return;
             
             project.editNote(note, editNoteTitleInput.value, editNoteDescriptionInput.value);
-            updateNotesDOM(project, 'notes-list');
+            updateNotesDOM(project, appendToID);
         };
 
         const editNoteInputsToReadWrite = (e) => {
@@ -83,7 +90,7 @@ export default function updateNotesDOM(project, appendToID) {
         const editNoteInputsToReadOnly = (e) => {
             e.target.readOnly = true;
         }
-            
+
         editNoteInputsArr.forEach(input => {
             input.readOnly = true;
             input.addEventListener('click', editNoteInputsToReadWrite);
@@ -107,6 +114,8 @@ export default function updateNotesDOM(project, appendToID) {
             editNoteDescriptionInput.value = note.description;
             editNoteModal.showModal();
         });
+
+        moveNoteSelect.addEventListener('change', moveNoteHandler);
 
         cancelEditBtn.addEventListener('click', () => editNoteModal.close());
 
