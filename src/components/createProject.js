@@ -1,4 +1,50 @@
-import { format } from "date-fns";
+import { format, isToday, isThisWeek } from "date-fns";
+
+const projectsManager = {
+    projectsArr: [],
+    dummyProjectsArr: [],
+    addProject(projectObj) {
+        if (this.projectsArr.find((item) => item.title === projectObj.title)) throw Error('Project with this name already exists');
+        this.projectsArr.push(projectObj);
+    },
+    // to see if the arguments can be reduced to a single one (the item that needs to be moved)
+    findOriginProject(itemType, item) {
+        return this.projectsArr
+        .find(project => project[itemType]
+        .find(elem => elem === item));
+    },
+    refreshDummyProjectsArrays(itemType) {
+        if (itemType) {
+            if (itemType === 'tasks') allTasksDummyProject.updateTasksArr();
+            if (itemType === 'checklists') allChecklistsDummyProject.updateChecklistsArr();
+            if (itemType === 'tasks') todaysTasksDummyProject.filterTodaysTasks(); 
+            if (itemType === 'checklists') todaysChecklistsDummyProject.filterTodaysChecklists();   
+        // in case argument is not passed, refresh anyway
+        } else {
+            allTasksDummyProject.updateTasksArr();
+            allChecklistsDummyProject.updateChecklistsArr();
+            todaysTasksDummyProject.filterTodaysTasks();  
+            todaysChecklistsDummyProject.filterTodaysChecklists();
+        }
+    },
+    moveItemToProject(itemType, item, targetProjectIndex) {
+        const targetProject = this.projectsArr[targetProjectIndex];
+        const originProject = this.findOriginProject(itemType, item);
+        originProject[itemType] = originProject[itemType].filter(elem => elem !== item);
+        targetProject[itemType].push(item);
+        // no update required to dummy projects as the change happens to an element inside the task component; updating the array will only change the order of the tasks upon moving action, as the tasks at the moment of writing this comment, are not sorted, but created and appended in the order of the projectsArray looping, from first created to last
+    },
+    removeItemFromProject(itemType, item) {
+        const originProject = this.findOriginProject(itemType, item);
+        originProject.removeItem(itemType, item);
+
+        // update dummy projects that contains all tasks/checklists in order to reflect the change when the quick nav buttons (ex All items) are used; this method will remove the project within the projectsManager.projectArr, and then the dummy project will get/refresh the updated list
+        this.refreshDummyProjectsArrays();
+    },
+    deleteProject(project) {
+        this.projectsArr = this.projectsArr.filter(elem => elem !== project);
+    },
+};
 
 const projectProto = {
     addNote(noteObj)  {
@@ -26,6 +72,7 @@ const projectProto = {
         targetTask.description = description;
         targetTask.importance = importance;
         targetTask.dueDate = formatForDateInput(dueDate);
+        projectsManager.refreshDummyProjectsArrays();
     },
     editChecklist(checklist, title, dueDate, listItems) {
         const checklistIndex = this.checklists.indexOf(checklist);
@@ -34,60 +81,54 @@ const projectProto = {
         if (!dueDate) targetChecklist.dueDate = null;
         if (dueDate) targetChecklist.dueDate = formatForDateInput(dueDate);
         targetChecklist.listItems = listItems;
+        projectsManager.refreshDummyProjectsArrays();
     },
 };
 
-const projectsManager = {
-    projectsArr: [],
-    dummyProjectsArr: [],
-    addProject(projectObj) {
-        if (this.projectsArr.find((item) => item.title === projectObj.title)) throw Error('Project with this name already exists');
-        this.projectsArr.push(projectObj);
-    },
-    // to see if the arguments can be reduced to a single one (the item that needs to be moved)
-    findOriginProject(itemType, item) {
-        return this.projectsArr
-        .find(project => project[itemType]
-        .find(elem => elem === item));
-    },
-    moveItemToProject(itemType, item, targetProjectIndex) {
-        const targetProject = this.projectsArr[targetProjectIndex];
-        const originProject = this.findOriginProject(itemType, item);
-        originProject[itemType] = originProject[itemType].filter(elem => elem !== item);
-        targetProject[itemType].push(item);
 
-        // no update required to dummy projects as the change happens to an element inside the task component; updating the array will only change the order of the tasks upon moving action, as the tasks at the moment of writing this comment, are not sorted, but created and appended in the order of the projectsArray looping, from first created to last
+const allTasksDummyProject = Object.assign(Object.create(projectProto), 
+{ 
+    title: 'allTasksProject', 
+    tasks: [], 
+    updateTasksArr() {
+        // projectsManager.projectsArr.map(project => project.tasks).forEach(array => array.forEach(task => this.tasks.push(task)));
+        this.tasks =  projectsManager.projectsArr.reduce((accum, currValue) => {
+        accum.push(...currValue.tasks);
+        return accum;
+        }, []);
     },
-    removeItemFromProject(itemType, item) {
-        const originProject = this.findOriginProject(itemType, item);
-        originProject.removeItem(itemType, item);
+});
+projectsManager.dummyProjectsArr.push(allTasksDummyProject);
 
-        // update dummy projects that contains all tasks/checklists in order to reflect the change when the quick nav buttons (ex All items) are used; 
-        if (itemType === 'tasks') dummyProjectWithAllTasks.updateTasksArr();
-        if (itemType === 'checklists') dummyProjectWithAllChecklists.updateChecklistsArr();
-    },
-    deleteProject(project) {
-        this.projectsArr = this.projectsArr.filter(elem => elem !== project);
-    },
-};
-
-const dummyProjectWithAllTasks = Object.assign(Object.create(projectProto), { title: 'allTasksProject', tasks: [], updateTasksArr() {
-    // projectsManager.projectsArr.map(project => project.tasks).forEach(array => array.forEach(task => this.tasks.push(task)));
-    this.tasks =  projectsManager.projectsArr.reduce((accum, currValue) => {
-       accum.push(...currValue.tasks);
-       return accum;
-    }, []);
-} });
-projectsManager.dummyProjectsArr.push(dummyProjectWithAllTasks);
-
-const dummyProjectWithAllChecklists = Object.assign(Object.create(projectProto), { title: 'allChecklistsProject', checklists: [], updateChecklistsArr() {
+const allChecklistsDummyProject = Object.assign(Object.create(projectProto), { title: 'allChecklistsProject', checklists: [], updateChecklistsArr() {
     // projectsManager.projectsArr.map(project => project.checklists).forEach(array => array.forEach(checklist => this.checklists.push(checklist)));
     this.checklists =  projectsManager.projectsArr.reduce((accum, currValue) => {
        accum.push(...currValue.checklists);
        return accum;
     }, []);
-} });
-projectsManager.dummyProjectsArr.push(dummyProjectWithAllChecklists);
+}});
+projectsManager.dummyProjectsArr.push(allChecklistsDummyProject);
+
+// Why not using allTasksDummyProject as prototype: Using a new object with projectProto because Object.create() will create an inheritance chain and any method used on the allTasksDummyProject object will affect the object created with Object.create(). This instead will create a new object with the same properties (arrays and methods) but they don't point to the original object 
+const todaysTasksDummyProject = Object.assign(Object.create(projectProto), allTasksDummyProject, 
+{
+    title: 'todaysTasksProject',
+    filterTodaysTasks() {
+        this.updateTasksArr();
+        this.tasks = this.tasks.filter(task => isToday(task.dueDate));
+    },
+});
+projectsManager.dummyProjectsArr.push(todaysTasksDummyProject);
+
+const todaysChecklistsDummyProject = Object.assign(Object.create(projectProto), allChecklistsDummyProject, 
+{
+    title: 'todaysChecklistsProject',
+    filterTodaysChecklists() {
+        this.updateChecklistsArr();
+        this.checklists = this.checklists.filter(checklist => isToday(checklist.dueDate));
+    },
+});
+projectsManager.dummyProjectsArr.push(todaysChecklistsDummyProject);
 
 const createProject = (title) => {
     return Object.assign(Object.create(projectProto), { title, notes: [], tasks: [], checklists: [] })
@@ -142,15 +183,6 @@ newProject3.addChecklist(createChecklist('Checklist 3', new Date(), ['Item 2', '
 
 console.log(newProject);
 console.log(projectsManager);
-// move example
-// projectsManager.moveProjectItem('notes', 0, 0, 1);
-// console.log(projectsManager);
-
-
-// const task1 = newProject.tasks[0];
-// console.log(task1);
-// projectsManager.moveItemToProject('tasks', task1, 1);
-// console.log(projectsManager);
 
 
 export { projectsManager, createProject, createNote, createTask, createChecklist, createListItem };

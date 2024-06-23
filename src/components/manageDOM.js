@@ -6,6 +6,7 @@ import updateNotes from './notesDOMList.js';
 import updateChecklists from './checklistsDOMList.js';
 import { projectsManager } from './createProject.js';
 import updateAllItems from './allItemsDOMList.js';
+import updateTodaysItems from './todaysItemsDOMList.js';
 
 const main = document.querySelector('main');
 const aside = document.querySelector('aside');
@@ -45,19 +46,19 @@ const renderDefaultProject = () => {
     renderProject(personalProject);
 };
 
-const renderTasks = (project, appendToID) => {
+const renderTasks = (project, IDtoAppend) => {
     // if (project.tasks.length < 1) return;
-    updateTasks(project, appendToID);
+    updateTasks(project, IDtoAppend);
 };
 
-const renderChecklists = (project, appendToID) => {
+const renderChecklists = (project, IDtoAppend) => {
     // if (project.checklists.length < 1) return;
-    updateChecklists(project, appendToID);
+    updateChecklists(project, IDtoAppend);
 };
 
-const renderNotes = (project, appendToID) => {
+const renderNotes = (project, IDtoAppend) => {
     // if (project.notes.length < 1) return;
-    updateNotes(project, appendToID);
+    updateNotes(project, IDtoAppend);
 };
 
 const renderAllItems = () => {
@@ -66,7 +67,18 @@ const renderAllItems = () => {
     updateAllItems();
 };
 
-export { renderProject, renderDefaultProject, renderAllItems, clearMain, displayEmptyMainMessage, renderTasks, renderChecklists, renderNotes };
+const renderTodaysItems = () => {
+    nav.renderNav();
+    clearMain();
+    updateTodaysItems();
+};
+
+const renderNextWeekItems = () => {
+    nav.renderNav();
+    clearMain();
+};
+
+export { renderProject, renderDefaultProject, renderAllItems, renderTodaysItems, renderNextWeekItems, clearMain, displayEmptyMainMessage, renderTasks, renderChecklists, renderNotes };
 
 
 

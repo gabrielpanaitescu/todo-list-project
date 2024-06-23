@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { createListItem } from './createProject.js';
 import { projectsManager } from './createProject.js';
 
-export default function updateChecklistsDOM(project, appendToID) {
-    const checklistsList = document.getElementById(appendToID);
+export default function updateChecklistsDOM(project, IDtoAppend) {
+    const checklistsList = document.getElementById(IDtoAppend);
     checklistsList.replaceChildren();
 
     if (project.checklists.length < 1) {
@@ -90,13 +90,13 @@ export default function updateChecklistsDOM(project, appendToID) {
     
         const removeChecklistBtnHandler = () => {
             projectsManager.removeItemFromProject('checklists', checklist);
-            updateChecklistsDOM(project, appendToID);
+            updateChecklistsDOM(project, IDtoAppend);
         };
     
         const moveChecklistHandler = (e) => {
             const selectedOption = e.target.options[e.target.selectedIndex];
             projectsManager.moveItemToProject('checklists', checklist, selectedOption.dataset.projectIndex);
-            updateChecklistsDOM(project, appendToID);
+            updateChecklistsDOM(project, IDtoAppend);
         };
 
         const editChecklistBtnHandler = () => {
@@ -112,16 +112,13 @@ export default function updateChecklistsDOM(project, appendToID) {
                     .map(array => {
                         const textInput = array.filter(item => item.type === 'text')[0];
                         const checkboxInput = array.filter(item => item.type === 'checkbox')[0];
-                        console.log(textInput);
 
                         return createListItem(textInput.value, checkboxInput.checked);
             });
 
-            console.log(editedListItemsArr);
-
             project.editChecklist(checklist, editChecklistTitleInput.value, editChecklistDuedateInput.value, editedListItemsArr);
             
-            updateChecklistsDOM(project, appendToID);
+            updateChecklistsDOM(project, IDtoAppend);
         };
 
         const editChecklistInputsClickHandler = (e) => {

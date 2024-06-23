@@ -1,10 +1,7 @@
 import { projectsManager, createProject, createNote, createTask, createChecklist, createListItem } from './createProject.js';
 import { createButton, createDivContainer, createTextElem, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods.js';
 import nav from './nav.js';
-import { displayEmptyMainMessage, clearMain, renderDefaultProject } from './manageDOM.js';
-import updateTasksDOM from './tasksDOMList.js';
-import updateNotesDOM from './notesDOMList.js';
-import updateChecklistsDOM from './checklistsDOMList.js';
+import { displayEmptyMainMessage, clearMain, renderDefaultProject, renderNotes, renderTasks, renderChecklists } from './manageDOM.js';
 
 export default function createProjectDOMContainer(project) {
     const projectContainer = createDivContainer('', 'project-container', '');
@@ -83,11 +80,12 @@ function createNotesContainer(project) {
     const notesList = document.createElement('ul');
     notesList.id = 'notes-list';
     notesContainer.appendChild(notesList);
+    const IDtoAppend = 'notes-list';
 
     const createNoteBtnHandler = () => {
         if (!addNoteForm.checkValidity()) return;
         project.addNote(createNote(noteTitleInput.value, noteDescriptionInput.value));
-        updateNotesDOM(project, 'notes-list');
+        renderNotes(project, IDtoAppend);
     };
 
     createNoteBtn.addEventListener('click', () => {
@@ -143,12 +141,13 @@ function createTasksContainer(project) {
     const tasksList = document.createElement('ul');
     tasksList.id = 'tasks-list';
     tasksContainer.appendChild(tasksList);
+    const IDtoAppend = 'tasks-list';
 
     const createTaskBtnHandler = () => {
         if (!addTaskForm.checkValidity()) return;
 
         project.addTask(createTask(taskTitleInput.value, taskDescriptionInput.value, taskImportanceSelect.value, taskDuedateInput.value));
-        updateTasksDOM(project, 'tasks-list');
+        renderTasks(project, IDtoAppend);
     }
 
     createTaskBtn.addEventListener('click', () => {
@@ -229,6 +228,7 @@ function createChecklistsContainer(project) {
     const checklistsList = document.createElement('ul');
     checklistsList.id = 'checklists-list';
     checklistsContainer.appendChild(checklistsList);
+    const IDtoAppend = 'checklists-list';
 
     const createChecklistBtnHandler = () => {
         if (!addChecklistForm.checkValidity()) return;
@@ -236,7 +236,7 @@ function createChecklistsContainer(project) {
         const listItemsValuesArray = Array.from(listItemsFieldset.querySelectorAll('input[type="text"]')).map(input => input.value);
 
         project.addChecklist(createChecklist(checklistTitleInput.value, checklistDuedateInput.value, listItemsValuesArray, false));
-        updateChecklistsDOM(project, 'checklists-list');
+        renderChecklists(project, IDtoAppend);
     };
 
     createListItemInputBtn.addEventListener('click', () => {

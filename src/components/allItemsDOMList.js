@@ -1,4 +1,3 @@
-import updateTasks from './tasksDOMList';
 import { projectsManager } from './createProject';
 import { createTextElem } from './DOMElementCreationMethods';
 import { renderTasks, renderChecklists } from './manageDOM';
@@ -15,17 +14,20 @@ export default function allItemsDOMList() {
     const allTasksList = document.createElement('ul');
     allTasksList.id = 'all-tasks-list';
     allItemsContainer.appendChild(allTasksList);
+    const IDtoAppendTasks = 'all-tasks-list';
 
     createTextElem('h3', 'All checklists', allItemsContainer);
     const allChecklistsList = document.createElement('ul');
     allChecklistsList.id = 'all-checklists-list';
     allItemsContainer.appendChild(allChecklistsList); 
+    const IDtoAppendChecklists = 'all-checklists-list'
 
-    const dummyProjectWithAllTasks = projectsManager.dummyProjectsArr[0];
-    dummyProjectWithAllTasks.updateTasksArr();
-    renderTasks(dummyProjectWithAllTasks, 'all-tasks-list');
 
-    const dummyProjectWithAllChecklists = projectsManager.dummyProjectsArr[1];
-    dummyProjectWithAllChecklists.updateChecklistsArr();
-    renderChecklists(dummyProjectWithAllChecklists, 'all-checklists-list');
+    const allTasksDummyProject = projectsManager.dummyProjectsArr[0];
+    allTasksDummyProject.updateTasksArr();
+    renderTasks(allTasksDummyProject, IDtoAppendTasks);
+
+    const allChecklistsDummyProject = projectsManager.dummyProjectsArr[1];
+    allChecklistsDummyProject.updateChecklistsArr();
+    renderChecklists(allChecklistsDummyProject, IDtoAppendChecklists);
 };

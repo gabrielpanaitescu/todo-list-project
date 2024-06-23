@@ -2,8 +2,8 @@ import { createTextElem, createDivContainer, createButton, createLabel, createIn
 import { format } from "date-fns";
 import { projectsManager } from './createProject.js';
 
-export default function updateTasksDOM(project, appendToID) {
-    const tasksList = document.getElementById(appendToID);
+export default function updateTasksDOM(project, IDtoAppend) {
+    const tasksList = document.getElementById(IDtoAppend);
     tasksList.replaceChildren();
 
     if (project.tasks.length < 1) {
@@ -75,14 +75,13 @@ export default function updateTasksDOM(project, appendToID) {
  
         const removeTaskBtnHandler = () => {
             projectsManager.removeItemFromProject('tasks', task);
-            updateTasksDOM(project, appendToID);
+            updateTasksDOM(project, IDtoAppend);
         };
 
         const moveTaskHandler = (e) => {
             const selectedOption = e.target.options[e.target.selectedIndex];
             projectsManager.moveItemToProject('tasks', task, selectedOption.dataset.projectIndex);
-            updateTasksDOM(project, appendToID);
-            console.log(project);
+            updateTasksDOM(project, IDtoAppend);
         };        
     
         const editTaskBtnHandler = () => {
@@ -91,7 +90,7 @@ export default function updateTasksDOM(project, appendToID) {
             if (!editTaskForm.checkValidity()) return;
 
             project.editTask(task, editTaskTitleInput.value, editTaskDescriptionInput.value, editTaskImportanceSelect.value, editTaskDuedateInput.value);
-            updateTasksDOM(project, appendToID);
+            updateTasksDOM(project, IDtoAppend);
         };
 
         const editTaskInputsClickHandler = (e) => {

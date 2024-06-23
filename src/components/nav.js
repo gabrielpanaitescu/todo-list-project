@@ -1,5 +1,5 @@
 import { projectsManager, createProject } from "./createProject";
-import { renderProject, renderAllItems } from "./manageDOM.js"
+import { renderProject, renderAllItems, renderTodaysItems, renderNextWeekItems } from "./manageDOM.js"
 import { createButton, createDivContainer, createTextElem, createLabel, createInput } from './DOMElementCreationMethods.js';
 
 const createNavElement = () => {
@@ -9,11 +9,6 @@ const createNavElement = () => {
 
     const quickNavContainer = createDivContainer('nav-container', 'quick-nav-container', nav);
     const allItemsBtn = createButton('All items', 'quick-nav-btn', '', quickNavContainer);
-
-    allItemsBtn.addEventListener('click', () => {
-        renderAllItems();
-    });
-
     const todayItemsBtn = createButton('Today', 'quick-nav-btn', '', quickNavContainer);
     const nextWeekItemsBtn = createButton('Next 7 days', 'quick-nav-btn', '', quickNavContainer);
 
@@ -40,7 +35,6 @@ const createNavElement = () => {
         console.log(project);
         renderProject(project);
     };
-
 
     const createNavItem = (project) => {
         const projectBtnContainer = createDivContainer('project-btn-container', '', projectsNavContainer);
@@ -98,8 +92,8 @@ const createNavElement = () => {
 
         const editProjectTitleInputsToReadOnly = (e) => {
             e.target.readOnly = true;
-        }
-            
+        };
+
         editProjectTitleTitleInput.addEventListener('click', editProjectTitleInputsToReadWrite);
         editProjectTitleTitleInput.addEventListener('focusout', editProjectTitleInputsToReadOnly);
 
@@ -130,6 +124,18 @@ const createNavElement = () => {
             });
         }
     };
+
+    nextWeekItemsBtn.addEventListener('click', () => {
+        renderNextWeekItems();
+    });
+
+    todayItemsBtn.addEventListener('click', () => {
+        renderTodaysItems();
+    });
+        
+    allItemsBtn.addEventListener('click', () => {
+        renderAllItems();
+    });
 
     createProjectBtn.addEventListener('click', () => {
         if (!inputProjectTitle.validity.valid) return;

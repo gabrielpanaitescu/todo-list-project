@@ -2,8 +2,8 @@ import { createTextElem, createDivContainer, createButton, createLabel, createIn
 import { projectsManager } from './createProject.js';
 
 
-export default function updateNotesDOM(project, appendToID) {
-    const notesList = document.getElementById(appendToID);
+export default function updateNotesDOM(project, IDtoAppend) {
+    const notesList = document.getElementById(IDtoAppend);
     notesList.replaceChildren();
 
     if (project.notes.length < 1) {
@@ -65,13 +65,13 @@ export default function updateNotesDOM(project, appendToID) {
 
         const removeNoteBtnHandler = () => {
             projectsManager.removeItemFromProject('notes', note);
-            updateNotesDOM(project, appendToID);
+            updateNotesDOM(project, IDtoAppend);
         };
 
         const moveNoteHandler = (e) => {
             const selectedOption = e.target.options[e.target.selectedIndex];
             projectsManager.moveItemToProject('notes', note, selectedOption.dataset.projectIndex);
-            updateNotesDOM(project, appendToID);
+            updateNotesDOM(project, IDtoAppend);
         };
 
         const editNoteBtnHandler = () => {
@@ -80,7 +80,7 @@ export default function updateNotesDOM(project, appendToID) {
             if (!editNoteForm.checkValidity()) return;
             
             project.editNote(note, editNoteTitleInput.value, editNoteDescriptionInput.value);
-            updateNotesDOM(project, appendToID);
+            updateNotesDOM(project, IDtoAppend);
         };
 
         const editNoteInputsToReadWrite = (e) => {
