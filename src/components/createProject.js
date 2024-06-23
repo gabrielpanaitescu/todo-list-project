@@ -7,7 +7,6 @@ const projectsManager = {
         if (this.projectsArr.find((item) => item.title === projectObj.title)) throw Error('Project with this name already exists');
         this.projectsArr.push(projectObj);
     },
-    // to see if the arguments can be reduced to a single one (the item that needs to be moved)
     findOriginProject(itemType, item) {
         return this.projectsArr
         .find(project => project[itemType]
@@ -19,12 +18,16 @@ const projectsManager = {
             if (itemType === 'checklists') allChecklistsDummyProject.updateChecklistsArr();
             if (itemType === 'tasks') todaysTasksDummyProject.filterTodaysTasks(); 
             if (itemType === 'checklists') todaysChecklistsDummyProject.filterTodaysChecklists();   
-        // in case argument is not passed, refresh anyway
+            if (itemType === 'tasks') thisWeekTasksDummyProject.filterThisWeekTasks();   
+            if (itemType === 'checklists') thisWeekChecklistsDummyProject.filterThisWeekChecklists();  
+        // in case argument is not passed, refresh anyway; the argument is used only to
         } else {
             allTasksDummyProject.updateTasksArr();
             allChecklistsDummyProject.updateChecklistsArr();
             todaysTasksDummyProject.filterTodaysTasks();  
             todaysChecklistsDummyProject.filterTodaysChecklists();
+            thisWeekTasksDummyProject.filterThisWeekTasks(); 
+            thisWeekChecklistsDummyProject.filterThisWeekChecklists();
         }
     },
     moveItemToProject(itemType, item, targetProjectIndex) {
@@ -44,6 +47,10 @@ const projectsManager = {
     deleteProject(project) {
         this.projectsArr = this.projectsArr.filter(elem => elem !== project);
     },
+    // editItemFromProject(itemType, item) {
+    //     const originProject = this.findOriginProject(itemType, item);
+    //     originProject.removeItem(itemType, item);
+    // },
 };
 
 const projectProto = {
@@ -109,7 +116,7 @@ const allChecklistsDummyProject = Object.assign(Object.create(projectProto), { t
 }});
 projectsManager.dummyProjectsArr.push(allChecklistsDummyProject);
 
-// Why not using allTasksDummyProject as prototype: Using a new object with projectProto because Object.create() will create an inheritance chain and any method used on the allTasksDummyProject object will affect the object created with Object.create(). This instead will create a new object with the same properties (arrays and methods) but they don't point to the original object 
+// Not using allTasksDummyProject as prototype: Using a new object with projectProto because Object.create() will create an inheritance chain and any method used on the allTasksDummyProject object will affect the object created with Object.create(). This instead will create a new object with the same properties (arrays and methods) but they don't point to the original object 
 const todaysTasksDummyProject = Object.assign(Object.create(projectProto), allTasksDummyProject, 
 {
     title: 'todaysTasksProject',
@@ -130,9 +137,29 @@ const todaysChecklistsDummyProject = Object.assign(Object.create(projectProto), 
 });
 projectsManager.dummyProjectsArr.push(todaysChecklistsDummyProject);
 
+const thisWeekTasksDummyProject = Object.assign(Object.create(projectProto), allTasksDummyProject, 
+{
+    title: 'thisWeekTasksProject',
+    filterThisWeekTasks() {
+        this.updateTasksArr();
+        this.tasks = this.tasks.filter(task => isThisWeek(task.dueDate, { weekStartsOn: 1 }));
+    },
+});
+projectsManager.dummyProjectsArr.push(thisWeekTasksDummyProject);
+
 const createProject = (title) => {
     return Object.assign(Object.create(projectProto), { title, notes: [], tasks: [], checklists: [] })
 };
+
+const thisWeekChecklistsDummyProject = Object.assign(Object.create(projectProto), allChecklistsDummyProject, 
+{
+    title: 'thisWeekChecklistsProject',
+    filterThisWeekChecklists() {
+        this.updateChecklistsArr();
+        this.checklists = this.checklists.filter(checklist => isThisWeek(checklist.dueDate, { weekStartsOn: 1 }));
+    },
+});
+projectsManager.dummyProjectsArr.push(thisWeekChecklistsDummyProject);
 
 const createNote = (title, description) => ({ title, description });
 
@@ -174,15 +201,32 @@ newProject2.addTask(createTask('Task 2', 'description', 'High', new Date()));
 newProject2.addChecklist(createChecklist('Checklist 2', new Date(), ['Item 2', 'Item 3']));
 newProject2.addTask(createTask('Task new', 'fff', 'High', new Date()));
 
-
 const newProject3 = createProject('Project 2');
 projectsManager.addProject(newProject3);
 newProject3.addNote(createNote('Note 3 title', 'description'));
 newProject3.addTask(createTask('Task 3', 'description', 'High', new Date()));
 newProject3.addChecklist(createChecklist('Checklist 3', new Date(), ['Item 2', 'Item 3']));
 
-console.log(newProject);
-console.log(projectsManager);
+
+
+// Testing local storage func
+
+// function updateLocalStorage() {
+//     const stringifiedJSONProjectsArr = JSON.stringify(projectsManager.projectsArr);
+//     localStorage.setItem('projectsArrStorage', stringifiedJSONProjectsArr);
+// }
+
+// updateLocalStorage();
+
+// function parseProjectFromJSON(data) {
+//     const parsedJSONProject = JSON.parse(data);
+//     const project = Object.assign(Object.create(projectProto), parsedJSONProject);
+//     return project;
+// };
+
+// const parsedJSONProject = parseProjectFromJSON(stringifiedJSONProject);
+// console.log(parsedJSONProject);
+
 
 
 export { projectsManager, createProject, createNote, createTask, createChecklist, createListItem };

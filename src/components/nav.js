@@ -1,5 +1,5 @@
 import { projectsManager, createProject } from "./createProject";
-import { renderProject, renderAllItems, renderTodaysItems, renderNextWeekItems } from "./manageDOM.js"
+import { renderProject, renderAllItems, renderTodaysItems, renderThisWeekItems } from "./manageDOM.js"
 import { createButton, createDivContainer, createTextElem, createLabel, createInput } from './DOMElementCreationMethods.js';
 
 const createNavElement = () => {
@@ -8,9 +8,9 @@ const createNavElement = () => {
     createTextElem('h1', 'todo list', nav);
 
     const quickNavContainer = createDivContainer('nav-container', 'quick-nav-container', nav);
-    const allItemsBtn = createButton('All items', 'quick-nav-btn', '', quickNavContainer);
+    const allItemsBtn = createButton('All', 'quick-nav-btn', '', quickNavContainer);
     const todayItemsBtn = createButton('Today', 'quick-nav-btn', '', quickNavContainer);
-    const nextWeekItemsBtn = createButton('Next 7 days', 'quick-nav-btn', '', quickNavContainer);
+    const thisWeekItemsBtn = createButton('This week', 'quick-nav-btn', '', quickNavContainer);
 
     const projectCreateContainer = createDivContainer('project-create', '', nav);
     projectCreateContainer.classList.add('modal-container');
@@ -125,8 +125,8 @@ const createNavElement = () => {
         }
     };
 
-    nextWeekItemsBtn.addEventListener('click', () => {
-        renderNextWeekItems();
+    thisWeekItemsBtn.addEventListener('click', () => {
+        renderThisWeekItems();
     });
 
     todayItemsBtn.addEventListener('click', () => {

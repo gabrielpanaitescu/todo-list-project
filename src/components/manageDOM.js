@@ -7,6 +7,8 @@ import updateChecklists from './checklistsDOMList.js';
 import { projectsManager } from './createProject.js';
 import updateAllItems from './allItemsDOMList.js';
 import updateTodaysItems from './todaysItemsDOMList.js';
+import updateThisWeekItems from './thisWeekItemsDOMList.js'
+import updateThisWeekItemsDOMList from './thisWeekItemsDOMList.js';
 
 const main = document.querySelector('main');
 const aside = document.querySelector('aside');
@@ -73,12 +75,14 @@ const renderTodaysItems = () => {
     updateTodaysItems();
 };
 
-const renderNextWeekItems = () => {
+const renderThisWeekItems = () => {
     nav.renderNav();
     clearMain();
+    updateThisWeekItemsDOMList();
+    console.log('asd');
 };
 
-export { renderProject, renderDefaultProject, renderAllItems, renderTodaysItems, renderNextWeekItems, clearMain, displayEmptyMainMessage, renderTasks, renderChecklists, renderNotes };
+export { renderProject, renderDefaultProject, renderAllItems, renderTodaysItems, renderThisWeekItems, clearMain, displayEmptyMainMessage, renderTasks, renderChecklists, renderNotes };
 
 
 
