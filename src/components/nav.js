@@ -80,7 +80,7 @@ const createNavElement = () => {
 
             if (!editProjectTitleForm.checkValidity()) return;
             
-            project.title = editProjectTitleTitleInput.value;
+            project.editProjectTitle(editProjectTitleTitleInput.value);
 
             renderNav();
             renderProject(project);
@@ -163,7 +163,8 @@ const createNavElement = () => {
         projectModal.showModal();
     });
 
-    renderNav();
+    // initial render moved in index.js
+    // renderNav();
 
     return { navDOMElem: nav, renderNav, createEditProjectTitleButton };
 };

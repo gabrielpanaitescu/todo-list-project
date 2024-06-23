@@ -1,11 +1,13 @@
 import { format, isToday, isThisWeek } from "date-fns";
+import { checkForLocalStorageData, updateLocalStorage } from "./localStorageManager";
 
 const projectsManager = {
     projectsArr: [],
     dummyProjectsArr: [],
     addProject(projectObj) {
-        if (this.projectsArr.find((item) => item.title === projectObj.title)) throw Error('Project with this name already exists');
+        // if (this.projectsArr.find((item) => item.title === projectObj.title)) throw Error('Project with this name already exists');
         this.projectsArr.push(projectObj);
+        updateLocalStorage();
     },
     findOriginProject(itemType, item) {
         return this.projectsArr
@@ -36,6 +38,7 @@ const projectsManager = {
         originProject[itemType] = originProject[itemType].filter(elem => elem !== item);
         targetProject[itemType].push(item);
         // no update required to dummy projects as the change happens to an element inside the task component; updating the array will only change the order of the tasks upon moving action, as the tasks at the moment of writing this comment, are not sorted, but created and appended in the order of the projectsArray looping, from first created to last
+        updateLocalStorage();
     },
     removeItemFromProject(itemType, item) {
         const originProject = this.findOriginProject(itemType, item);
@@ -43,25 +46,26 @@ const projectsManager = {
 
         // update dummy projects that contains all tasks/checklists in order to reflect the change when the quick nav buttons (ex All items) are used; this method will remove the project within the projectsManager.projectArr, and then the dummy project will get/refresh the updated list
         this.refreshDummyProjectsArrays();
+        updateLocalStorage();
     },
     deleteProject(project) {
         this.projectsArr = this.projectsArr.filter(elem => elem !== project);
+        updateLocalStorage();
     },
-    // editItemFromProject(itemType, item) {
-    //     const originProject = this.findOriginProject(itemType, item);
-    //     originProject.removeItem(itemType, item);
-    // },
 };
 
 const projectProto = {
     addNote(noteObj)  {
-        this.notes.push(noteObj)
+        this.notes.push(noteObj);
+        updateLocalStorage();
     },
     addTask(taskObj)  {
-        this.tasks.push(taskObj)
+        this.tasks.push(taskObj);
+        updateLocalStorage();
     },
-     addChecklist(checklistObj)  {
-        this.checklists.push(checklistObj)
+    addChecklist(checklistObj)  {
+        this.checklists.push(checklistObj);
+        updateLocalStorage();
     },
     removeItem(itemType, item) {
         this[itemType] = this[itemType].filter(elem => elem !== item);
@@ -71,6 +75,7 @@ const projectProto = {
         const targetNote = this.notes[noteIndex] 
         targetNote.title = title;
         targetNote.description = description;
+        updateLocalStorage();
     },
     editTask(task, title, description, importance, dueDate) {
         const taskIndex = this.tasks.indexOf(task);
@@ -80,6 +85,7 @@ const projectProto = {
         targetTask.importance = importance;
         targetTask.dueDate = formatForDateInput(dueDate);
         projectsManager.refreshDummyProjectsArrays();
+        updateLocalStorage();
     },
     editChecklist(checklist, title, dueDate, listItems) {
         const checklistIndex = this.checklists.indexOf(checklist);
@@ -89,9 +95,13 @@ const projectProto = {
         if (dueDate) targetChecklist.dueDate = formatForDateInput(dueDate);
         targetChecklist.listItems = listItems;
         projectsManager.refreshDummyProjectsArrays();
+        updateLocalStorage();
     },
+    editProjectTitle(title) {
+        this.title = title;
+        updateLocalStorage();
+    }
 };
-
 
 const allTasksDummyProject = Object.assign(Object.create(projectProto), 
 { 
@@ -186,48 +196,13 @@ function formatForDateInput(date) {
     return format(date, 'yyyy-MM-dd');
 }
 
-const newProject = createProject('Personal');
-projectsManager.addProject(newProject);
-const newProject2 = createProject('Project 1');
-projectsManager.addProject(newProject2);
+const createDefaultProject = () => {
+    const defaultProject = createProject('Personal');
+    defaultProject.notes[0] = createNote('This is the default Project', 'You can edit, delete or move anything inside this Project');
+    defaultProject.tasks[0] = createTask('Task example', 'Press the Add  button in order to create a new item', 'low', new Date('2000-01-01'), false);
+    defaultProject.checklists[0] = createChecklist('Expand checklist with View button', '', ['Item 1', 'Item 2', 'Item 3'], false);
+    return defaultProject;
+};
 
-newProject.addNote(createNote('Note title', 'description'));
-newProject.addTask(createTask('Task 1', 'description', 'High', new Date(), true));
-newProject.addChecklist(createChecklist('Checklist 1', new Date(), ['Item 1', 'Item 2']));
-
-newProject2.addNote(createNote('Note 2 title', 'description'));
-newProject2.addNote(createNote('Note 3 title', 'Other description'));
-newProject2.addTask(createTask('Task 2', 'description', 'High', new Date()));
-newProject2.addChecklist(createChecklist('Checklist 2', new Date(), ['Item 2', 'Item 3']));
-newProject2.addTask(createTask('Task new', 'fff', 'High', new Date()));
-
-const newProject3 = createProject('Project 2');
-projectsManager.addProject(newProject3);
-newProject3.addNote(createNote('Note 3 title', 'description'));
-newProject3.addTask(createTask('Task 3', 'description', 'High', new Date()));
-newProject3.addChecklist(createChecklist('Checklist 3', new Date(), ['Item 2', 'Item 3']));
-
-
-
-// Testing local storage func
-
-// function updateLocalStorage() {
-//     const stringifiedJSONProjectsArr = JSON.stringify(projectsManager.projectsArr);
-//     localStorage.setItem('projectsArrStorage', stringifiedJSONProjectsArr);
-// }
-
-// updateLocalStorage();
-
-// function parseProjectFromJSON(data) {
-//     const parsedJSONProject = JSON.parse(data);
-//     const project = Object.assign(Object.create(projectProto), parsedJSONProject);
-//     return project;
-// };
-
-// const parsedJSONProject = parseProjectFromJSON(stringifiedJSONProject);
-// console.log(parsedJSONProject);
-
-
-
-export { projectsManager, createProject, createNote, createTask, createChecklist, createListItem };
+export { projectsManager, projectProto, createProject, createNote, createTask, createChecklist, createListItem, createDefaultProject };
 
