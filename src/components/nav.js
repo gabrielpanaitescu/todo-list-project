@@ -1,6 +1,6 @@
-import { projectsManager, createProject } from "./createProject";
-import { renderProject, renderAllItems, renderTodaysItems, renderThisWeekItems } from "./manageDOM.js"
-import { createButton, createDivContainer, createTextElem, createLabel, createInput } from './DOMElementCreationMethods.js';
+import { projectsManager, createProject } from './projectsManager';
+import { renderProject, renderAllItems, renderTodaysItems, renderThisWeekItems } from './manageDOM.js'
+import { createButton, createDivContainer, createTextElem, createLabel, createInput } from './DOMElementCreationMethods';
 
 const createNavElement = () => {
     const nav = document.createElement('nav');

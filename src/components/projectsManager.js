@@ -1,11 +1,14 @@
-import { format, isToday, isThisWeek } from "date-fns";
-import { checkForLocalStorageData, updateLocalStorage } from "./localStorageManager";
+import { format, isToday, isThisWeek } from 'date-fns';
+import { updateLocalStorage } from './localStorageManager';
 
 const projectsManager = {
     projectsArr: [],
     dummyProjectsArr: [],
     addProject(projectObj) {
-        // if (this.projectsArr.find((item) => item.title === projectObj.title)) throw Error('Project with this name already exists');
+        // if (this.projectsArr.find((item) => item.title === projectObj.title)) {
+        //     alert('Project with this title already exists! Choose another title');
+        //     throw Error('Project with this name already exists');
+        // }
         this.projectsArr.push(projectObj);
         updateLocalStorage();
     },
@@ -16,12 +19,15 @@ const projectsManager = {
     },
     refreshDummyProjectsArrays(itemType) {
         if (itemType) {
-            if (itemType === 'tasks') allTasksDummyProject.updateTasksArr();
-            if (itemType === 'checklists') allChecklistsDummyProject.updateChecklistsArr();
-            if (itemType === 'tasks') todaysTasksDummyProject.filterTodaysTasks(); 
-            if (itemType === 'checklists') todaysChecklistsDummyProject.filterTodaysChecklists();   
-            if (itemType === 'tasks') thisWeekTasksDummyProject.filterThisWeekTasks();   
-            if (itemType === 'checklists') thisWeekChecklistsDummyProject.filterThisWeekChecklists();  
+            if (itemType === 'tasks') {
+                allTasksDummyProject.updateTasksArr();
+                todaysTasksDummyProject.filterTodaysTasks(); 
+                thisWeekTasksDummyProject.filterThisWeekTasks();   
+            } else  if (itemType === 'checklists') {
+                allChecklistsDummyProject.updateChecklistsArr();
+                todaysChecklistsDummyProject.filterTodaysChecklists();   
+                thisWeekChecklistsDummyProject.filterThisWeekChecklists();  
+            }
         // in case argument is not passed, refresh anyway; the argument is used only to
         } else {
             allTasksDummyProject.updateTasksArr();
@@ -91,14 +97,31 @@ const projectProto = {
         const checklistIndex = this.checklists.indexOf(checklist);
         const targetChecklist = this.checklists[checklistIndex];
         targetChecklist.title = title;
-        if (!dueDate) targetChecklist.dueDate = null;
-        if (dueDate) targetChecklist.dueDate = formatForDateInput(dueDate);
+
+        if (!dueDate) {
+            targetChecklist.dueDate = null;
+        } else if (dueDate) {
+            targetChecklist.dueDate = formatForDateInput(dueDate);
+        }
+
         targetChecklist.listItems = listItems;
+
+        const areAllItemsChecked = targetChecklist.listItems.every(item => item.completed === true);
+        if (areAllItemsChecked) {
+            targetChecklist.completed = true;
+        } else {
+            targetChecklist.completed = false;
+        }
+
         projectsManager.refreshDummyProjectsArrays();
         updateLocalStorage();
     },
     editProjectTitle(title) {
         this.title = title;
+        updateLocalStorage();
+    },
+    switchItemCompletion(itemType, item, boolean) {
+        this[itemType].find(elem => elem === item).completed = boolean;
         updateLocalStorage();
     }
 };
@@ -186,8 +209,11 @@ const createChecklist = (title, dueDate, listItems, completed = false) => {
 
     listItems = processListItemsToObjects(listItems);
 
-    if (!dueDate) dueDate = null;
-    if (dueDate) dueDate = formatForDateInput(dueDate);
+    if (!dueDate) {
+        dueDate = null;
+    } else if (dueDate) {
+        dueDate = formatForDateInput(dueDate);
+    } 
 
     return { title, dueDate, listItems, completed };
 };
@@ -199,8 +225,8 @@ function formatForDateInput(date) {
 const createDefaultProject = () => {
     const defaultProject = createProject('Personal');
     defaultProject.notes[0] = createNote('This is the default Project', 'You can edit, delete or move anything inside this Project');
-    defaultProject.tasks[0] = createTask('Task example', 'Press the Add  button in order to create a new item', 'low', new Date('2000-01-01'), false);
-    defaultProject.checklists[0] = createChecklist('Expand checklist with View button', '', ['Item 1', 'Item 2', 'Item 3'], false);
+    defaultProject.tasks[0] = createTask('Task example', 'Press the Add  button in order to create a new item', 'Low', new Date('2000-01-01'), false);
+    defaultProject.checklists[0] = createChecklist('Click the Expand button to view list items', '', ['Item 1', 'Item 2', 'Item 3'], false);
     return defaultProject;
 };
 

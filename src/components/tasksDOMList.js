@@ -1,6 +1,6 @@
-import { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods.js';
-import { format } from "date-fns";
-import { projectsManager } from './createProject.js';
+import { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods';
+import { format } from 'date-fns';
+import { projectsManager } from './projectsManager';
 
 export default function updateTasksDOM(project, IDtoAppend) {
     const tasksList = document.getElementById(IDtoAppend);
@@ -15,10 +15,22 @@ export default function updateTasksDOM(project, IDtoAppend) {
         const taskWrapper = document.createElement('li');
         taskWrapper.classList.add('task-item');
         tasksList.appendChild(taskWrapper);
+
+        switch (task.completed) {
+            case true: 
+                taskWrapper.classList.add('completed-task');
+                break;
+            case false: 
+                taskWrapper.classList.remove('completed-task');
+                break;
+            default:
+                console.log('Task completion is neither true nor false');
+        };
         
         const taskCompletionCheckbox = createInput('checkbox', '', '', '', '', taskWrapper);
         taskCompletionCheckbox.classList.add('completion-checkbox');
         if (task.completed) taskCompletionCheckbox.checked = true;
+
         createTextElem('h4', task.title, taskWrapper);
         createTextElem('p', task.description, taskWrapper);
         createTextElem('p', `Importance: ${task.importance}`, taskWrapper);
@@ -108,13 +120,17 @@ export default function updateTasksDOM(project, IDtoAppend) {
         });
 
         const taskCompletionCheckboxHandler = () => {
-            if (taskCompletionCheckbox.checked) task.completed = true;
-            if (!taskCompletionCheckbox.checked) task.completed = false;
+            if (taskCompletionCheckbox.checked) project.switchItemCompletion('tasks', task, true);
+            if (!taskCompletionCheckbox.checked) project.switchItemCompletion('tasks', task, false);
         };
 
         moveTaskSelect.addEventListener('change', moveTaskHandler);
 
-        taskCompletionCheckbox.addEventListener('click', taskCompletionCheckboxHandler);
+        taskCompletionCheckbox.addEventListener('click', () => {
+            taskCompletionCheckboxHandler();
+            // task container does not need an update, the box checking is in sync with the update of the task object; only the localStorage needs updated, but a class for styling purposes will be added or removed
+            updateTasksDOM(project, IDtoAppend);
+        });
     
         editTaskBtn.addEventListener('click', editTaskBtnHandler);
     

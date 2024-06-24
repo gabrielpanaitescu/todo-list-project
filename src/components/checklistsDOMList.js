@@ -1,7 +1,7 @@
-import { createButton, createDivContainer, createTextElem, createInput, createLabel } from './DOMElementCreationMethods.js';
+import { createButton, createDivContainer, createTextElem, createInput, createLabel } from './DOMElementCreationMethods';
 import { format } from "date-fns";
-import { createListItem } from './createProject.js';
-import { projectsManager } from './createProject.js';
+import { createListItem } from './projectsManager';
+import { projectsManager } from './projectsManager';
 
 export default function updateChecklistsDOM(project, IDtoAppend) {
     const checklistsList = document.getElementById(IDtoAppend);
@@ -17,22 +17,32 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         checklistWrapper.classList.add('checklist-item');
         checklistsList.appendChild(checklistWrapper);
         
-        const checklistCompletionCheckbox = createInput('checkbox', '', '', '', '', checklistWrapper);
-        checklistCompletionCheckbox.classList.add('completion-checkbox');
-        if (checklist.completed) checklistCompletionCheckbox.checked = true;
+        switch (checklist.completed) {
+            case true: 
+                checklistWrapper.classList.add('completed-checklist');
+                break;
+            case false: 
+                checklistWrapper.classList.remove('completed-checklist');
+                break;
+            default:
+                console.log('Checklist completion is neither true nor false');
+        };
+
         createTextElem('h4', checklist.title, checklistWrapper);
+
         let dueDate;
         if (checklist.dueDate) {
             dueDate = format(checklist.dueDate, 'MM/dd/yyyy');
         } else if (!checklist.dueDate) {
             dueDate = "N/A";
         }
+        
         createTextElem('p', `Due date: ${dueDate}`, checklistWrapper);
     
         const editChecklistContainer = createDivContainer('modal-container', '', checklistWrapper);
         editChecklistContainer.classList.add('edit-checklist-modal');
         editChecklistContainer.classList.add('edit-container');
-        const openEditChecklistModal = createButton('View/Edit', 'open-modal-button', '', editChecklistContainer);
+        const openEditChecklistModal = createButton('Expand list items', 'open-modal-button', '', editChecklistContainer);
         const editChecklistModal = document.createElement('dialog');
         editChecklistContainer.appendChild(editChecklistModal);
         const editChecklistForm = document.createElement('form');
@@ -104,8 +114,6 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
 
             if (!editChecklistForm.checkValidity()) return;
 
-            // const editListItemsValuesArray = Array.from(listItemsContainer.getElementsByClassName('edit-list-item-input')).map(input => input.value);
-
             const editedListItemsArr = 
                     Array.from(document.querySelectorAll('.list-item-row'))
                     .map(row => Array.from(row.children))
@@ -128,11 +136,6 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         const editChecklistInputsFocusOutHandler = (e) => {
             e.target.readOnly = true;
         }
-
-        const checklistCompletionCheckboxHandler = () => {
-            if (checklistCompletionCheckbox.checked) checklist.completed = true;
-            if (!checklistCompletionCheckbox.checked) checklist.completed = false;
-        };
 
         const addClickAndFocusEvents = () => {
             Array.from(editChecklistInputsHTMLCollection).forEach(input => {
@@ -169,15 +172,11 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
 
             removeContainerBtn.addEventListener('click', () => {
                 listItemRowContainer.parentElement.removeChild(listItemRowContainer);
-                // if (listItemsContainer.children.length < 1) emptyListItemsContainerMessage.style.display = 'block';
             });
-            // if (listItemsContainer.children.length >= 1) emptyListItemsContainerMessage.style.display = 'none';
         };
 
         const updateListItems = () => {
             listItemsContainer.replaceChildren();
-
-            // if (listItemsContainer.children.length < 1) emptyListItemsContainerMessage.style.display = 'block';
 
             if (checklist.listItems.length >= 1) checklist.listItems.forEach(listItem => {
                 createListItemInputRow(listItem);
@@ -189,8 +188,6 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         createListItemInputBtn.addEventListener('click', () => {
             createListItemInputRow();
         });
-    
-        checklistCompletionCheckbox.addEventListener('click', checklistCompletionCheckboxHandler);
     
         editChecklistBtn.addEventListener('click', editChecklistBtnHandler);
     

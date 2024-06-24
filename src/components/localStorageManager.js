@@ -1,4 +1,4 @@
-import { projectsManager, projectProto } from "./createProject";
+import { projectsManager, projectProto } from './projectsManager';
 
 const updateLocalStorage = () => {
     const stringifiedProjectsArr = JSON.stringify(projectsManager.projectsArr);

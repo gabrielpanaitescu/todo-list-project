@@ -1,7 +1,7 @@
-import { projectsManager, createProject, createNote, createTask, createChecklist, createListItem } from './createProject.js';
-import { createButton, createDivContainer, createTextElem, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods.js';
-import nav from './nav.js';
-import { displayEmptyMainMessage, clearMain, renderDefaultProject, renderNotes, renderTasks, renderChecklists } from './manageDOM.js';
+import { projectsManager, createNote, createTask, createChecklist } from './projectsManager';
+import { createButton, createDivContainer, createTextElem, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods';
+import nav from './nav';
+import { displayEmptyMainMessage, clearMain, renderDefaultProject, renderNotes, renderTasks, renderChecklists } from './manageDOM';
 
 export default function createProjectDOMContainer(project) {
     const projectContainer = createDivContainer('', 'project-container', '');

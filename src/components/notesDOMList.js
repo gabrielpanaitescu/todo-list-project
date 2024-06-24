@@ -1,5 +1,5 @@
-import { createTextElem, createDivContainer, createButton, createLabel, createInput  } from './DOMElementCreationMethods.js';
-import { projectsManager } from './createProject.js';
+import { createTextElem, createDivContainer, createButton, createLabel, createInput  } from './DOMElementCreationMethods';
+import { projectsManager } from './projectsManager';
 
 
 export default function updateNotesDOM(project, IDtoAppend) {

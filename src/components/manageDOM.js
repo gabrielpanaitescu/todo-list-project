@@ -1,13 +1,13 @@
-import nav from './nav.js';
-import { createButton, createDivContainer, createTextElem } from './DOMElementCreationMethods.js';
-import createProjectDOMContainer from './projectDOMContainer.js';
-import updateTasks from './tasksDOMList.js';
-import updateNotes from './notesDOMList.js';
-import updateChecklists from './checklistsDOMList.js';
-import { projectsManager } from './createProject.js';
-import updateAllItems from './allItemsDOMList.js';
-import updateTodaysItems from './todaysItemsDOMList.js';
-import updateThisWeekItems from './thisWeekItemsDOMList.js'
+import nav from './nav';
+import { createButton, createDivContainer, createTextElem } from './DOMElementCreationMethods';
+import createProjectDOMContainer from './projectDOMContainer';
+import updateTasks from './tasksDOMList';
+import updateNotes from './notesDOMList';
+import updateChecklists from './checklistsDOMList';
+import { projectsManager } from './projectsManager';
+import updateAllItems from './allItemsDOMList';
+import updateTodaysItems from './todaysItemsDOMList';
+import updateThisWeekItems from './thisWeekItemsDOMList'
 
 const main = document.querySelector('main');
 const aside = document.querySelector('aside');

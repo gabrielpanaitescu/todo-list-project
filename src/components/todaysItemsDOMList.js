@@ -1,4 +1,4 @@
-import { projectsManager } from './createProject';
+import { projectsManager } from './projectsManager';
 import { createTextElem } from './DOMElementCreationMethods';
 import { renderTasks, renderChecklists } from './manageDOM';
 
