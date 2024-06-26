@@ -1,12 +1,20 @@
 @import './mixins.scss';
 
 main {
-    padding-left: $m;
-    transform: translateX($navWidth);
-    transition: transform 0.2s ease-in-out;
-
-    &.nav-hidden {
-      transform: unset;
-    }
+    margin-top: 50px;
 }
 
+@media only screen and (min-width: 480px) {
+    main {
+        margin: auto 0 auto 0;
+        transform: translateX(190px);
+        transition: transform ease-in-out 0.4s;
+
+
+
+
+        &.nav-hidden {
+            transform: translateX(60px);
+        }
+    }
+}

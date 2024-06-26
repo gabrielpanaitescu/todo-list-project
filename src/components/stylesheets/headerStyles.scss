@@ -1,25 +1,38 @@
 @import './mixins.scss';
 
 header {
-    padding-top: $s;
-    padding-left: $m;
-    transform: translateX($navWidth);
-    transition: transform 0.2s ease-in-out;
-
-    &.nav-hidden {
-        transform: translateX(90px);
-    }
+    display: flex;
 
     .logo-container {
-        font-size: 2rem;
-        font-weight: 700;
+        margin-left: auto;
+        padding-top: $s;
+        padding-right: $s;
         display: flex;
         align-items: center;
         gap: $s;
 
+        h1 {
+            z-index: 1;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+
         span {
-            font-size: 2.5rem;
+            font-size: 2rem;
+        }
+    }
+
+}
+
+@media only screen and (min-width: 480px) {
+    header {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+
+        .logo-container {
+            margin: 0;
+            text-align: center;
+            grid-column: 3;
         }
     }
 }
-
