@@ -10,12 +10,11 @@ import updateTodaysItems from './todaysItemsDOMList';
 import updateThisWeekItems from './thisWeekItemsDOMList'
 
 const main = document.querySelector('main');
-const aside = document.querySelector('aside');
-aside.appendChild(nav.navDOMElem);
+
 
 const displayEmptyMainMessage = () => {
     main.replaceChildren();
-    createTextElem('h3', 'Select a project from the navigation bar. If no project is available, use the "Create new project" button!', main);
+    createTextElem('h3', 'Select a project from the navigation bar. If no project is available, use the "New project" button!', main);
 };
 
 displayEmptyMainMessage();

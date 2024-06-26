@@ -11,7 +11,7 @@ const createDivContainer = (className, idName, parent) => {
     if (className) divContainer.classList.add(className);
     if  (parent) parent.appendChild(divContainer);
     return divContainer;
-}
+};
 
 const createButton = (text, className, idName, parent) => {
     const btn = document.createElement('button');
@@ -20,7 +20,7 @@ const createButton = (text, className, idName, parent) => {
     if (idName) btn.id = idName;
     if (parent) parent.appendChild(btn);
     return btn;
-}
+};
 
 const createLabel = (htmlFor, text, parentForm) => {
     const label = document.createElement('label');
@@ -39,7 +39,7 @@ const createInput = (type, name, id, required, minLength, parentForm) => {
     if (minLength) input.minLength = minLength;
     if (parentForm) parentForm.appendChild(input);
     return input;
-}
+};
 
 const createImportanceSelectElem = (taskType, parent) => {
     const select = document.createElement('select');
@@ -55,6 +55,17 @@ const createImportanceSelectElem = (taskType, parent) => {
     select.appendChild(option2);
     if (parent) parent.appendChild(select);
     return select;
-}
+};
 
-export { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem };
+const createMaterialIcon = (iconName, className, parent) => {
+    const span = document.createElement('span');
+    span.classList.add(className);
+    span.textContent = iconName;
+    if (parent) {
+        parent.appendChild(span);
+    } else {
+        return span;
+    }
+};
+
+export { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon };

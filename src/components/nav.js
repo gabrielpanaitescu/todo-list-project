@@ -5,7 +5,7 @@ import { createButton, createDivContainer, createTextElem, createLabel, createIn
 const createNavElement = () => {
     const nav = document.createElement('nav');
 
-    createTextElem('h1', 'todo list', nav);
+    // createTextElem('h1', 'todo list', nav);
 
     const quickNavContainer = createDivContainer('nav-container', 'quick-nav-container', nav);
     const allItemsBtn = createButton('All', 'quick-nav-btn', '', quickNavContainer);
@@ -14,7 +14,7 @@ const createNavElement = () => {
 
     const projectCreateContainer = createDivContainer('project-create', '', nav);
     projectCreateContainer.classList.add('modal-container');
-    const openProjectCreateModal = createButton('Create new project', 'open-modal-button', '', projectCreateContainer);
+    const openProjectCreateModal = createButton('New project', 'open-modal-button', '', projectCreateContainer);
 
     const projectModal = document.createElement('dialog');
     projectCreateContainer.appendChild(projectModal);

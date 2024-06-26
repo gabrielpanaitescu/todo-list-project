@@ -1,5 +1,5 @@
 import { projectsManager, createNote, createTask, createChecklist } from './projectsManager';
-import { createButton, createDivContainer, createTextElem, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods';
+import { createButton, createDivContainer, createTextElem, createLabel, createInput, createImportanceSelectElem, createMaterialIcon } from './DOMElementCreationMethods';
 import nav from './nav';
 import { displayEmptyMainMessage, clearMain, renderDefaultProject, renderNotes, renderTasks, renderChecklists } from './manageDOM';
 
@@ -27,7 +27,7 @@ export default function createProjectDOMContainer(project) {
 
             nav.renderNav();
 
-            // non-deletable Personal project version
+            // non-deletable default Personal project version
             // render first project in the array when a project is deleted
             // if (projectsManager.projectsArr.length >= 1) {
             //     renderDefaultProject();
@@ -45,7 +45,7 @@ export default function createProjectDOMContainer(project) {
         });
     };
 
-    // non-deletable Personal project version
+    // non-deletable default Personal project version
     // this will not add a remove project button to the default Personal project
     // this only works if no edit title button is added from nav.js to the Personal project nav container
     // if (project.title !== 'Personal') {
@@ -59,7 +59,9 @@ export default function createProjectDOMContainer(project) {
 function createNotesContainer(project) {
     const notesContainer = document.createElement('div');
     notesContainer.classList.add('notes-container', 'sub-project-container');
+
     createTextElem('h3', 'Notes', notesContainer);
+    
     const noteCreateContainer = createDivContainer('create-notes', '', notesContainer);
     noteCreateContainer.classList.add('modal-container');
     const openNoteCreateModal = createButton('Add note', 'open-modal-button', '', noteCreateContainer);

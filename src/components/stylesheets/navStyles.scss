@@ -1,0 +1,72 @@
+@import './mixins.scss';
+
+aside {
+  position: fixed;
+  min-height: 100vh;
+  background-color: lightgrey;
+  width: $navWidth;
+  transition: transform 0.2s ease-in-out;
+
+  &.hidden {
+    transform: translateX(-$navWidth);
+  }
+
+  .menu-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 220px;
+    gap: $s;
+    top: $s;
+
+    #menu-button {
+      transition: transform 0.2s ease-in-out;
+      border: none;
+      background: none;
+
+      &.nav-hidden {
+        transform: translateX(90px);
+      }
+      
+      span {
+        font-size: 2.25rem;
+        cursor: pointer;
+      }
+
+      span.icon { 
+        font-size: 2.75rem;
+        font-family: "Anicons Regular", sans-serif;
+        font-variation-settings: "TIME" 1;
+        transition: font-variation-settings 0.4s ease;
+      }
+      
+      span.icon:hover {
+        font-variation-settings: "TIME" 100;
+      } 
+    }    
+  }
+
+  nav {
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    display: grid;
+
+    #quick-nav-container {
+      display: grid;
+      gap: 2px;
+  
+      .quick-nav-btn {
+        border: none;
+  
+        padding: $xs 0;
+      }
+    }
+
+    div.project-create {
+      margin-top: 20px;
+    }  
+  }
+}
+
+

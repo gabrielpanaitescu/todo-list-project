@@ -1,0 +1,25 @@
+@import './mixins.scss';
+
+header {
+    padding-top: $s;
+    padding-left: $m;
+    transform: translateX($navWidth);
+    transition: transform 0.2s ease-in-out;
+
+    &.nav-hidden {
+        transform: translateX(90px);
+    }
+
+    .logo-container {
+        font-size: 2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: $s;
+
+        span {
+            font-size: 2.5rem;
+        }
+    }
+}
+

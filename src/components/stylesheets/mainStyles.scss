@@ -1,0 +1,12 @@
+@import './mixins.scss';
+
+main {
+    padding-left: $m;
+    transform: translateX($navWidth);
+    transition: transform 0.2s ease-in-out;
+
+    &.nav-hidden {
+      transform: unset;
+    }
+}
+

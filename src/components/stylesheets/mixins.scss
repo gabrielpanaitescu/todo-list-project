@@ -1,0 +1,23 @@
+$xs: 3px;
+$s: 7px;
+$m: 14px;
+$l: 20px;
+$xl: 30px;
+$navWidth: 280px;
+
+@mixin btn($bg: #27233A, $clr: white, $bgHover: #E6EFE9, $clrHover: black) {
+    cursor: pointer;
+
+    border: 0;
+    padding: 0.3em 0.75em;
+    color: $clr;
+    background-color: $bg;
+    border-radius: 5%;
+  
+    &:hover,
+    &:focus {  
+      color: $clrHover;
+      background-color: $bgHover;
+    }
+};
+
