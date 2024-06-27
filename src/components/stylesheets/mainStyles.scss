@@ -1,20 +1,27 @@
 @import './mixins.scss';
 
-main {
-    margin-top: 50px;
+.main-container {
+    margin-top: $xxl;
+
+    main {
+        max-width: 768px;
+        padding: $s;
+    }
 }
 
-@media only screen and (min-width: 480px) {
-    main {
-        margin: auto 0 auto 0;
-        transform: translateX(190px);
-        transition: transform ease-in-out 0.4s;
 
+@media only screen and (min-width: 768px) {
+    .main-container {
+        display: flex;
+        justify-content: center;
+        margin-left: 220px;
 
-
+        &.main-container-transition-enabled {
+            transition: margin-left ease-in-out 0.4s;
+        }
 
         &.nav-hidden {
-            transform: translateX(60px);
+            margin-left: 0px;
         }
     }
 }

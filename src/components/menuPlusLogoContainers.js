@@ -1,6 +1,7 @@
 import { createDivContainer, createTextElem, createMaterialIcon, createLabel, createButton } from "./DOMElementCreationMethods"
 
 const nav = document.querySelector('aside');
+const mainContainer = document.querySelector('div.main-container');
 const main = document.querySelector('main');
 const header = document.querySelector('header');
 
@@ -12,20 +13,19 @@ export function createLogoContainer() {
     return container;
 }
 
-export function createMenuContainer() {
-    const container = createDivContainer('menu-container');
-    const menuButton = createButton('', '', 'menu-button', container);
-    menuButton.classList.add('nav-hidden')
-    menuButton.ariaLabel = 'toggle-nav';
-    createMaterialIcon('A', 'icon', menuButton);
+export function createToggleNavContainer() {
+    const container = createDivContainer('toggle-nav-container');
+    const toggleNavButton = createButton('', '', 'toggle-nav-button', container);
+    toggleNavButton.classList.add('nav-hidden')
+    toggleNavButton.ariaLabel = 'toggle-nav';
+    createMaterialIcon('A', 'icon', toggleNavButton);
 
-
-
-    menuButton.addEventListener('click', () => {
-        menuButton.classList.toggle('nav-hidden');
+    toggleNavButton.addEventListener('click', () => {
+        toggleNavButton.classList.toggle('nav-hidden');
         nav.classList.toggle('hidden');
         header.classList.toggle('nav-hidden');
         main.classList.toggle('nav-hidden');
+        mainContainer.classList.toggle('nav-hidden');
     });
 
     return container;

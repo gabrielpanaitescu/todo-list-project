@@ -1,5 +1,5 @@
 import nav from './nav';
-import { createButton, createDivContainer, createTextElem } from './DOMElementCreationMethods';
+import { createTextElem } from './DOMElementCreationMethods';
 import createProjectDOMContainer from './projectDOMContainer';
 import updateTasks from './tasksDOMList';
 import updateNotes from './notesDOMList';
@@ -11,13 +11,10 @@ import updateThisWeekItems from './thisWeekItemsDOMList'
 
 const main = document.querySelector('main');
 
-
 const displayEmptyMainMessage = () => {
     main.replaceChildren();
     createTextElem('h3', 'Select a project from the navigation bar. If no project is available, use the "New project" button!', main);
 };
-
-displayEmptyMainMessage();
 
 const clearMain = () => {
     main.replaceChildren();
@@ -42,8 +39,13 @@ const renderProject = (project) => {
 };
 
 const renderDefaultProject = () => {
-    const personalProject = projectsManager.projectsArr[0];
-    renderProject(personalProject);
+    const defaultProject = projectsManager.projectsArr[0];
+    console.log(projectsManager.projectsArr);
+    if (defaultProject) {
+        renderProject(defaultProject);
+    } else {
+        displayEmptyMainMessage();
+    }
 };
 
 const renderTasks = (project, IDtoAppend) => {

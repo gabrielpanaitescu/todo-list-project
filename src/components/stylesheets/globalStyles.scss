@@ -30,9 +30,46 @@ body {
 }
 
 
+// testing - WIP
 
 .open-modal-button {
   @include btn();
+}
+
+main {
+
+
+}
+
+.note-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr min-content min-content min-content;
+}
+
+.task-item {
+  display: grid;
+  grid-template-columns: auto 1fr 1fr auto auto min-content min-content min-content;
+}
+
+.checklist-item {
+  display: grid;
+  grid-template-columns: 1fr auto min-content min-content min-content;
+}
+.note-item,
+.task-item,
+.checklist-item {
+  p, h4 {
+  max-width: 15ch;
+  }
+}
+
+.note-item > *,
+.task-item > *,
+.checklist-item  > * {
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 

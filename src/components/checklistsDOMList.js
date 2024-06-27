@@ -42,7 +42,7 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         const editChecklistContainer = createDivContainer('modal-container', '', checklistWrapper);
         editChecklistContainer.classList.add('edit-checklist-modal');
         editChecklistContainer.classList.add('edit-container');
-        const openEditChecklistModal = createButton('Expand list items', 'open-modal-button', '', editChecklistContainer);
+        const openEditChecklistModal = createButton('Expand', 'open-modal-button', '', editChecklistContainer);
         const editChecklistModal = document.createElement('dialog');
         editChecklistContainer.appendChild(editChecklistModal);
         const editChecklistForm = document.createElement('form');
@@ -73,7 +73,7 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         let editChecklistInputsHTMLCollection = editChecklistForm.getElementsByClassName('edit-checklist-input');
     
         const moveChecklistContainer = createDivContainer('move-item-container', '', checklistWrapper);
-        createLabel('move-checklist', 'Move to project: ', moveChecklistContainer);
+        createLabel('move-checklist', 'Move: ', moveChecklistContainer);
         const moveChecklistSelect = document.createElement('select');
         moveChecklistSelect.classList.add('move-item');
         moveChecklistSelect.id = 'move-checklist';

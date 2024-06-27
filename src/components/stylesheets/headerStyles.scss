@@ -2,17 +2,15 @@
 
 header {
     display: flex;
+    justify-content: center;
 
     .logo-container {
-        margin-left: auto;
         padding-top: $s;
-        padding-right: $s;
         display: flex;
         align-items: center;
-        gap: $s;
+        gap: $xs;
 
         h1 {
-            z-index: 1;
             font-size: 1.35rem;
             font-weight: 700;
         }
@@ -24,15 +22,17 @@ header {
 
 }
 
-@media only screen and (min-width: 480px) {
+@media only screen and (min-width: 768px) {
     header {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-
+        display: block;
         .logo-container {
-            margin: 0;
-            text-align: center;
-            grid-column: 3;
+            transform: translateX(230px);
+            transition: transform 0.4s ease-in-out;
+        }
+        &.nav-hidden {
+            .logo-container {
+                transform: translateX(60px);
+            }
         }
     }
 }

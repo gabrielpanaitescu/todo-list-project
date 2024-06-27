@@ -22,7 +22,7 @@ export default function updateNotesDOM(project, IDtoAppend) {
         const editNoteContainer = createDivContainer('modal-container', '', noteWrapper);
         editNoteContainer.classList.add('edit-note-modal');
         editNoteContainer.classList.add('edit-container');
-        const openEditNoteModal = createButton('View/Edit', 'open-modal-button', '', editNoteContainer);
+        const openEditNoteModal = createButton('Expand', 'open-modal-button', '', editNoteContainer);
         const editNoteModal = document.createElement('dialog');
         editNoteContainer.appendChild(editNoteModal);
         const editNoteForm = document.createElement('form');
@@ -38,7 +38,7 @@ export default function updateNotesDOM(project, IDtoAppend) {
         let editNoteInputsArr = editNoteForm.querySelectorAll('input');
 
         const moveNoteContainer = createDivContainer('move-item-container', '', noteWrapper);
-        createLabel('move-note', 'Move to project: ', moveNoteContainer);
+        createLabel('move-note', 'Move: ', moveNoteContainer);
         const moveNoteSelect = document.createElement('select');
         moveNoteSelect.classList.add('move-item');
         moveNoteSelect.id = 'move-note';

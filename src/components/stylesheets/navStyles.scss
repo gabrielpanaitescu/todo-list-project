@@ -1,21 +1,24 @@
 @import './mixins.scss';
 
+
 aside {
   position: fixed;
-  width: 100%;
+  width: 220px;
   height: 100vh;
   background-color: grey;
-  transition: transform 0.4s ease-in-out;
+
+  &.nav-transition-enabled {
+    transition: transform 0.4s ease-in-out;
+  }
 
   &.hidden {
     transform: translateX(-100%);
   }
 
-  .menu-container {
+  .toggle-nav-container {
     display: flex;
 
-
-    #menu-button {
+    #toggle-nav-button {
       padding-top: 5px;
       padding-right: $s;
       margin-left: auto;
@@ -26,16 +29,15 @@ aside {
       span {
         font-size: 2.25rem;
         cursor: pointer;
-
       }
       
       span.icon { 
-
         font-family: "Anicons Regular", sans-serif;
         font-variation-settings: "TIME" 100;
         transition: font-variation-settings 0.4s ease;
       }
       
+      // hidden styles - for button
       &.nav-hidden {
         transform: translateX(50px);
 
@@ -43,15 +45,11 @@ aside {
           font-variation-settings: "TIME" 1;
         } 
       }
-
-
     }
   }
 }
   
 
-@media only screen and (min-width: 480px) {
-  aside {
-    width: 180px;
-  }
+@media only screen and (min-width: 768px) {
+
 }

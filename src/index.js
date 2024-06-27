@@ -15,9 +15,9 @@ import './components/stylesheets/headerStyles.scss'
 import './components/manageDOM.js'
 import { parseProjectsArrFromLocalStorage, checkForLocalStorageData } from './components/localStorageManager.js'
 import { projectsManager, createDefaultProject } from './components/projectsManager.js';
-import { createLogoContainer, createMenuContainer } from './components/menuPlusLogoContainers.js';
+import { createLogoContainer, createToggleNavContainer } from './components/menuPlusLogoContainers.js';
 import nav from './components/nav'
-
+import { renderDefaultProject, displayEmptyMainMessage } from './components/manageDOM.js';
 
 // if statement will only pass the first time a machine/device (with no localStorage data on in) will access the page. The addProject() method will create the 'projectsArrLocalStorage' key in localStorage, thus making this if statement passable only if the key is removed manually or the webpage is accessed from a new machine/device
 if (!checkForLocalStorageData()) {
@@ -26,13 +26,41 @@ if (!checkForLocalStorageData()) {
     parseProjectsArrFromLocalStorage();
 }
   
-// initial render of the nav
 const aside = document.body.querySelector('aside');
 const header = document.body.querySelector('header');
+// initial render of the nav on page load
 header.appendChild(createLogoContainer());
-aside.appendChild(createMenuContainer());
+aside.appendChild(createToggleNavContainer());
 aside.appendChild(nav.navDOMElem);
 nav.renderNav();
+// initial main render on page load; display the first project in the projectsArr 
+renderDefaultProject();
+
+// or display the empty main message that guides the user to choose a project from nav
+// displayEmptyMainMessage();
+
+document.addEventListener('DOMContentLoaded', () => {
+    const mainContainer = document.querySelector('div.main-container');
+
+     // For transitions playing on page load / refresh. Delay it by adding a class with the transition wanted, 1ms after the DOM content has been loaded.
+    setTimeout(function() {
+        aside.classList.add('nav-transition-enabled');
+        mainContainer.classList.add('main-container-transition-enabled');
+    }, 1);
+
+    // for side nav to display as open on page load for viewports bigger than 768px 
+    if(window.innerWidth > 768) {
+        const toggleNavButton = document.getElementById('toggle-nav-button');
+        const mainContainer = document.querySelector('div.main-container');
+        const main = document.querySelector('main');
+
+        mainContainer.classList.remove('nav-hidden');
+        main.classList.remove('nav-hidden');
+        header.classList.remove('nav-hidden');
+        aside.classList.remove('hidden');
+        toggleNavButton.classList.remove('nav-hidden');
+    }
+});
 
 
 // anicons test element

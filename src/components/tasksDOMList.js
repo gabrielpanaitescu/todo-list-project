@@ -40,7 +40,7 @@ export default function updateTasksDOM(project, IDtoAppend) {
         const editTaskContainer = createDivContainer('modal-container', '', taskWrapper);
         editTaskContainer.classList.add('edit-task-modal');
         editTaskContainer.classList.add('edit-container');
-        const openEditTaskModal = createButton('View/Edit', 'open-modal-button', '', editTaskContainer);
+        const openEditTaskModal = createButton('Expand', 'open-modal-button', '', editTaskContainer);
         const editTaskModal = document.createElement('dialog');
         editTaskContainer.appendChild(editTaskModal);
         const editTaskForm = document.createElement('form');
@@ -60,7 +60,7 @@ export default function updateTasksDOM(project, IDtoAppend) {
         const editTaskInputsArr = editTaskForm.querySelectorAll('input');
 
         const moveTaskContainer = createDivContainer('move-item-container', '', taskWrapper);
-        createLabel('move-task', 'Move to project: ', moveTaskContainer);
+        createLabel('move-task', 'Move: ', moveTaskContainer);
         const moveTaskSelect = document.createElement('select');
         moveTaskSelect.classList.add('move-item');
         moveTaskSelect.id = 'move-task';
