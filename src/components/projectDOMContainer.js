@@ -65,6 +65,8 @@ function createNotesContainer(project) {
     const noteCreateContainer = createDivContainer('create-notes', '', notesContainer);
     noteCreateContainer.classList.add('modal-container');
     const openNoteCreateModal = createButton('Add note', 'open-modal-button', '', noteCreateContainer);
+    createMaterialIcon('add', openNoteCreateModal, true);
+    openNoteCreateModal.classList.add('new-item-button');
     const noteCreateModal = document.createElement('dialog');
     noteCreateContainer.appendChild(noteCreateModal);
 
@@ -122,6 +124,8 @@ function createTasksContainer(project) {
     const taskCreateContainer = createDivContainer('create-tasks', '', tasksContainer);
     taskCreateContainer.classList.add('modal-container');
     const openTaskCreateModal = createButton('Add task', 'open-modal-button', '', taskCreateContainer);
+    createMaterialIcon('add', openTaskCreateModal, true);
+    openTaskCreateModal.classList.add('new-item-button');
     const taskCreateModal = document.createElement('dialog');
     taskCreateContainer.appendChild(taskCreateModal);
 
@@ -186,6 +190,8 @@ function createChecklistsContainer(project) {
     const checklistCreateContainer = createDivContainer('create-checklists', '', checklistsContainer);
     checklistCreateContainer.classList.add('modal-container');
     const openChecklistCreateModal = createButton('Add checklist', 'open-modal-button', '', checklistCreateContainer);
+    openChecklistCreateModal.classList.add('new-item-button');
+    createMaterialIcon('add', openChecklistCreateModal, true);
     const checklistCreateModal = document.createElement('dialog');
     checklistCreateContainer.appendChild(checklistCreateModal);
 

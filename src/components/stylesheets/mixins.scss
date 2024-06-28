@@ -6,14 +6,26 @@ $xl: 30px;
 $xxl: 50px;
 $navWidth: 280px;
 
-@mixin btn($bg: #27233A, $clr: white, $bgHover: #E6EFE9, $clrHover: black) {
+$bodyBgColor: #212121; // chat gpt
+$navBgColor: #171717; // chat gpt
+$itemBgColor2: #2F2F2F; // chat gpt
+
+$fontColor: #FAFAFA; //shadcn
+$fontColorBlack: #18181B;
+$itemBgColorHover: #E2E2E2;
+$itemBgColorHover2: #17171A;
+$itemBgColor: #27272A; //shadcn
+$generalBgColor: #09090B; // shadcn;
+
+
+@mixin btn($bg: $fontColor, $clr: $fontColorBlack, $bgHover: $itemBgColorHover, $clrHover: $fontColorBlack) {
     cursor: pointer;
 
     border: 0;
-    padding: 0.3em 0.75em;
+    padding: 0.4em 0.8em;
     color: $clr;
     background-color: $bg;
-    border-radius: 5%;
+    border-radius: 6px;
   
     &:hover,
     &:focus {  

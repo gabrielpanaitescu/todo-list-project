@@ -1,6 +1,6 @@
 import { projectsManager, createProject } from './projectsManager';
 import { renderProject, renderAllItems, renderTodaysItems, renderThisWeekItems } from './manageDOM.js'
-import { createButton, createDivContainer, createTextElem, createLabel, createInput } from './DOMElementCreationMethods';
+import { createButton, createDivContainer, createTextElem, createLabel, createInput, createMaterialIcon } from './DOMElementCreationMethods';
 
 const createNavElement = () => {
     const nav = document.createElement('nav');
@@ -12,10 +12,13 @@ const createNavElement = () => {
     const todayItemsBtn = createButton('Today', 'quick-nav-btn', '', quickNavContainer);
     const thisWeekItemsBtn = createButton('This week', 'quick-nav-btn', '', quickNavContainer);
 
+    createTextElem('h2', 'My projects', nav);
+
     const projectCreateContainer = createDivContainer('project-create', '', nav);
     projectCreateContainer.classList.add('modal-container');
     const openProjectCreateModal = createButton('New project', 'open-modal-button', '', projectCreateContainer);
-
+    openProjectCreateModal.classList.add('new-item-button');
+    createMaterialIcon('add', openProjectCreateModal, true);
     const projectModal = document.createElement('dialog');
     projectCreateContainer.appendChild(projectModal);
     const createProjectForm = document.createElement('form');
@@ -26,8 +29,6 @@ const createNavElement = () => {
     const cancelBtn = createButton('Cancel', 'cancel-button', '', createProjectForm);
     const createProjectBtn = createButton('Confirm', 'submit-button','', createProjectForm);
     cancelBtn.type = 'button';
-
-    createTextElem('h2', 'My projects', nav);
 
     const projectsNavContainer = createDivContainer('nav-container', 'projects-nav-container', nav);
 
@@ -59,7 +60,8 @@ const createNavElement = () => {
         editProjectTitleContainer.classList.add('edit-project-title-modal');
         editProjectTitleContainer.classList.add('edit-container');
 
-        const openEditProjectTitleModal = createButton('Edit title', 'open-modal-button', '', editProjectTitleContainer);
+        const openEditProjectTitleModal = createButton('', 'open-modal-button', '', editProjectTitleContainer);
+        createMaterialIcon('mode_edit', openEditProjectTitleModal);
         const editProjectTitleModal = document.createElement('dialog');
         editProjectTitleContainer.appendChild(editProjectTitleModal);
         const editProjectTitleForm = document.createElement('form');
@@ -125,6 +127,17 @@ const createNavElement = () => {
         }
     };
 
+    const toggleActiveProjectTabUI = (projectIndex) => {
+        const buttonContainer = document.querySelector(`[data-project-index="${projectIndex}"]`);
+
+        const activeProjectButton = buttonContainer.firstElementChild;
+        activeProjectButton.classList.add('active-tab');
+
+        // remove previously selected quick nav button, if it exists
+        const previousActiveQuickNavTab = document.querySelector('.active-quickNav-tab');
+        if (previousActiveQuickNavTab) previousActiveQuickNavTab.classList.remove('active-quickNav-tab');
+    };
+
     thisWeekItemsBtn.addEventListener('click', () => {
         renderThisWeekItems();
     });
@@ -166,7 +179,7 @@ const createNavElement = () => {
     // initial render moved in index.js
     // renderNav();
 
-    return { navDOMElem: nav, renderNav, createEditProjectTitleButton };
+    return { navDOMElem: nav, renderNav, createEditProjectTitleButton, toggleActiveProjectTabUI };
 };
 
 export default createNavElement();

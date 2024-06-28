@@ -57,9 +57,24 @@ const createImportanceSelectElem = (taskType, parent) => {
     return select;
 };
 
-const createMaterialIcon = (iconName, className, parent) => {
+const createMaterialIcon = (iconName, parent, insertBeforeFirstChild) => {
     const span = document.createElement('span');
-    span.classList.add(className);
+    span.classList.add('material-icons');
+    span.textContent = iconName;
+    if (parent) {
+        if (insertBeforeFirstChild) {
+            parent.insertBefore(span, parent.firstChild);
+            return;
+        }
+        parent.appendChild(span);
+    } else {
+        return span;
+    }
+};
+
+const createAnicon = (iconName, parent) => {
+    const span = document.createElement('span');
+    span.classList.add('icon');
     span.textContent = iconName;
     if (parent) {
         parent.appendChild(span);
@@ -68,4 +83,4 @@ const createMaterialIcon = (iconName, className, parent) => {
     }
 };
 
-export { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon };
+export { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createAnicon };

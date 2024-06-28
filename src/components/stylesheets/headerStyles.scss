@@ -5,7 +5,7 @@ header {
     justify-content: center;
 
     .logo-container {
-        padding-top: $s;
+        padding-top: 20px;
         display: flex;
         align-items: center;
         gap: $xs;
@@ -16,6 +16,7 @@ header {
         }
 
         span {
+            user-select: none;
             font-size: 2rem;
         }
     }
@@ -26,12 +27,12 @@ header {
     header {
         display: block;
         .logo-container {
-            transform: translateX(230px);
+            transform: translateX(260px);
             transition: transform 0.4s ease-in-out;
         }
         &.nav-hidden {
             .logo-container {
-                transform: translateX(60px);
+                transform: translateX(85px);
             }
         }
     }

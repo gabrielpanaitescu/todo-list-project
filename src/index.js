@@ -32,6 +32,7 @@ const header = document.body.querySelector('header');
 header.appendChild(createLogoContainer());
 aside.appendChild(createToggleNavContainer());
 aside.appendChild(nav.navDOMElem);
+const quickNavContainer = document.getElementById('quick-nav-container'); // used to attach event listeners on quick nav buttons to show which one is active
 nav.renderNav();
 // initial main render on page load; display the first project in the projectsArr 
 renderDefaultProject();
@@ -62,13 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
 // anicons test element
 // const testSpan = document.createElement('span');
 // testSpan.classList.add('icon');
 // testSpan.textContent = 'A';
 // document.body.appendChild(testSpan);
 
+// this function works if quick nav tabs are rendered only by clicks; if they are rendered automatically on page load / actions like project tabs, the function and event listener should be reworked and should follow the project tab model (toggleActiveProjectTabUI(projectIndex); that will also mean the quick nav buttons will be re-rendered each time the function runs, which is not the case currently as the quick nav container is rendered only once
+const setActiveQuickNavTab = (e) => {
+    if (e.target.tagName !== "BUTTON") return;
+    const previousActiveQuickNavTab = document.querySelector('.active-quickNav-tab');
+    e.target.classList.add('active-quickNav-tab');
+    if (previousActiveQuickNavTab) previousActiveQuickNavTab.classList.remove('active-quickNav-tab');
+    // if a project tab will be clicked when a quick nav tab is active, the class will be removed by the toggleActiveProjectTabUI(projectIndex) function
+};
 
 // Function to disable autocomplete/suggestions on inputs
 function disableAutocomplete() {
@@ -85,3 +93,5 @@ document.addEventListener('focusin', function(event) {
         target.setAttribute('autocomplete', 'off');
     }
 });
+    
+quickNavContainer.addEventListener('click', setActiveQuickNavTab);

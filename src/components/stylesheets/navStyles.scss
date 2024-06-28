@@ -2,10 +2,10 @@
 
 
 aside {
+  background-color: $navBgColor;
   position: fixed;
-  width: 220px;
+  width: 250px;
   height: 100vh;
-  background-color: grey;
 
   &.nav-transition-enabled {
     transition: transform 0.4s ease-in-out;
@@ -19,7 +19,7 @@ aside {
     display: flex;
 
     #toggle-nav-button {
-      padding-top: 5px;
+      padding-top: 20px;
       padding-right: $s;
       margin-left: auto;
       border: none;
@@ -27,8 +27,10 @@ aside {
       transition: transform 0.4s ease-in-out;
 
       span {
+        color: $fontColor;
         font-size: 2.25rem;
         cursor: pointer;
+        user-select: none;
       }
       
       span.icon { 
@@ -39,7 +41,7 @@ aside {
       
       // hidden styles - for button
       &.nav-hidden {
-        transform: translateX(50px);
+        transform: translateX(65px);
 
         span.icon {
           font-variation-settings: "TIME" 1;
@@ -47,8 +49,111 @@ aside {
       }
     }
   }
-}
+
+  nav {
+    margin-top: 20px;
+    padding: $s;
+    display: flex;
+    flex-direction: column;
+    gap: $s;
+    
+    #quick-nav-container {
+      display: flex;
+      gap: $s;
+      flex-direction: column;
   
+      button {
+        cursor: pointer;
+        font-weight: 700;
+        color: $fontColor;
+        padding: $s;
+        border: 1px solid $itemBgColor;
+        background: none; 
+        
+        &.active-quickNav-tab {
+          background-color: $itemBgColor;
+        }
+
+        &:hover {
+          background-color: $itemBgColor;
+        }
+      }
+    }
+
+    h2 {
+      margin-right: auto;
+      margin-left: auto;
+      margin-top: $l; // add to the gap set on nav
+      font-size: 1.2rem;
+    }
+
+    button.new-item-button {
+      margin-right: auto;
+      margin-left: auto;
+    }
+    
+    #projects-nav-container {
+      margin-top: $m;
+      height: 45vh; 
+      overflow-y: auto; 
+      overflow-x: hidden;
+      scrollbar-width: thin; /* Set the width of the scrollbar */
+      scrollbar-color: #7B7B7B #424242; /* Set the color of the handle and track */
+
+      .project-btn-container {
+        display: grid;
+        grid-template-columns: 1fr 165px 1fr;
+        gap: 1px;
+
+        button {
+          font-size: 1.07rem;
+          color: $fontColor;
+          border: none;
+          background: none;
+          outline: none;
+        }
+
+        .nav-project-button {
+          grid-column: 2;
+          padding: 12px 8px;
+          border: 1px solid $itemBgColor2;
+          border-left: none;
+          border-right: none;
+          overflow-wrap: break-word;
+          // text-align: start;
+
+          &.active-tab {
+            background-color: $itemBgColor2;
+          }
+
+          &:hover {
+            background-color: $itemBgColor2;
+
+          }
+        }
+        .edit-container {
+          grid-column: 3;
+          display: flex;
+          .open-modal-button {
+            flex: 1;
+            &:hover {
+              background-color: $itemBgColor2;
+            }
+
+            span.material-icons {
+              color: $fontColor;
+              font-size: 1.35rem;
+  
+            }
+          } 
+        }
+      }
+    }
+  }
+
+}
+
+
 
 @media only screen and (min-width: 768px) {
 

@@ -27,12 +27,16 @@ const renderProject = (project) => {
 
     // reset nav and delete previously appended edit project button
     nav.renderNav();
+
     const projectIndex = projectsManager.projectsArr.indexOf(project);
     nav.createEditProjectTitleButton(projectIndex, project);
+
     // non-deletable Personal project version
     // do not create edit button for personal project
     // if (projectIndex >= 1) nav.createEditProjectTitleButton(projectIndex, project);
     
+    nav.toggleActiveProjectTabUI(projectIndex);
+
     renderTasks(project, 'tasks-list');
     renderChecklists(project, 'checklists-list');
     renderNotes(project, 'notes-list');
@@ -40,7 +44,6 @@ const renderProject = (project) => {
 
 const renderDefaultProject = () => {
     const defaultProject = projectsManager.projectsArr[0];
-    console.log(projectsManager.projectsArr);
     if (defaultProject) {
         renderProject(defaultProject);
     } else {
