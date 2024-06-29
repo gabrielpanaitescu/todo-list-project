@@ -1,25 +1,29 @@
 import { projectsManager } from './projectsManager';
-import { createTextElem } from './DOMElementCreationMethods';
+import { createTextElem, createDivContainer } from './DOMElementCreationMethods';
 import { renderTasks, renderChecklists } from './manageDOM';
 
 export default function todaysItemsDOMList() {
     const todaysItemsContainer = document.createElement('div');
-    todaysItemsContainer.classList.add('todays-items-container');
+    todaysItemsContainer.classList.add('project-container','todays-items-container');
 
     const main = document.querySelector('main');
-    createTextElem('h2', 'Today\'s items', main);
+    createTextElem('h2', 'Today\'s items', todaysItemsContainer);
     main.appendChild(todaysItemsContainer);
 
-    createTextElem('h3', 'Today\'s tasks', todaysItemsContainer);
+    const tasksContainer = createDivContainer('tasks-container', '', todaysItemsContainer);
+    tasksContainer.classList.add('sub-project-container');
+    createTextElem('h3', 'Today\'s tasks', tasksContainer);
     const todaysTasksList = document.createElement('ul');
     todaysTasksList.id = 'todays-tasks-list';
-    todaysItemsContainer.appendChild(todaysTasksList);
+    tasksContainer.appendChild(todaysTasksList);
     const IDtoAppendTodaysTasks = 'todays-tasks-list';
 
-    createTextElem('h3', 'Today\'s checklists', todaysItemsContainer);
+    const checklistsContainer = createDivContainer('checklists-container', '', todaysItemsContainer);
+    checklistsContainer.classList.add('sub-project-container');
+    createTextElem('h3', 'Today\'s checklists', checklistsContainer);
     const todaysChecklistsList = document.createElement('ul');
     todaysChecklistsList.id = 'todays-checklists-list';
-    todaysItemsContainer.appendChild(todaysChecklistsList); 
+    checklistsContainer.appendChild(todaysChecklistsList); 
     const IDtoAppendTodaysChecklists = 'todays-checklists-list';
 
     const todaysTasksDummyProject = projectsManager.dummyProjectsArr[2];

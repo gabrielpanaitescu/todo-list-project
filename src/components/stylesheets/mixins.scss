@@ -16,21 +16,24 @@ $itemBgColorHover: #E2E2E2;
 $itemBgColorHover2: #17171A;
 $itemBgColor: #27272A; //shadcn
 $generalBgColor: #09090B; // shadcn;
+$itemDeleteBg: #7f1d1d;
 
 
-@mixin btn($bg: $fontColor, $clr: $fontColorBlack, $bgHover: $itemBgColorHover, $clrHover: $fontColorBlack) {
+@mixin btn($bg: $fontColor, $clr: $fontColorBlack, ) {
+    // hover parameters if needed $bgHover: $itemBgColorHover, $clrHover: $fontColorBlack
+
     cursor: pointer;
-
     border: 0;
-    padding: 0.4em 0.8em;
+    padding: 0.35em 0.6em;
     color: $clr;
     background-color: $bg;
     border-radius: 6px;
   
     &:hover,
     &:focus {  
-      color: $clrHover;
-      background-color: $bgHover;
+      filter: brightness(85%)
+      // color: $clrHover;
+      // background-color: $bgHover;
     }
 };
 

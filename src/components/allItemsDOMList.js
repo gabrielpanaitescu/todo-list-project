@@ -1,25 +1,29 @@
 import { projectsManager } from './projectsManager';
-import { createTextElem } from './DOMElementCreationMethods';
+import { createDivContainer, createTextElem } from './DOMElementCreationMethods';
 import { renderTasks, renderChecklists } from './manageDOM';
 
 export default function allItemsDOMList() {
     const allItemsContainer = document.createElement('div');
-    allItemsContainer.classList.add('all-items-container');
+    allItemsContainer.classList.add('project-container', 'all-items-container');
 
     const main = document.querySelector('main');
-    createTextElem('h2', 'All items', main);
+    createTextElem('h2', 'All items', allItemsContainer);
     main.appendChild(allItemsContainer);
 
-    createTextElem('h3', 'All tasks', allItemsContainer);
+    const tasksContainer = createDivContainer('tasks-container', '', allItemsContainer);
+    tasksContainer.classList.add('sub-project-container');
+    createTextElem('h3', 'All tasks', tasksContainer);
     const allTasksList = document.createElement('ul');
     allTasksList.id = 'all-tasks-list';
-    allItemsContainer.appendChild(allTasksList);
+    tasksContainer.appendChild(allTasksList);
     const IDtoAppendTasks = 'all-tasks-list';
 
-    createTextElem('h3', 'All checklists', allItemsContainer);
+    const checklistsContainer = createDivContainer('checklists-container', '', allItemsContainer);
+    checklistsContainer.classList.add('sub-project-container');
+    createTextElem('h3', 'All checklists', checklistsContainer);
     const allChecklistsList = document.createElement('ul');
     allChecklistsList.id = 'all-checklists-list';
-    allItemsContainer.appendChild(allChecklistsList); 
+    checklistsContainer.appendChild(allChecklistsList); 
     const IDtoAppendChecklists = 'all-checklists-list'
 
 

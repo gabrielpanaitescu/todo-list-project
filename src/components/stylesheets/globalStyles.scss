@@ -31,6 +31,14 @@ body {
   color: $fontColor;
 }
 
+dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+}
+
 ::backdrop {
   background-color: rgba(0, 0, 0, 0.7); /* Adjust the opacity as needed */
 }
@@ -38,53 +46,21 @@ body {
 
 // testing - WIP
 
+// applies for nav and sub project buttons
 .new-item-button {
   @include btn();
   display: flex;
-  font-weight: 700;
+  font-weight: 500;
   align-items: center;
-
+  
   span.material-icons {
     font-size: 1.15rem;
   }
 }
 
-main {
 
 
-}
 
-.note-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr min-content min-content min-content;
-}
-
-.task-item {
-  display: grid;
-  grid-template-columns: auto 1fr 1fr auto auto min-content min-content min-content;
-}
-
-.checklist-item {
-  display: grid;
-  grid-template-columns: 1fr auto min-content min-content min-content;
-}
-.note-item,
-.task-item,
-.checklist-item {
-  background-color: $itemBgColor2;
-  p, h4 {
-  max-width: 30ch;
-  }
-}
-
-.note-item > *,
-.task-item > *,
-.checklist-item  > * {
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
 
 
 

@@ -1,25 +1,29 @@
 import { projectsManager } from './projectsManager';
-import { createTextElem } from './DOMElementCreationMethods';
+import { createTextElem, createDivContainer } from './DOMElementCreationMethods';
 import { renderTasks, renderChecklists } from './manageDOM';
 
 export default function thisWeekItemsDOMList() {
     const thisWeekItemsContainer = document.createElement('div');
-    thisWeekItemsContainer.classList.add('thisWeek-items-container');
+    thisWeekItemsContainer.classList.add('project-container' ,'thisWeek-items-container');
 
     const main = document.querySelector('main');
-    createTextElem('h2', 'This Week\'s items', main);
+    createTextElem('h2', 'This Week\'s items', thisWeekItemsContainer);
     main.appendChild(thisWeekItemsContainer);
 
-    createTextElem('h3', 'This Week\'s tasks', thisWeekItemsContainer);
+    const tasksContainer = createDivContainer('tasks-container', '', thisWeekItemsContainer);
+    tasksContainer.classList.add('sub-project-container');
+    createTextElem('h3', 'This Week\'s tasks', tasksContainer);
     const thisWeekTasksList = document.createElement('ul');
     thisWeekTasksList.id = 'thisWeek-tasks-list';
-    thisWeekItemsContainer.appendChild(thisWeekTasksList);
+    tasksContainer.appendChild(thisWeekTasksList);
     const IDtoAppendThisWeekTasks = 'thisWeek-tasks-list';
 
-    createTextElem('h3', 'This Week\'s checklists', thisWeekItemsContainer);
+    const checklistsContainer = createDivContainer('checklists-container', '', thisWeekItemsContainer);
+    checklistsContainer.classList.add('sub-project-container');
+    createTextElem('h3', 'This Week\'s checklists', checklistsContainer);
     const thisWeekChecklistsList = document.createElement('ul');
     thisWeekChecklistsList.id = 'thisWeek-checklists-list';
-    thisWeekItemsContainer.appendChild(thisWeekChecklistsList); 
+    checklistsContainer.appendChild(thisWeekChecklistsList); 
     const IDtoAppendThisWeekChecklists = 'thisWeek-checklists-list';
 
     const thisWeekTasksDummyProject = projectsManager.dummyProjectsArr[4];

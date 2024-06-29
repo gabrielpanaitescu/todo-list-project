@@ -4,7 +4,7 @@ import nav from './nav';
 import { displayEmptyMainMessage, clearMain, renderDefaultProject, renderNotes, renderTasks, renderChecklists } from './manageDOM';
 
 export default function createProjectDOMContainer(project) {
-    const projectContainer = createDivContainer('', 'project-container', '');
+    const projectContainer = createDivContainer('project-container', '', '');
 
     createTextElem('h2', project.title, projectContainer);
 
@@ -15,7 +15,8 @@ export default function createProjectDOMContainer(project) {
     const createRemoveProjectBtn = () => {
         const removeProjectModalContainer = createDivContainer('project-remove', '', projectContainer);
         removeProjectModalContainer.classList.add('modal-container');
-        const openProjectRemoveModal = createButton('x', 'open-modal-button', '', removeProjectModalContainer);
+        const openProjectRemoveModal = createButton('Delete project', 'open-modal-button', '', removeProjectModalContainer);
+        createMaterialIcon('delete', openProjectRemoveModal, true);
         const projectRemoveModal = document.createElement('dialog');
         createTextElem('p', 'Are you sure you want to delete this project?', projectRemoveModal);
         const cancelBtn = createButton('Cancel', 'cancel-button', '', projectRemoveModal);

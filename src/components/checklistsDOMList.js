@@ -37,7 +37,7 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
             dueDate = "N/A";
         }
         
-        createTextElem('p', `Due date: ${dueDate}`, checklistWrapper);
+        createTextElem('p', `Due: ${dueDate}`, checklistWrapper);
     
         const editChecklistContainer = createDivContainer('modal-container', '', checklistWrapper);
         editChecklistContainer.classList.add('edit-checklist-modal');

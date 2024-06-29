@@ -32,10 +32,11 @@ export default function updateTasksDOM(project, IDtoAppend) {
         if (task.completed) taskCompletionCheckbox.checked = true;
 
         createTextElem('h4', task.title, taskWrapper);
-        createTextElem('p', task.description, taskWrapper);
-        createTextElem('p', `Importance: ${task.importance}`, taskWrapper);
+        // removed due to UI spacing
+        // createTextElem('p', task.description, taskWrapper);
+        createTextElem('p', `! ${task.importance}`, taskWrapper);
         const formattedDateForDisplay = format(task.dueDate, 'MM/dd/yyyy');
-        createTextElem('p', `Due date: ${formattedDateForDisplay}`, taskWrapper);
+        createTextElem('p', `Due: ${formattedDateForDisplay}`, taskWrapper);
     
         const editTaskContainer = createDivContainer('modal-container', '', taskWrapper);
         editTaskContainer.classList.add('edit-task-modal');

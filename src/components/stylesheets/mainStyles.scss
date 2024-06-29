@@ -9,6 +9,84 @@
     }
 }
 
+// duplicate selector for visibility
+.project-container {
+
+    h2 {
+        font-size: 1.225rem;
+        font-weight: 700;
+    }
+
+    >*:not(:last-child) {
+        margin-bottom: $l;
+    }
+
+    .sub-project-container {
+        display: flex;
+        flex-direction: column;
+        gap: $s;
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 500;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .project-remove {
+        button.open-modal-button {
+            @include btn();
+            font-size: 500;
+            display: flex;
+            align-items: center;
+            span {
+                font-size: 1.15rem;
+            }
+        }
+        button.submit-button {
+            @include btn($itemDeleteBg, $fontColor);
+        }
+        button.cancel-button {
+            @include btn();
+        }
+    }
+
+    // // one item per line -> to further develop and move to custom breakpoint
+    // li.note-item {
+    //     display: grid;
+    //     grid-template-columns: 1fr 1fr min-content min-content min-content;
+    // }
+
+    // li.task-item {
+    //     display: grid;
+    //     grid-template-columns: auto 1fr 6ch auto min-content min-content min-content;
+    // }
+
+    // li.checklist-item {
+    //     display: grid;
+    //     grid-template-columns: 1fr min-content min-content min-content min-content;
+    // }
+
+    // .sub-project-container li {
+    //     background-color: $itemBgColor2;
+
+    //     > p, h4 {
+    //         max-width: 30ch;
+    //         overflow: hidden;
+    //         text-overflow: ellipsis;
+    //         white-space: nowrap;
+    //     }
+
+    //     .move-item-container {
+    //         display: flex;
+    //     }
+    // }
+}
+
 
 @media only screen and (min-width: 768px) {
     .main-container {
