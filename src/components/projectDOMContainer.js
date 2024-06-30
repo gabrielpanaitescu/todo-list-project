@@ -6,7 +6,7 @@ import { displayEmptyMainMessage, clearMain, renderDefaultProject, renderNotes, 
 export default function createProjectDOMContainer(project) {
     const projectContainer = createDivContainer('project-container', '', '');
 
-    createTextElem('h2', project.title, projectContainer);
+    createTextElem('h2', 'Project: ' + project.title, projectContainer);
 
     projectContainer.appendChild(createNotesContainer(project));
     projectContainer.appendChild(createTasksContainer(project));
@@ -20,7 +20,7 @@ export default function createProjectDOMContainer(project) {
         const projectRemoveModal = document.createElement('dialog');
         createTextElem('p', 'Are you sure you want to delete this project?', projectRemoveModal);
         const cancelBtn = createButton('Cancel', 'cancel-button', '', projectRemoveModal);
-        const removeProjectBtn = createButton('Confirm', 'submit-button', '', projectRemoveModal);
+        const removeProjectBtn = createButton('Delete', 'submit-button', '', projectRemoveModal);
         removeProjectModalContainer.appendChild(projectRemoveModal);
 
         const removeProjectBtnHandler = (project) => {
@@ -65,7 +65,7 @@ function createNotesContainer(project) {
     
     const noteCreateContainer = createDivContainer('create-notes', '', notesContainer);
     noteCreateContainer.classList.add('modal-container');
-    const openNoteCreateModal = createButton('Add note', 'open-modal-button', '', noteCreateContainer);
+    const openNoteCreateModal = createButton('Add', 'open-modal-button', '', noteCreateContainer);
     createMaterialIcon('add', openNoteCreateModal, true);
     openNoteCreateModal.classList.add('new-item-button');
     const noteCreateModal = document.createElement('dialog');
@@ -124,7 +124,7 @@ function createTasksContainer(project) {
     createTextElem('h3', 'Tasks', tasksContainer);
     const taskCreateContainer = createDivContainer('create-tasks', '', tasksContainer);
     taskCreateContainer.classList.add('modal-container');
-    const openTaskCreateModal = createButton('Add task', 'open-modal-button', '', taskCreateContainer);
+    const openTaskCreateModal = createButton('Add', 'open-modal-button', '', taskCreateContainer);
     createMaterialIcon('add', openTaskCreateModal, true);
     openTaskCreateModal.classList.add('new-item-button');
     const taskCreateModal = document.createElement('dialog');
@@ -190,7 +190,7 @@ function createChecklistsContainer(project) {
     createTextElem('h3', 'Checklists', checklistsContainer);
     const checklistCreateContainer = createDivContainer('create-checklists', '', checklistsContainer);
     checklistCreateContainer.classList.add('modal-container');
-    const openChecklistCreateModal = createButton('Add checklist', 'open-modal-button', '', checklistCreateContainer);
+    const openChecklistCreateModal = createButton('Add', 'open-modal-button', '', checklistCreateContainer);
     openChecklistCreateModal.classList.add('new-item-button');
     createMaterialIcon('add', openChecklistCreateModal, true);
     const checklistCreateModal = document.createElement('dialog');

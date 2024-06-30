@@ -19,15 +19,23 @@ $generalBgColor: #09090B; // shadcn;
 $itemDeleteBg: #7f1d1d;
 
 
-@mixin btn($bg: $fontColor, $clr: $fontColorBlack, ) {
+@mixin btnWithIcon($bg: $fontColor, $clr: $fontColorBlack, ) {
     // hover parameters if needed $bgHover: $itemBgColorHover, $clrHover: $fontColorBlack
 
     cursor: pointer;
     border: 0;
-    padding: 0.35em 0.6em;
+    padding: 0.3em 0.6em 0.3em 0.25em;
     color: $clr;
     background-color: $bg;
     border-radius: 6px;
+    font-size: 0.97rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+
+    span.material-icons {
+      font-size: 1.15rem;
+    }
   
     &:hover,
     &:focus {  
@@ -35,5 +43,21 @@ $itemDeleteBg: #7f1d1d;
       // color: $clrHover;
       // background-color: $bgHover;
     }
+};
+
+@mixin btn($bg: $fontColor, $clr: $fontColorBlack, ) {
+
+  cursor: pointer;
+  border: 0;
+  padding: 0.125em 0.45em;
+  color: $clr;
+  background-color: $bg;
+  border-radius: 4px;
+  font-size: 1rem;
+
+  &:hover,
+  &:focus {  
+    filter: brightness(85%)
+  }
 };
 

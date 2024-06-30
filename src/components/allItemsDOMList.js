@@ -12,7 +12,7 @@ export default function allItemsDOMList() {
 
     const tasksContainer = createDivContainer('tasks-container', '', allItemsContainer);
     tasksContainer.classList.add('sub-project-container');
-    createTextElem('h3', 'All tasks', tasksContainer);
+    createTextElem('h3', 'Tasks', tasksContainer);
     const allTasksList = document.createElement('ul');
     allTasksList.id = 'all-tasks-list';
     tasksContainer.appendChild(allTasksList);
@@ -20,7 +20,7 @@ export default function allItemsDOMList() {
 
     const checklistsContainer = createDivContainer('checklists-container', '', allItemsContainer);
     checklistsContainer.classList.add('sub-project-container');
-    createTextElem('h3', 'All checklists', checklistsContainer);
+    createTextElem('h3', 'Checklists', checklistsContainer);
     const allChecklistsList = document.createElement('ul');
     allChecklistsList.id = 'all-checklists-list';
     checklistsContainer.appendChild(allChecklistsList); 

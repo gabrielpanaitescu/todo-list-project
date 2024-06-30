@@ -2,19 +2,32 @@
 
 .main-container {
     margin-top: $xxl;
+        display: flex;
+        justify-content: center;
+
 
     main {
-        max-width: 768px;
-        padding: $s;
+        min-width: 50dvw;
+        max-width: 65%;
+
+        // this will size the main relative with the viewport and not the main-container which gets smaller (with a margin-left) when side nav is visible
+        // max-width: 70dvw;
+
+        .project-container {
+            // border: 1px solid $fontColor; //for testing
+            padding: 0 $m;
+            padding-bottom: $m;
+        }
     }
 }
 
 // duplicate selector for visibility
 .project-container {
-
     h2 {
         font-size: 1.225rem;
         font-weight: 700;
+        overflow: hidden;
+        word-wrap: break-word;
     }
 
     >*:not(:last-child) {
@@ -22,9 +35,16 @@
     }
 
     .sub-project-container {
-        display: flex;
-        flex-direction: column;
-        gap: $s;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: repeat(2, auto);
+        align-items: center;
+
+        gap: 10px $s;
+
+        ul {
+            grid-column: 1 / 3;
+        }
 
         h3 {
             font-size: 1.15rem;
@@ -32,43 +52,173 @@
         }
 
         li {
-            display: flex;
-            flex-direction: column;
+            border: 2px solid #fafafaa9;
+            border-radius: 4px;
+            padding: $s;
+            display: grid;
+            grid-template-columns: repeat(2, auto) 1fr;
+            align-items: center;
+            gap: $s 5px;
+
+            &:not(:last-child) {
+                margin-bottom: 1px;
+            }
+
+            &.completed-task,
+            &.completed-checklist {
+                filter: brightness(55%);
+
+                .move-item-container {
+                    select {
+                        padding: 1px 1px;
+                        border-radius: 5px;
+                        border: 1px solid $itemBgColorHover;
+                        background-color: $itemBgColor2;
+                        color: $fontColor;
+                        max-width: 12ch;
+                
+                        &:hover {
+                            filter: brightness(85%);
+                        }
+                    }
+                }
+            }
+
+            .completion-checkbox-container {
+                grid-column: 1 / 4;
+                position: relative;
+                input {
+                    appearance: none;
+                }
+
+                label::after {
+                    content: '';
+                    position: absolute;
+                    left: 85px;
+                    top: -1px;
+                    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    border: 1px solid $fontColor;
+                    border-radius: 2px;
+                }
+
+                span { 
+                    color: $fontColor;
+                    user-select: none;
+                    position: absolute;
+                    left: 85.75px;
+                    top: 0.5px;
+                    font-family: "Anicons Regular", sans-serif;
+                    font-variation-settings: "TIME" 1;
+                    font-weight: 700;
+                    font-size: 1.1rem;
+                  }
+
+                label:has(+ input:checked) > span {
+                    font-variation-settings: "TIME" 100;
+                }
+            }
+
+            > p, h4 {
+                grid-column: 1 / 4;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                word-wrap: break-word;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+
+            }
+
+            > P {
+                -webkit-line-clamp: 5;
+                max-height: calc(1.3em * 5); // fall back for line clamp 
+                line-height: 1.3em;
+            }
+
+            > h4 {
+                -webkit-line-clamp: 2;
+                max-height: calc(1.3em * 2); // fall back for line clamp 
+                line-height: 1.3em;
+                font-weight: 500;
+                font-size: 1.03rem;
+            }
+
+            .move-item-container {
+                select {
+                    padding: 1px 1px;
+                    border-radius: 5px;
+                    border: 1px solid $itemBgColorHover;
+                    background-color: $bodyBgColor;
+                    color: $fontColor;
+                    max-width: 12ch;
+            
+                    &:hover {
+                        background-color: $itemBgColor2;
+                    }
+                }
+            }
+
+            .edit-item-container {
+                grid-column: 1 / 4;
+            }
         }
+    }
+
+    button.cancel-button,
+    button.expand-button,
+    button.submit-button {
+        @include btn();
     }
 
     .project-remove {
         button.open-modal-button {
-            @include btn();
-            font-size: 500;
-            display: flex;
-            align-items: center;
-            span {
-                font-size: 1.15rem;
-            }
-        }
+            @include btnWithIcon();
+        } 
         button.submit-button {
             @include btn($itemDeleteBg, $fontColor);
         }
-        button.cancel-button {
-            @include btn();
+    }
+
+    .remove-item-modal-container {
+        grid-column: 3;
+        justify-self: end;
+        button.remove-item-button {
+            background-color: $fontColor;
+            color: $fontColorBlack;
+            border: none;
+            border-radius: 4px;
+            width: 18px;  
+            height: 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+    
+            &:hover {
+                filter: brightness(85%);
+            }
         }
     }
 
+
     // // one item per line -> to further develop and move to custom breakpoint
+    // // min-content will not shrink the grid tracks vs auto will shrink the grid tracks
     // li.note-item {
     //     display: grid;
-    //     grid-template-columns: 1fr 1fr min-content min-content min-content;
+    //     grid-template-columns: repeat(2, 1fr) repeat(4, auto);
     // }
 
     // li.task-item {
     //     display: grid;
-    //     grid-template-columns: auto 1fr 6ch auto min-content min-content min-content;
+    //     grid-template-columns: auto 1fr auto repeat(4, auto);
     // }
 
     // li.checklist-item {
     //     display: grid;
-    //     grid-template-columns: 1fr min-content min-content min-content min-content;
+    //     grid-template-columns: 1fr repeat(4, auto);
     // }
 
     // .sub-project-container li {
@@ -87,11 +237,33 @@
     // }
 }
 
+@keyframes checkboxAnimation {
+    0% {
+        font-variation-settings: "TIME" 1;
+    }
+
+    100% {
+        font-variation-settings: "TIME" 100;
+    }
+}
+
+@media only screen and (min-width: 390px) {
+    // same structure for specificity
+    .project-container{
+        .sub-project-container li {
+            grid-template-columns: repeat(2, auto) 1fr;
+
+            .edit-item-container {
+                grid-column: 1 / 2;
+            }
+        }
+    }
+}
 
 @media only screen and (min-width: 768px) {
     .main-container {
-        display: flex;
-        justify-content: center;
+        // display: flex;
+        // justify-content: center;
         margin-left: 250px;
 
         &.main-container-transition-enabled {

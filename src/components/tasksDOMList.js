@@ -1,4 +1,4 @@
-import { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem } from './DOMElementCreationMethods';
+import { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createAnicon } from './DOMElementCreationMethods';
 import { format } from 'date-fns';
 import { projectsManager } from './projectsManager';
 
@@ -11,7 +11,7 @@ export default function updateTasksDOM(project, IDtoAppend) {
         return;
     }
 
-    project.tasks.forEach((task) => {
+    project.tasks.forEach((task, index) => {
         const taskWrapper = document.createElement('li');
         taskWrapper.classList.add('task-item');
         tasksList.appendChild(taskWrapper);
@@ -27,21 +27,32 @@ export default function updateTasksDOM(project, IDtoAppend) {
                 console.log('Task completion is neither true nor false');
         };
         
-        const taskCompletionCheckbox = createInput('checkbox', '', '', '', '', taskWrapper);
+        const completionCheckboxContainer = createDivContainer('completion-checkbox-container', '', taskWrapper);
+
+        const originProject = projectsManager.findOriginProject('tasks', task);
+        const projectIndex = projectsManager.projectsArr.indexOf(originProject);
+        const taskIndex = originProject.tasks.indexOf(task);
+        const uniqueID = projectIndex.toString() + taskIndex.toString();
+
+        const completionLabel = createLabel(`completion-checkbox-${uniqueID}`, 'Completed', completionCheckboxContainer);
+        createAnicon('b', completionLabel);
+        const taskCompletionCheckbox = createInput('checkbox', 'completionCheckbox', `completion-checkbox-${uniqueID}`, '', '', completionCheckboxContainer);
         taskCompletionCheckbox.classList.add('completion-checkbox');
         if (task.completed) taskCompletionCheckbox.checked = true;
 
-        createTextElem('h4', task.title, taskWrapper);
+
+        createTextElem('h4', 'Title: ' + task.title, taskWrapper);
         // removed due to UI spacing
         // createTextElem('p', task.description, taskWrapper);
-        createTextElem('p', `! ${task.importance}`, taskWrapper);
+        createTextElem('p', `Importance: ${task.importance}`, taskWrapper);
         const formattedDateForDisplay = format(task.dueDate, 'MM/dd/yyyy');
         createTextElem('p', `Due: ${formattedDateForDisplay}`, taskWrapper);
     
         const editTaskContainer = createDivContainer('modal-container', '', taskWrapper);
         editTaskContainer.classList.add('edit-task-modal');
-        editTaskContainer.classList.add('edit-container');
+        editTaskContainer.classList.add('edit-item-container');
         const openEditTaskModal = createButton('Expand', 'open-modal-button', '', editTaskContainer);
+        openEditTaskModal.classList.add('expand-button');
         const editTaskModal = document.createElement('dialog');
         editTaskContainer.appendChild(editTaskModal);
         const editTaskForm = document.createElement('form');
@@ -61,7 +72,7 @@ export default function updateTasksDOM(project, IDtoAppend) {
         const editTaskInputsArr = editTaskForm.querySelectorAll('input');
 
         const moveTaskContainer = createDivContainer('move-item-container', '', taskWrapper);
-        createLabel('move-task', 'Move: ', moveTaskContainer);
+        // createLabel('move-task', 'Move: ', moveTaskContainer);
         const moveTaskSelect = document.createElement('select');
         moveTaskSelect.classList.add('move-item');
         moveTaskSelect.id = 'move-task';
@@ -78,8 +89,9 @@ export default function updateTasksDOM(project, IDtoAppend) {
         });
 
         const taskRemoveContainer = createDivContainer('modal-container', '', taskWrapper);
-        taskRemoveContainer.classList.add('remove-task-modal');
+        taskRemoveContainer.classList.add('remove-item-modal-container');
         const openTaskRemoveModal = createButton('x', 'open-modal-button', '', taskRemoveContainer);
+        openTaskRemoveModal.classList.add('remove-item-button');
         const taskRemoveModal = document.createElement('dialog');
         taskRemoveContainer.appendChild(taskRemoveModal);
         createTextElem('p', 'Are you sure you want to delete this task?', taskRemoveModal);

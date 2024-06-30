@@ -28,7 +28,7 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
                 console.log('Checklist completion is neither true nor false');
         };
 
-        createTextElem('h4', checklist.title, checklistWrapper);
+        createTextElem('h4', 'Title: ' + checklist.title, checklistWrapper);
 
         let dueDate;
         if (checklist.dueDate) {
@@ -41,8 +41,9 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
     
         const editChecklistContainer = createDivContainer('modal-container', '', checklistWrapper);
         editChecklistContainer.classList.add('edit-checklist-modal');
-        editChecklistContainer.classList.add('edit-container');
+        editChecklistContainer.classList.add('edit-item-container');
         const openEditChecklistModal = createButton('Expand', 'open-modal-button', '', editChecklistContainer);
+        openEditChecklistModal.classList.add('expand-button');
         const editChecklistModal = document.createElement('dialog');
         editChecklistContainer.appendChild(editChecklistModal);
         const editChecklistForm = document.createElement('form');
@@ -73,7 +74,7 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         let editChecklistInputsHTMLCollection = editChecklistForm.getElementsByClassName('edit-checklist-input');
     
         const moveChecklistContainer = createDivContainer('move-item-container', '', checklistWrapper);
-        createLabel('move-checklist', 'Move: ', moveChecklistContainer);
+        // createLabel('move-checklist', 'Move: ', moveChecklistContainer);
         const moveChecklistSelect = document.createElement('select');
         moveChecklistSelect.classList.add('move-item');
         moveChecklistSelect.id = 'move-checklist';
@@ -90,8 +91,9 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         });
 
         const checklistRemoveContainer = createDivContainer('modal-container', '', checklistWrapper);
-        checklistRemoveContainer.classList.add('remove-checklist-modal');
+        checklistRemoveContainer.classList.add('remove-item-modal-container');
         const openChecklistRemoveModal = createButton('x', 'open-modal-button', '', checklistRemoveContainer);
+        openChecklistRemoveModal.classList.add('remove-item-button');
         const checklistRemoveModal = document.createElement('dialog');
         checklistRemoveContainer.appendChild(checklistRemoveModal);
         createTextElem('p', 'Are you sure you want to delete this checklist?', checklistRemoveModal);

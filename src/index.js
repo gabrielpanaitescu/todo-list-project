@@ -5,18 +5,17 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import './components/stylesheets/globalStyles.scss'
-import './components/stylesheets/mixins.scss'
+import './components/stylesheets/globalStyles.scss';
+import './components/stylesheets/mixins.scss';
 import './components/stylesheets/editInputStyles.css';
-import './components/stylesheets/itemCompleted.css';
-import './components/stylesheets/navStyles.scss'
-import './components/stylesheets/mainStyles.scss'
-import './components/stylesheets/headerStyles.scss'
-import './components/manageDOM.js'
-import { parseProjectsArrFromLocalStorage, checkForLocalStorageData } from './components/localStorageManager.js'
+import './components/stylesheets/navStyles.scss';
+import './components/stylesheets/mainStyles.scss';
+import './components/stylesheets/headerStyles.scss';
+import './components/manageDOM.js';
+import { parseProjectsArrFromLocalStorage, checkForLocalStorageData } from './components/localStorageManager.js';
 import { projectsManager, createDefaultProject } from './components/projectsManager.js';
 import { createLogoContainer, createToggleNavContainer } from './components/menuPlusLogoContainers.js';
-import nav from './components/nav'
+import nav from './components/nav';
 import { renderDefaultProject, displayEmptyMainMessage } from './components/manageDOM.js';
 
 // if statement will only pass the first time a machine/device (with no localStorage data on in) will access the page. The addProject() method will create the 'projectsArrLocalStorage' key in localStorage, thus making this if statement passable only if the key is removed manually or the webpage is accessed from a new machine/device

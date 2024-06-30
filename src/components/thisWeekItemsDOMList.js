@@ -12,7 +12,7 @@ export default function thisWeekItemsDOMList() {
 
     const tasksContainer = createDivContainer('tasks-container', '', thisWeekItemsContainer);
     tasksContainer.classList.add('sub-project-container');
-    createTextElem('h3', 'This Week\'s tasks', tasksContainer);
+    createTextElem('h3', 'Tasks', tasksContainer);
     const thisWeekTasksList = document.createElement('ul');
     thisWeekTasksList.id = 'thisWeek-tasks-list';
     tasksContainer.appendChild(thisWeekTasksList);
@@ -20,7 +20,7 @@ export default function thisWeekItemsDOMList() {
 
     const checklistsContainer = createDivContainer('checklists-container', '', thisWeekItemsContainer);
     checklistsContainer.classList.add('sub-project-container');
-    createTextElem('h3', 'This Week\'s checklists', checklistsContainer);
+    createTextElem('h3', 'Checklists', checklistsContainer);
     const thisWeekChecklistsList = document.createElement('ul');
     thisWeekChecklistsList.id = 'thisWeek-checklists-list';
     checklistsContainer.appendChild(thisWeekChecklistsList); 

@@ -5,7 +5,8 @@ aside {
   background-color: $navBgColor;
   position: fixed;
   width: 250px;
-  height: 100vh;
+  height: 100dvh;
+  z-index: 999;
 
   &.nav-transition-enabled {
     transition: transform 0.4s ease-in-out;
@@ -25,8 +26,10 @@ aside {
       border: none;
       background: none;
       transition: transform 0.4s ease-in-out;
+      z-index: 999;
 
       span {
+
         color: $fontColor;
         font-size: 2.25rem;
         cursor: pointer;
@@ -41,7 +44,7 @@ aside {
       
       // hidden styles - for button
       &.nav-hidden {
-        transform: translateX(65px);
+        transform: translateX(53px);
 
         span.icon {
           font-variation-settings: "TIME" 1;
@@ -88,13 +91,15 @@ aside {
     }
 
     button.new-item-button {
+      // override btn mixin font-size
+      font-size: 1rem;
       margin-right: auto;
       margin-left: auto;
     }
     
     #projects-nav-container {
       margin-top: $m;
-      height: 45vh; 
+      height: 45dvh; 
       overflow-y: auto; 
       overflow-x: hidden;
       scrollbar-width: thin; /* Set the width of the scrollbar */
@@ -106,6 +111,7 @@ aside {
         gap: 1px;
 
         button {
+          cursor: pointer;
           font-size: 1.07rem;
           color: $fontColor;
           border: none;
@@ -131,9 +137,10 @@ aside {
 
           }
         }
-        .edit-container {
+        .edit-project-title-modal {
           grid-column: 3;
           display: flex;
+
           .open-modal-button {
             flex: 1;
             &:hover {
@@ -148,6 +155,10 @@ aside {
           } 
         }
       }
+    }
+    button.cancel-button,
+    button.submit-button {
+        @include btn();
     }
   }
 }

@@ -12,7 +12,7 @@ input:focus:read-only {
     outline: none;
 }
 
-.edit-container label:has(+ input:focus:read-write)::after {
+.edit-item-container label:has(+ input:focus:read-write)::after {
     content: '';
     background-image: url(../icons/edit-icon.png);
     background-size: contain; /* or specify width and height */

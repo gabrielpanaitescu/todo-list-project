@@ -16,13 +16,14 @@ export default function updateNotesDOM(project, IDtoAppend) {
         noteWrapper.classList.add('note-item');
         notesList.appendChild(noteWrapper);
 
-        createTextElem('h4', note.title, noteWrapper);
-        createTextElem('p', note.description, noteWrapper);
+        createTextElem('h4', 'Title: ' + note.title, noteWrapper);
+        createTextElem('p', 'Description: ' + note.description, noteWrapper);
   
         const editNoteContainer = createDivContainer('modal-container', '', noteWrapper);
         editNoteContainer.classList.add('edit-note-modal');
-        editNoteContainer.classList.add('edit-container');
+        editNoteContainer.classList.add('edit-item-container');
         const openEditNoteModal = createButton('Expand', 'open-modal-button', '', editNoteContainer);
+        openEditNoteModal.classList.add('expand-button');
         const editNoteModal = document.createElement('dialog');
         editNoteContainer.appendChild(editNoteModal);
         const editNoteForm = document.createElement('form');
@@ -38,7 +39,7 @@ export default function updateNotesDOM(project, IDtoAppend) {
         let editNoteInputsArr = editNoteForm.querySelectorAll('input');
 
         const moveNoteContainer = createDivContainer('move-item-container', '', noteWrapper);
-        createLabel('move-note', 'Move: ', moveNoteContainer);
+        // createLabel('move-note', 'Move: ', moveNoteContainer);
         const moveNoteSelect = document.createElement('select');
         moveNoteSelect.classList.add('move-item');
         moveNoteSelect.id = 'move-note';
@@ -55,8 +56,9 @@ export default function updateNotesDOM(project, IDtoAppend) {
         });
 
         const noteRemoveContainer = createDivContainer('modal-container', '', noteWrapper);
-        noteRemoveContainer.classList.add('remove-note-modal');
+        noteRemoveContainer.classList.add('remove-item-modal-container');
         const openNoteRemoveModal = createButton('x', 'open-modal-button', '', noteRemoveContainer);
+        openNoteRemoveModal.classList.add('remove-item-button');
         const noteRemoveModal = document.createElement('dialog');
         noteRemoveContainer.appendChild(noteRemoveModal);
         createTextElem('p', 'Are you sure you want to delete this note?', noteRemoveModal);

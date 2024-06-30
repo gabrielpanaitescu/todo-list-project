@@ -58,7 +58,6 @@ const createNavElement = () => {
         targetContainer.appendChild(editProjectTitleContainer)
 
         editProjectTitleContainer.classList.add('edit-project-title-modal');
-        editProjectTitleContainer.classList.add('edit-container');
 
         const openEditProjectTitleModal = createButton('', 'open-modal-button', '', editProjectTitleContainer);
         createMaterialIcon('mode_edit', openEditProjectTitleModal);
