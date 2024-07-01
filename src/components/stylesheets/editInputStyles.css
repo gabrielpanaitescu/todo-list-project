@@ -8,11 +8,10 @@ select {
     border: 1px solid black;
 } */
 
-input:focus:read-only {
-    outline: none;
-}
 
-.edit-item-container label:has(+ input:focus:read-write)::after {
+
+.edit-item-container label:has(+ input:focus:read-write)::after,
+.edit-item-container label:has(+ textarea:focus:read-write)::after {
     content: '';
     background-image: url(../icons/edit-icon.png);
     background-size: contain; /* or specify width and height */
@@ -23,6 +22,7 @@ input:focus:read-only {
     transform: translate(20%, 7%);
 }
 
-.list-items-fieldset label:has(+ input:focus:read-write)::after {
+.list-items-fieldset label:has(+ input:focus:read-write)::after,
+.list-items-fieldset label:has(+ textarea:focus:read-write)::after {
     left: 60%;
 }

@@ -16,7 +16,8 @@ $itemBgColorHover: #E2E2E2;
 $itemBgColorHover2: #17171A;
 $itemBgColor: #27272A; //shadcn
 $generalBgColor: #09090B; // shadcn;
-$itemDeleteBg: #7f1d1d;
+$itemDeleteBg: #7f1d1d; //shadcn
+$itemGreyBorder: #fafafaa9;
 
 
 @mixin btnWithIcon($bg: $fontColor, $clr: $fontColorBlack, ) {

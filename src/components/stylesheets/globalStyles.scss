@@ -36,7 +36,28 @@ dialog {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: none;
+  padding: 12px $m;
+  border: 1px solid $itemGreyBorder;
+  border-radius: 4px;
+  background-color: $bodyBgColor;
+
+  p,
+  label,
+  input {
+    color: $fontColor;
+  }
+
+  input {
+    border: 1px solid $itemGreyBorder;
+    border-radius: 4px;
+    padding: $xs $s;
+    outline: none;
+    background-color: $bodyBgColor;
+  }
+
+  textarea {
+    height: 200px;
+  }
 }
 
 ::backdrop {
@@ -63,3 +84,28 @@ dialog {
 span.icon:hover {
   font-variation-settings: "TIME" 100;
 } */
+
+form[method="dialog"] {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  row-gap: $s;
+  column-gap: $xs;
+  align-items: center;
+}
+
+
+// input-less 
+.remove-item-modal-container dialog,
+.project-remove.modal-container dialog {
+  p {
+    margin-bottom: $m;
+  }
+
+  button {
+    width: 45%;
+  }
+
+  button {
+    margin-left: 2.5%;
+  }
+}

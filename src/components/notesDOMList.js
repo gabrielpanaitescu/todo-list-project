@@ -1,4 +1,4 @@
-import { createTextElem, createDivContainer, createButton, createLabel, createInput  } from './DOMElementCreationMethods';
+import { createTextElem, createDivContainer, createButton, createLabel, createInput, createTextarea } from './DOMElementCreationMethods';
 import { projectsManager } from './projectsManager';
 
 
@@ -31,7 +31,10 @@ export default function updateNotesDOM(project, IDtoAppend) {
         createLabel('editNoteTitle', 'Note title    ', editNoteForm);
         const editNoteTitleInput = createInput('text', 'editNoteTitle', 'editNoteTitle', true, '', editNoteForm);
         createLabel('editNoteDescription', 'Note description', editNoteForm);
-        const editNoteDescriptionInput = createInput('textarea', 'editNoteDescription', 'editNoteDescription', true, '', editNoteForm);
+
+        // const editNoteDescriptionInput = createInput('textarea', 'editNoteDescription', 'editNoteDescription', true, '', editNoteForm);
+        const editNoteDescriptionInput = createTextarea('editNoteDescription', 'editNoteDescription', true, 3, 2, 50, editNoteForm);
+
         const cancelEditBtn = createButton('Cancel', 'cancel-button', '', editNoteForm);
         cancelEditBtn.type = 'button';
         const editNoteBtn = createButton('Save and close', 'submit-button', '', editNoteForm);

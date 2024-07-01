@@ -1,10 +1,9 @@
 @import './mixins.scss';
 
 .main-container {
-    margin-top: $xxl;
+    margin-top: $xl;
         display: flex;
         justify-content: center;
-
 
     main {
         min-width: 50dvw;
@@ -12,17 +11,15 @@
 
         // this will size the main relative with the viewport and not the main-container which gets smaller (with a margin-left) when side nav is visible
         // max-width: 70dvw;
-
-        .project-container {
-            // border: 1px solid $fontColor; //for testing
-            padding: 0 $m;
-            padding-bottom: $m;
-        }
     }
 }
 
-// duplicate selector for visibility
+// reset nesting for visibility
 .project-container {
+    // border: 1px solid $fontColor; //for testing
+    padding: 0 $m;
+    padding-bottom: $m;
+    
     h2 {
         font-size: 1.225rem;
         font-weight: 700;
@@ -37,7 +34,6 @@
     .sub-project-container {
         display: grid;
         grid-template-columns: auto 1fr;
-        grid-template-rows: repeat(2, auto);
         align-items: center;
 
         gap: 10px $s;
@@ -52,7 +48,7 @@
         }
 
         li {
-            border: 2px solid #fafafaa9;
+            border: 2px solid $itemGreyBorder;
             border-radius: 4px;
             padding: $s;
             display: grid;
@@ -94,7 +90,7 @@
                 label::after {
                     content: '';
                     position: absolute;
-                    left: 85px;
+                    // left: 85px;
                     top: -1px;
                     display: inline-block;
                     width: 20px;
@@ -107,7 +103,8 @@
                     color: $fontColor;
                     user-select: none;
                     position: absolute;
-                    left: 85.75px;
+                    // left: 85.75px;
+                    left: .75px;
                     top: 0.5px;
                     font-family: "Anicons Regular", sans-serif;
                     font-variation-settings: "TIME" 1;
@@ -262,8 +259,6 @@
 
 @media only screen and (min-width: 768px) {
     .main-container {
-        // display: flex;
-        // justify-content: center;
         margin-left: 250px;
 
         &.main-container-transition-enabled {
@@ -272,6 +267,61 @@
 
         &.nav-hidden {
             margin-left: 0px;
+        }
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .main-container {
+        margin-top: $xxl;
+            display: flex;
+            justify-content: center;
+    
+        main {
+            min-width: 50dvw;
+
+            // changed sizing from dynamic to fixed 
+            max-width: 900px;
+        }
+    }
+
+    .project-container {
+        .sub-project-container {
+            li {
+
+                //reset grid items structure
+                > .edit-item-container,
+                > .remove-item-modal-container,
+                > .completion-checkbox-container {
+                    grid-column: auto;
+                }
+
+
+                &.note-item {
+                    grid-template-columns: 180px 1fr repeat(3, auto);
+                }
+
+                &.task-item {
+                    grid-template-columns: auto 180px 1fr repeat(4, auto);
+                }
+
+                &.checklist-item {
+                    grid-template-columns: 1fr repeat(4, auto);
+
+                }
+                &.task-item {
+                    h4 {
+                        margin-left: 22px;
+                    }
+                }
+
+                > p, h4 {
+                    grid-column: auto;
+                    max-height: 1.3em;
+                    -webkit-line-clamp: 1;
+                }
+
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ export default function updateTasksDOM(project, IDtoAppend) {
         const taskIndex = originProject.tasks.indexOf(task);
         const uniqueID = projectIndex.toString() + taskIndex.toString();
 
-        const completionLabel = createLabel(`completion-checkbox-${uniqueID}`, 'Completed', completionCheckboxContainer);
+        const completionLabel = createLabel(`completion-checkbox-${uniqueID}`, '', completionCheckboxContainer);
         createAnicon('b', completionLabel);
         const taskCompletionCheckbox = createInput('checkbox', 'completionCheckbox', `completion-checkbox-${uniqueID}`, '', '', completionCheckboxContainer);
         taskCompletionCheckbox.classList.add('completion-checkbox');

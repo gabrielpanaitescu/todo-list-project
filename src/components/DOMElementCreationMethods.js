@@ -41,6 +41,18 @@ const createInput = (type, name, id, required, minLength, parentForm) => {
     return input;
 };
 
+const createTextarea = (name, id, required, minLength, rows, cols, parentForm) => {
+    const textarea = document.createElement('textarea');
+    if (name) textarea.name = name;
+    if (id) textarea.id = id;
+    if (required) textarea.required = required;
+    if (minLength) textarea.minLength = minLength;
+    if (rows) textarea.rows = rows;
+    if (cols) textarea.cols = cols;
+    if (parentForm) parentForm.appendChild(textarea);
+    return textarea;
+};
+
 const createImportanceSelectElem = (taskType, parent) => {
     const select = document.createElement('select');
     select.id = taskType + 'Importance';
@@ -83,4 +95,4 @@ const createAnicon = (iconName, parent) => {
     }
 };
 
-export { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createAnicon };
+export { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createAnicon, createTextarea };

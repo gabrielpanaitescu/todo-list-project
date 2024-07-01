@@ -110,7 +110,8 @@ aside {
         grid-template-columns: 1fr 165px 1fr;
         gap: 1px;
 
-        button {
+        button.nav-project-button,
+        .edit-project-title-modal > button {
           cursor: pointer;
           font-size: 1.07rem;
           color: $fontColor;
