@@ -1,5 +1,5 @@
 import { projectsManager, createNote, createTask, createChecklist } from './projectsManager';
-import { createButton, createDivContainer, createTextElem, createLabel, createInput, createImportanceSelectElem, createMaterialIcon } from './DOMElementCreationMethods';
+import { createButton, createDivContainer, createTextElem, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createTextarea } from './DOMElementCreationMethods';
 import nav from './nav';
 import { displayEmptyMainMessage, clearMain, renderDefaultProject, renderNotes, renderTasks, renderChecklists } from './manageDOM';
 
@@ -76,7 +76,8 @@ function createNotesContainer(project) {
     createLabel('noteTitle', 'Note title', addNoteForm);
     const noteTitleInput = createInput('text', 'noteTitle', 'noteTitle', true, '', addNoteForm);
     createLabel('noteDescription', 'Note description', addNoteForm);
-    const noteDescriptionInput = createInput('textarea', 'noteDescription', 'noteDescription', true, '', addNoteForm);
+    // const noteDescriptionInput = createInput('textarea', 'noteDescription', 'noteDescription', true, '', addNoteForm);
+    const noteDescriptionInput = createTextarea('noteDescription', 'noteDescription', true, '', '', '', addNoteForm);
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addNoteForm);
     cancelBtn.type = 'button';
     const createNoteBtn = createButton('Confirm', 'submit-button', '', addNoteForm);
@@ -135,7 +136,8 @@ function createTasksContainer(project) {
     createLabel('taskTitle', 'Task title', addTaskForm); 
     const taskTitleInput = createInput('text', 'taskTitle', 'taskTitle', true, '', addTaskForm);
     createLabel('taskDescription', 'Task description', addTaskForm);
-    const taskDescriptionInput = createInput('textarea', 'taskDescription', 'taskDescription', true, '', addTaskForm);
+    // const taskDescriptionInput = createInput('textarea', 'taskDescription', 'taskDescription', true, '', addTaskForm);
+    const taskDescriptionInput = createTextarea('taskDescription', 'taskDescription', true, '', '', '', addTaskForm);
     createLabel('taskImportance', 'Importance', addTaskForm);
     const taskImportanceSelect = createImportanceSelectElem('task', addTaskForm);
     createLabel('taskDueDate', 'Due date: ', addTaskForm);
