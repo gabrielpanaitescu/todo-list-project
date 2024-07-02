@@ -153,6 +153,7 @@ function createTasksContainer(project) {
     const createTaskBtnHandler = () => {
         if (!addTaskForm.checkValidity()) return;
 
+        // post data to todo/new
         project.addTask(createTask(taskTitleInput.value, taskDescriptionInput.value, taskImportanceSelect.value, taskDuedateInput.value));
         renderTasks(project, IDtoAppend);
     }

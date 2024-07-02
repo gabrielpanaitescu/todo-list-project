@@ -102,8 +102,6 @@ aside {
       height: 45dvh; 
       overflow-y: auto; 
       overflow-x: hidden;
-      scrollbar-width: thin; /* Set the width of the scrollbar */
-      scrollbar-color: #7B7B7B #424242; /* Set the color of the handle and track */
 
       .project-btn-container {
         display: grid;

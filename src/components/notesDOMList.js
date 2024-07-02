@@ -33,13 +33,14 @@ export default function updateNotesDOM(project, IDtoAppend) {
         createLabel('editNoteDescription', 'Note description', editNoteForm);
 
         // const editNoteDescriptionInput = createInput('textarea', 'editNoteDescription', 'editNoteDescription', true, '', editNoteForm);
-        const editNoteDescriptionInput = createTextarea('editNoteDescription', 'editNoteDescription', true, 3, 2, 50, editNoteForm);
+        const editNoteDescriptionInput = createTextarea('editNoteDescription', 'editNoteDescription', true, 3, '', '', editNoteForm);
 
         const cancelEditBtn = createButton('Cancel', 'cancel-button', '', editNoteForm);
         cancelEditBtn.type = 'button';
         const editNoteBtn = createButton('Save and close', 'submit-button', '', editNoteForm);
         editNoteModal.appendChild(editNoteForm);
-        let editNoteInputsArr = editNoteForm.querySelectorAll('input');
+        let editNoteInputsArr = editNoteForm.querySelectorAll('input, textarea');
+        console.log(editNoteInputsArr);
 
         const moveNoteContainer = createDivContainer('move-item-container', '', noteWrapper);
         // createLabel('move-note', 'Move: ', moveNoteContainer);

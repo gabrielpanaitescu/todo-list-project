@@ -20,6 +20,8 @@ video {
   margin: 0;
   padding: 0;
   font: inherit;
+  scrollbar-width: thin; /* Set the width of the scrollbar */
+  scrollbar-color: #7B7B7B #424242; /* Set the color of the handle and track */
 }
 
 body {
@@ -31,7 +33,17 @@ body {
   color: $fontColor;
 }
 
+// applies for nav and sub project add buttons
+.new-item-button {
+  @include btnWithIcon();
+}
+
+::backdrop {
+  background-color: rgba(0, 0, 0, 0.7); /* Adjust the opacity as needed */
+}
+
 dialog {
+  width: clamp(200px, 80dvw, 500px);
   position: fixed;
   top: 50%;
   left: 50%;
@@ -43,35 +55,78 @@ dialog {
 
   p,
   label,
-  input {
+  input,
+  textarea {
     color: $fontColor;
   }
 
-  input {
+  input, textarea {
     border: 1px solid $itemGreyBorder;
     border-radius: 4px;
     padding: $xs $s;
     outline: none;
-    background-color: $bodyBgColor;
+    width: 100%;
+    background-color: $itemBgColor2;
+
+    &:hover {
+        filter: brightness(85%);
+    }
+
+    &[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
   }
 
   textarea {
+    overflow: hidden;
     height: 200px;
   }
 }
 
-::backdrop {
-  background-color: rgba(0, 0, 0, 0.7); /* Adjust the opacity as needed */
+form[method="dialog"] {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: $s;
+  column-gap: 5px;
+  align-items: center;
+}
+
+.edit-note-modal {
+  label:last-of-type {
+    padding-top: 5px;
+    align-self: start;
+  }
+}
+
+
+// input-less modals
+.remove-item-modal-container dialog,
+.project-remove.modal-container dialog {
+  p {
+    margin-bottom: $m;
+    text-align: center;
+  }
+
+  button {
+    width: 45%;
+  }
+
+  button {
+    margin-left: 2.5%;
+  }
+}
+
+@media only screen and (min-width:480px) {
+
+  form[method="dialog"] {
+    grid-template-columns: auto 1fr;
+
+    column-gap: 23px;
+  }
 }
 
 
 // testing - WIP
-
-// applies for nav and sub project add buttons
-.new-item-button {
-  @include btnWithIcon();
-}
-
 
 /* test anicon */
 /* span.icon { 
@@ -85,27 +140,3 @@ span.icon:hover {
   font-variation-settings: "TIME" 100;
 } */
 
-form[method="dialog"] {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  row-gap: $s;
-  column-gap: $xs;
-  align-items: center;
-}
-
-
-// input-less 
-.remove-item-modal-container dialog,
-.project-remove.modal-container dialog {
-  p {
-    margin-bottom: $m;
-  }
-
-  button {
-    width: 45%;
-  }
-
-  button {
-    margin-left: 2.5%;
-  }
-}

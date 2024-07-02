@@ -1,4 +1,4 @@
-import { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createAnicon } from './DOMElementCreationMethods';
+import { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createAnicon, createTextarea } from './DOMElementCreationMethods';
 import { format } from 'date-fns';
 import { projectsManager } from './projectsManager';
 
@@ -60,16 +60,17 @@ export default function updateTasksDOM(project, IDtoAppend) {
         createLabel('editTaskTitle', 'Task title', editTaskForm);
         const editTaskTitleInput = createInput('text', 'editTaskTitle', 'editTaskTitle', true, '', editTaskForm);
         createLabel('editTaskDescription', 'Task description', editTaskForm);
-        const editTaskDescriptionInput = createInput('textarea', 'editTaskDescription', 'editTaskDescription', true, '', editTaskForm);
+        // const editTaskDescriptionInput = createInput('textarea', 'editTaskDescription', 'editTaskDescription', true, '', editTaskForm);
+        const editTaskDescriptionInput = createTextarea('editTaskDescription', 'editTaskDescription', true, 3, '', '', editTaskForm);
         createLabel('editTaskImportance', 'Importance', editTaskForm);
         const editTaskImportanceSelect = createImportanceSelectElem('editTask', editTaskForm);
         createLabel('editTaskDueDate', 'Due date: ', editTaskForm);
         const editTaskDuedateInput = createInput('date', 'editTaskDueDate', 'editTaskDueDate', true, '', editTaskForm);
         const cancelEditBtn = createButton('Cancel', 'cancel-button', '', editTaskForm);
         cancelEditBtn.type = 'button';
-        const editTaskBtn = createButton('Confirm', 'submit-button', '', editTaskForm);
+        const editTaskBtn = createButton('Save and close', 'submit-button', '', editTaskForm);
         editTaskModal.appendChild(editTaskForm);
-        const editTaskInputsArr = editTaskForm.querySelectorAll('input');
+        const editTaskInputsArr = editTaskForm.querySelectorAll('input, textarea');
 
         const moveTaskContainer = createDivContainer('move-item-container', '', taskWrapper);
         // createLabel('move-task', 'Move: ', moveTaskContainer);

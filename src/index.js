@@ -7,12 +7,12 @@ import '@fontsource/roboto/700.css';
 
 import './components/stylesheets/globalStyles.scss';
 import './components/stylesheets/mixins.scss';
-import './components/stylesheets/editInputStyles.css';
+import './components/stylesheets/editInputStyles.scss';
 import './components/stylesheets/navStyles.scss';
 import './components/stylesheets/mainStyles.scss';
 import './components/stylesheets/headerStyles.scss';
 import './components/manageDOM.js';
-import { parseProjectsArrFromLocalStorage, checkForLocalStorageData } from './components/localStorageManager.js';
+import { parseProjectsArrFromLocalStorage, checkForLocalStorageData, updateLocalStorage } from './components/localStorageManager.js';
 import { projectsManager, createDefaultProject } from './components/projectsManager.js';
 import { createLogoContainer, createToggleNavContainer } from './components/menuPlusLogoContainers.js';
 import nav from './components/nav';
@@ -25,6 +25,26 @@ if (!checkForLocalStorageData()) {
     parseProjectsArrFromLocalStorage();
 }
   
+// need to bring the todos from the api (railway) 
+// we need to call endpoint /todos/all
+// get the data from the response and paste in localStorage
+fetch('https://todo-api-production-06dc.up.railway.app/todos/all')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+    updateLocalStorage(data);
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
+
+
+
 const aside = document.body.querySelector('aside');
 const header = document.body.querySelector('header');
 // initial render of the nav on page load

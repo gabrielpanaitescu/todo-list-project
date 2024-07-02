@@ -69,7 +69,7 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
 
         const cancelEditBtn = createButton('Cancel', 'cancel-button', '', editChecklistForm);
         cancelEditBtn.type = 'button';
-        const editChecklistBtn = createButton('Confirm', 'submit-button', '', editChecklistForm);
+        const editChecklistBtn = createButton('Save and close', 'submit-button', '', editChecklistForm);
         editChecklistModal.appendChild(editChecklistForm);
         let editChecklistInputsHTMLCollection = editChecklistForm.getElementsByClassName('edit-checklist-input');
     

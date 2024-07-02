@@ -230,5 +230,7 @@ const createDefaultProject = () => {
     return defaultProject;
 };
 
+console.log(projectsManager) 
+
 export { projectsManager, projectProto, createProject, createNote, createTask, createChecklist, createListItem, createDefaultProject };
 

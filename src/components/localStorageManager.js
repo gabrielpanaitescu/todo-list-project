@@ -1,6 +1,11 @@
 import { projectsManager, projectProto } from './projectsManager';
 
-const updateLocalStorage = () => {
+const updateLocalStorage = (data) => {
+    if (data) {
+        const stringifiedProjectsArr = JSON.stringify(data);
+        localStorage.setItem('projectsArrLocalStorage', stringifiedProjectsArr);
+        return;
+    }
     const stringifiedProjectsArr = JSON.stringify(projectsManager.projectsArr);
     localStorage.setItem('projectsArrLocalStorage', stringifiedProjectsArr);
 };

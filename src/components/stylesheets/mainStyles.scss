@@ -62,22 +62,8 @@
 
             &.completed-task,
             &.completed-checklist {
-                filter: brightness(55%);
+                filter: brightness(50%);
 
-                .move-item-container {
-                    select {
-                        padding: 1px 1px;
-                        border-radius: 5px;
-                        border: 1px solid $itemBgColorHover;
-                        background-color: $itemBgColor2;
-                        color: $fontColor;
-                        max-width: 12ch;
-                
-                        &:hover {
-                            filter: brightness(85%);
-                        }
-                    }
-                }
             }
 
             .completion-checkbox-container {
@@ -159,6 +145,19 @@
             .edit-item-container {
                 grid-column: 1 / 4;
             }
+        }
+    }
+
+    select {
+        padding: 1px 1px;
+        border-radius: 5px;
+        border: 1px solid $itemBgColorHover;
+        color: $fontColor;
+        max-width: 12ch;
+        background-color: $itemBgColor2;
+
+        &:hover {
+            filter: brightness(85%);
         }
     }
 
@@ -273,15 +272,16 @@
 
 @media only screen and (min-width: 1024px) {
     .main-container {
+
         margin-top: $xxl;
-            display: flex;
-            justify-content: center;
+        display: flex;
+        justify-content: center;
     
         main {
-            min-width: 50dvw;
-
-            // changed sizing from dynamic to fixed 
-            max-width: 900px;
+            // reset min and max and switch to width with clamp
+            min-width: auto; // or 0
+            max-width: none;
+            width: clamp(600px, 50dvw, 750px);
         }
     }
 
@@ -298,7 +298,12 @@
 
 
                 &.note-item {
-                    grid-template-columns: 180px 1fr repeat(3, auto);
+                    // continue here, changed desc from 1fr to minmax and expand to 1fr
+                    grid-template-columns: 183px minmax(150px, 340px) 1fr repeat(2, auto);
+
+                    .edit-item-container {
+                        justify-self: end;
+                    }
                 }
 
                 &.task-item {

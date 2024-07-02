@@ -1,28 +1,20 @@
-/* to remove */
-/* input,
-select {
-    display: block;
-} */
-
-/* input:read-only {
-    border: 1px solid black;
-} */
-
-
+@import './mixins.scss';
 
 .edit-item-container label:has(+ input:focus:read-write)::after,
 .edit-item-container label:has(+ textarea:focus:read-write)::after {
     content: '';
-    background-image: url(../icons/edit-icon.png);
+    background-image: url(../icons/edit-button-svg.svg);
     background-size: contain; /* or specify width and height */
-    background-repeat: no-repeat;
+
     width: 17px; /* Desired width */
     height: 17px; /* Desired height */
     position: absolute;
-    transform: translate(20%, 7%);
+    transform: translate(3px, 0.5px);
+
+    filter: invert(100%) brightness(1000%);
 }
 
 .list-items-fieldset label:has(+ input:focus:read-write)::after,
 .list-items-fieldset label:has(+ textarea:focus:read-write)::after {
-    left: 60%;
+
 }
