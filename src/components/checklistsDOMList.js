@@ -1,4 +1,4 @@
-import { createButton, createDivContainer, createTextElem, createInput, createLabel } from './DOMElementCreationMethods';
+import { createButton, createDivContainer, createTextElem, createInput, createLabel, createMaterialIcon } from './DOMElementCreationMethods';
 import { format } from "date-fns";
 import { createListItem } from './projectsManager';
 import { projectsManager } from './projectsManager';
@@ -30,6 +30,15 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
 
         createTextElem('h4', 'Title: ' + checklist.title, checklistWrapper);
 
+        const isChecklistCompleted = checklist.completed;
+        const completionTextElem = createTextElem('p', '', checklistWrapper);
+
+        if (isChecklistCompleted) {
+            completionTextElem.textContent = 'Completed: Yes';
+        } else {
+            completionTextElem.textContent = 'Completed: No';
+        }
+
         let dueDate;
         if (checklist.dueDate) {
             dueDate = format(checklist.dueDate, 'MM/dd/yyyy');
@@ -37,7 +46,8 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
             dueDate = "N/A";
         }
         
-        createTextElem('p', `Due: ${dueDate}`, checklistWrapper);
+        const checklistDueDateText = createTextElem('p', `Due: ${dueDate}`, checklistWrapper);
+        checklistDueDateText.classList.add('dueDate-text');
     
         const editChecklistContainer = createDivContainer('modal-container', '', checklistWrapper);
         editChecklistContainer.classList.add('edit-checklist-modal');
@@ -47,6 +57,7 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         const editChecklistModal = document.createElement('dialog');
         editChecklistContainer.appendChild(editChecklistModal);
         const editChecklistForm = document.createElement('form');
+        editChecklistForm.classList.add('checklist-form', 'edit-checklist-form');
         editChecklistForm.method = 'dialog';
         createLabel('editChecklistTitle', 'Checklist title', editChecklistForm);
         const editChecklistTitleInput = createInput('text', 'editChecklistTitle', 'editChecklistTitle', true, '', editChecklistForm);
@@ -61,9 +72,10 @@ export default function updateChecklistsDOM(project, IDtoAppend) {
         const listItemsLegend = document.createElement('legend');
         listItemsLegend.textContent = 'Checklist items';
         listEditItemsFieldset.appendChild(listItemsLegend);
-        const createListItemInputBtn = createButton('+', '', 'create-list-edit-item-button', listEditItemsFieldset);
+        const createListItemInputBtn = createButton('+', 'create-list-item-button', 'edit-form-create-list-item', listEditItemsFieldset);
+        // createMaterialIcon('add', createListItemInputBtn);
         createListItemInputBtn.type = 'button';
-        createLabel('create-list-edit-item-button', 'Press here to add new a new checklist item', listEditItemsFieldset);
+        createLabel('edit-form-create-list-item', 'Press here to add new a new checklist item', listEditItemsFieldset);
         const listItemsContainer = createDivContainer('list-items-container', '', listEditItemsFieldset);
         // const emptyListItemsContainerMessage = createTextElem('p', 'No items currently added.', listEditItemsFieldset);
 

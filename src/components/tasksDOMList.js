@@ -46,7 +46,8 @@ export default function updateTasksDOM(project, IDtoAppend) {
         // createTextElem('p', task.description, taskWrapper);
         createTextElem('p', `Importance: ${task.importance}`, taskWrapper);
         const formattedDateForDisplay = format(task.dueDate, 'MM/dd/yyyy');
-        createTextElem('p', `Due: ${formattedDateForDisplay}`, taskWrapper);
+        const taskDueDateText = createTextElem('p', `Due: ${formattedDateForDisplay}`, taskWrapper);
+        taskDueDateText.classList.add('dueDate-text');
     
         const editTaskContainer = createDivContainer('modal-container', '', taskWrapper);
         editTaskContainer.classList.add('edit-task-modal');

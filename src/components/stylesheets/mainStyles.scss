@@ -54,7 +54,7 @@
             display: grid;
             grid-template-columns: repeat(2, auto) 1fr;
             align-items: center;
-            gap: $s 5px;
+            gap: 10px 5px;
 
             &:not(:last-child) {
                 margin-bottom: 1px;
@@ -62,8 +62,12 @@
 
             &.completed-task,
             &.completed-checklist {
-                filter: brightness(50%);
+                filter: brightness(45%);
 
+                select.move-item {
+                    // reduce darkening (result of filter) of the select element when item is completed
+                    background-color: $itemBgColor2;
+                }
             }
 
             .completion-checkbox-container {
@@ -76,7 +80,6 @@
                 label::after {
                     content: '';
                     position: absolute;
-                    // left: 85px;
                     top: -1px;
                     display: inline-block;
                     width: 20px;
@@ -89,7 +92,6 @@
                     color: $fontColor;
                     user-select: none;
                     position: absolute;
-                    // left: 85.75px;
                     left: .75px;
                     top: 0.5px;
                     font-family: "Anicons Regular", sans-serif;
@@ -179,58 +181,9 @@
     .remove-item-modal-container {
         grid-column: 3;
         justify-self: end;
-        button.remove-item-button {
-            background-color: $fontColor;
-            color: $fontColorBlack;
-            border: none;
-            border-radius: 4px;
-            width: 18px;  
-            height: 18px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-    
-            &:hover {
-                filter: brightness(85%);
-            }
-        }
+
+        // button.remove-item-button {} moved to global styles
     }
-
-
-    // // one item per line -> to further develop and move to custom breakpoint
-    // // min-content will not shrink the grid tracks vs auto will shrink the grid tracks
-    // li.note-item {
-    //     display: grid;
-    //     grid-template-columns: repeat(2, 1fr) repeat(4, auto);
-    // }
-
-    // li.task-item {
-    //     display: grid;
-    //     grid-template-columns: auto 1fr auto repeat(4, auto);
-    // }
-
-    // li.checklist-item {
-    //     display: grid;
-    //     grid-template-columns: 1fr repeat(4, auto);
-    // }
-
-    // .sub-project-container li {
-    //     background-color: $itemBgColor2;
-
-    //     > p, h4 {
-    //         max-width: 30ch;
-    //         overflow: hidden;
-    //         text-overflow: ellipsis;
-    //         white-space: nowrap;
-    //     }
-
-    //     .move-item-container {
-    //         display: flex;
-    //     }
-    // }
 }
 
 @keyframes checkboxAnimation {
@@ -281,14 +234,23 @@
             // reset min and max and switch to width with clamp
             min-width: auto; // or 0
             max-width: none;
-            width: clamp(600px, 50dvw, 750px);
+
+            // this will make main flexible within a 100px range for larger screens on nav open/close; can be changed to a fixed width that accommodates the project container, as this is only for a small animation/transition
+            width: clamp(730px, 50%, 830px);
+
+            // dwv  option, no animation with nav slide due to being sized relative to the viewport, and not the main container
+            // width: clamp(600px, 65dvw, 800px);
+
+            &.nav-hidden {
+
+            }
         }
     }
 
     .project-container {
         .sub-project-container {
+            
             li {
-
                 //reset grid items structure
                 > .edit-item-container,
                 > .remove-item-modal-container,
@@ -296,10 +258,17 @@
                     grid-column: auto;
                 }
 
+                gap: 0 7px;
+
+                h4 {
+                    font-size: 1rem;
+                    font-weight: 600;
+                }
 
                 &.note-item {
                     // continue here, changed desc from 1fr to minmax and expand to 1fr
-                    grid-template-columns: 183px minmax(150px, 340px) 1fr repeat(2, auto);
+                    // 187px due to 7px gap
+                    grid-template-columns: 187px minmax(150px, 340px) 1fr repeat(2, auto);
 
                     .edit-item-container {
                         justify-self: end;
@@ -307,16 +276,24 @@
                 }
 
                 &.task-item {
-                    grid-template-columns: auto 180px 1fr repeat(4, auto);
+                    grid-template-columns: auto 180px auto 1fr repeat(3, auto);
+
+                    h4 {
+
+                        margin-left: 22px;
+                    }
+                    .dueDate-text {
+                        // justify-self: end;
+                        text-align: end;
+                    }
                 }
 
                 &.checklist-item {
-                    grid-template-columns: 1fr repeat(4, auto);
+                    grid-template-columns: 187px auto 1fr repeat(3, auto);
 
-                }
-                &.task-item {
-                    h4 {
-                        margin-left: 22px;
+                    .dueDate-text {
+                        // justify-self: end;
+                        text-align: end;
                     }
                 }
 

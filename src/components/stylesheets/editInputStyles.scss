@@ -1,6 +1,6 @@
 @import './mixins.scss';
 
-.edit-item-container label:has(+ input:focus:read-write)::after,
+.edit-item-container label:has(+ input[type="text"]:focus:read-write)::after,
 .edit-item-container label:has(+ textarea:focus:read-write)::after {
     content: '';
     background-image: url(../icons/edit-button-svg.svg);
@@ -14,7 +14,8 @@
     filter: invert(100%) brightness(1000%);
 }
 
-.list-items-fieldset label:has(+ input:focus:read-write)::after,
+// disabled for checklist items 
+.list-items-fieldset label:has(+ input[type="text"]:focus:read-write)::after,
 .list-items-fieldset label:has(+ textarea:focus:read-write)::after {
-
+    display: none;
 }

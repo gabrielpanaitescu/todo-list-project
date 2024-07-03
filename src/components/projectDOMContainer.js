@@ -200,6 +200,7 @@ function createChecklistsContainer(project) {
     checklistCreateContainer.appendChild(checklistCreateModal);
 
     const addChecklistForm = document.createElement('form');
+    addChecklistForm.classList.add('checklist-form', 'add-checklist-form');
     addChecklistForm.method = 'dialog';
     createLabel('checklistTitle', 'Checklist title', addChecklistForm); 
     const checklistTitleInput = createInput('text', 'checklistTitle', 'checklistTitle', true, '', addChecklistForm);
@@ -212,9 +213,10 @@ function createChecklistsContainer(project) {
     const listItemsLegend = document.createElement('legend');
     listItemsLegend.textContent = 'Checklist items';
     listItemsFieldset.appendChild(listItemsLegend);
-    const createListItemInputBtn = createButton('+', '', 'create-list-item-button', listItemsFieldset);
+    const createListItemInputBtn = createButton('+', 'create-list-item-button', 'add-form-create-list-item', listItemsFieldset);
+    // createMaterialIcon('add', createListItemInputBtn);
     createListItemInputBtn.type = 'button';
-    createLabel('create-list-item-button', 'Press here to add new a new checklist item', listItemsFieldset);
+    createLabel('add-form-create-list-item', 'Press here to add new a new checklist item', listItemsFieldset);
     const listItemsContainer = createDivContainer('list-items-container', '', listItemsFieldset);
     const emptyListItemsContainerMessage = createTextElem('p', 'No items currently added. You can add them now, or later, after the checklist is created.', listItemsFieldset);
 
