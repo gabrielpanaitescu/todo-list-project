@@ -6,7 +6,7 @@ aside {
   position: fixed;
   width: 250px;
   height: 100dvh;
-  z-index: 999;
+  z-index: 2;
 
   &.nav-transition-enabled {
     transition: transform 0.4s ease-in-out;
@@ -26,7 +26,6 @@ aside {
       border: none;
       background: none;
       transition: transform 0.4s ease-in-out;
-      z-index: 999;
 
       span {
 

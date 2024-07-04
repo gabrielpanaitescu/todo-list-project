@@ -40,7 +40,6 @@ export default function updateNotesDOM(project, IDtoAppend) {
         const editNoteBtn = createButton('Save and close', 'submit-button', '', editNoteForm);
         editNoteModal.appendChild(editNoteForm);
         let editNoteInputsArr = editNoteForm.querySelectorAll('input, textarea');
-        console.log(editNoteInputsArr);
 
         const moveNoteContainer = createDivContainer('move-item-container', '', noteWrapper);
         // createLabel('move-note', 'Move: ', moveNoteContainer);

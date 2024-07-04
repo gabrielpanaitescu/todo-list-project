@@ -95,4 +95,11 @@ const createAnicon = (iconName, parent) => {
     }
 };
 
-export { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createAnicon, createTextarea };
+const createLogoContainer = () => {
+    const container = createDivContainer('logo-container');
+    createTextElem('h1', 'todo list', container);
+    createMaterialIcon('content_paste', container);
+    return container;
+}
+
+export { createTextElem, createDivContainer, createButton, createLabel, createInput, createImportanceSelectElem, createMaterialIcon, createAnicon, createTextarea, createLogoContainer };

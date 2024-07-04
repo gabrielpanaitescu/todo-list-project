@@ -12,9 +12,10 @@ import './components/stylesheets/navStyles.scss';
 import './components/stylesheets/mainStyles.scss';
 import './components/stylesheets/headerStyles.scss';
 import './components/manageDOM.js';
+import { createLogoContainer } from './components/DOMElementCreationMethods.js';
 import { parseProjectsArrFromLocalStorage, checkForLocalStorageData, updateLocalStorage } from './components/localStorageManager.js';
 import { projectsManager, createDefaultProject } from './components/projectsManager.js';
-import { createLogoContainer, createToggleNavContainer } from './components/menuPlusLogoContainers.js';
+import { toggleNavContainer } from './components/toggleSideNavMenu.js';
 import nav from './components/nav';
 import { renderDefaultProject, displayEmptyMainMessage } from './components/manageDOM.js';
 
@@ -43,18 +44,21 @@ if (!checkForLocalStorageData()) {
 //     console.error('There has been a problem with your fetch operation:', error);
 //   });
 
-
+const backdrop = document.querySelector('#backdrop');
 const aside = document.body.querySelector('aside');
 const header = document.body.querySelector('header');
 // initial render of the nav on page load
 header.appendChild(createLogoContainer());
-aside.appendChild(createToggleNavContainer());
+aside.appendChild(toggleNavContainer.container);
 aside.appendChild(nav.navDOMElem);
-const quickNavContainer = document.getElementById('quick-nav-container'); // used to attach event listeners on quick nav buttons to show which one is active
+
+// used to attach event listeners on quick nav buttons to show which one is active
+const quickNavContainer = document.getElementById('quick-nav-container'); 
+
+
 nav.renderNav();
 // initial main render on page load; display the first project in the projectsArr 
 renderDefaultProject();
-
 // or display the empty main message that guides the user to choose a project from nav
 // displayEmptyMainMessage();
 
@@ -69,23 +73,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // for side nav to display as open on page load for viewports bigger than 768px 
     if(window.innerWidth > 768) {
+        console.log('asd');
         const toggleNavButton = document.getElementById('toggle-nav-button');
         const mainContainer = document.querySelector('div.main-container');
         const main = document.querySelector('main');
+
 
         mainContainer.classList.remove('nav-hidden');
         main.classList.remove('nav-hidden');
         header.classList.remove('nav-hidden');
         aside.classList.remove('hidden');
         toggleNavButton.classList.remove('nav-hidden');
+        backdrop.classList.remove('nav-hidden');
     }
 });
-
-// anicons test element
-// const testSpan = document.createElement('span');
-// testSpan.classList.add('icon');
-// testSpan.textContent = 'A';
-// document.body.appendChild(testSpan);
 
 // this function works if quick nav tabs are rendered only by clicks; if they are rendered automatically on page load / actions like project tabs, the function and event listener should be reworked and should follow the project tab model (toggleActiveProjectTabUI(projectIndex); that will also mean the quick nav buttons will be re-rendered each time the function runs, which is not the case currently as the quick nav container is rendered only once
 const setActiveQuickNavTab = (e) => {
@@ -111,5 +112,12 @@ document.addEventListener('focusin', function(event) {
         target.setAttribute('autocomplete', 'off');
     }
 });
-    
+
 quickNavContainer.addEventListener('click', setActiveQuickNavTab);
+
+backdrop.addEventListener('click', () => {
+    toggleNavContainer.toggleNavHidden();
+});
+
+
+

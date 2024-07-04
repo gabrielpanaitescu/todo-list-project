@@ -1,11 +1,16 @@
 import { projectsManager, createProject } from './projectsManager';
 import { renderProject, renderAllItems, renderTodaysItems, renderThisWeekItems } from './manageDOM.js'
 import { createButton, createDivContainer, createTextElem, createLabel, createInput, createMaterialIcon } from './DOMElementCreationMethods';
+import { toggleNavContainer } from './toggleSideNavMenu.js';
+
+const backdrop = document.querySelector('#backdrop');
+const toggleNavIfBackdropIsVisible = () => {
+    const isBackDropVisible = window.getComputedStyle(backdrop).display === 'block';
+    if (isBackDropVisible) toggleNavContainer.toggleNavHidden();
+};
 
 const createNavElement = () => {
     const nav = document.createElement('nav');
-
-    // createTextElem('h1', 'todo list', nav);
 
     const quickNavContainer = createDivContainer('nav-container', 'quick-nav-container', nav);
     const allItemsBtn = createButton('All', 'quick-nav-btn', '', quickNavContainer);
@@ -35,6 +40,8 @@ const createNavElement = () => {
     const projectBtnHandler = (project) => {
         console.log(project);
         renderProject(project);
+
+        toggleNavIfBackdropIsVisible()
     };
 
     const createNavItem = (project) => {
@@ -139,14 +146,20 @@ const createNavElement = () => {
 
     thisWeekItemsBtn.addEventListener('click', () => {
         renderThisWeekItems();
+
+        toggleNavIfBackdropIsVisible()
     });
 
     todayItemsBtn.addEventListener('click', () => {
         renderTodaysItems();
+
+        toggleNavIfBackdropIsVisible()
     });
         
     allItemsBtn.addEventListener('click', () => {
         renderAllItems();
+
+        toggleNavIfBackdropIsVisible()
     });
 
     createProjectBtn.addEventListener('click', () => {
@@ -157,6 +170,8 @@ const createNavElement = () => {
 
         createNavItem(project);
         renderProject(project);
+
+        toggleNavIfBackdropIsVisible();
     });
 
     cancelBtn.addEventListener('click', () => {
