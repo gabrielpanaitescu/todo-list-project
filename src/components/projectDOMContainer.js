@@ -28,12 +28,6 @@ export default function createProjectDOMContainer(project) {
 
             nav.renderNav();
 
-            // non-deletable default Personal project version
-            // render first project in the array when a project is deleted
-            // if (projectsManager.projectsArr.length >= 1) {
-            //     renderDefaultProject();
-            //     return;
-            // }
             displayEmptyMainMessage();
         }
         
@@ -46,12 +40,6 @@ export default function createProjectDOMContainer(project) {
         });
     };
 
-    // non-deletable default Personal project version
-    // this will not add a remove project button to the default Personal project
-    // this only works if no edit title button is added from nav.js to the Personal project nav container
-    // if (project.title !== 'Personal') {
-    //     createRemoveProjectBtn();
-    // };
     createRemoveProjectBtn();
 
     return projectContainer;
@@ -76,7 +64,6 @@ function createNotesContainer(project) {
     createLabel('noteTitle', 'Note title', addNoteForm);
     const noteTitleInput = createInput('text', 'noteTitle', 'noteTitle', true, '', addNoteForm);
     createLabel('noteDescription', 'Note description', addNoteForm);
-    // const noteDescriptionInput = createInput('textarea', 'noteDescription', 'noteDescription', true, '', addNoteForm);
     const noteDescriptionInput = createTextarea('noteDescription', 'noteDescription', true, '', '', '', addNoteForm);
     const cancelBtn = createButton('Cancel', 'cancel-button', '', addNoteForm);
     cancelBtn.type = 'button';
@@ -136,7 +123,6 @@ function createTasksContainer(project) {
     createLabel('taskTitle', 'Task title', addTaskForm); 
     const taskTitleInput = createInput('text', 'taskTitle', 'taskTitle', true, '', addTaskForm);
     createLabel('taskDescription', 'Task description', addTaskForm);
-    // const taskDescriptionInput = createInput('textarea', 'taskDescription', 'taskDescription', true, '', addTaskForm);
     const taskDescriptionInput = createTextarea('taskDescription', 'taskDescription', true, '', '', '', addTaskForm);
     createLabel('taskImportance', 'Importance', addTaskForm);
     const taskImportanceSelect = createImportanceSelectElem('task', addTaskForm);
@@ -155,7 +141,6 @@ function createTasksContainer(project) {
     const createTaskBtnHandler = () => {
         if (!addTaskForm.checkValidity()) return;
 
-        // post data to todo/new
         project.addTask(createTask(taskTitleInput.value, taskDescriptionInput.value, taskImportanceSelect.value, taskDuedateInput.value));
         renderTasks(project, IDtoAppend);
     }

@@ -25,24 +25,6 @@ if (!checkForLocalStorageData()) {
 } else if (checkForLocalStorageData()) {
     parseProjectsArrFromLocalStorage();
 }
-  
-// need to bring the todos from the api (railway) 
-// we need to call endpoint /todos/all
-// get the data from the response and paste in localStorage
-// fetch('https://todo-api-production-06dc.up.railway.app/todos/all')
-//   .then(response => {
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     return response.json();
-//   })
-//   .then(data => {
-//     console.log(data);
-//     updateLocalStorage(data);
-//   })
-//   .catch(error => {
-//     console.error('There has been a problem with your fetch operation:', error);
-//   });
 
 const backdrop = document.querySelector('#backdrop');
 const aside = document.body.querySelector('aside');
@@ -54,7 +36,6 @@ aside.appendChild(nav.navDOMElem);
 
 // used to attach event listeners on quick nav buttons to show which one is active
 const quickNavContainer = document.getElementById('quick-nav-container'); 
-
 
 nav.renderNav();
 // initial main render on page load; display the first project in the projectsArr 
@@ -73,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // for side nav to display as open on page load for viewports bigger than 768px 
     if(window.innerWidth > 768) {
-        console.log('asd');
         const toggleNavButton = document.getElementById('toggle-nav-button');
         const mainContainer = document.querySelector('div.main-container');
         const main = document.querySelector('main');

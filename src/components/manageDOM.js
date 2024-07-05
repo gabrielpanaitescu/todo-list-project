@@ -30,10 +30,6 @@ const renderProject = (project) => {
 
     const projectIndex = projectsManager.projectsArr.indexOf(project);
     nav.createEditProjectTitleButton(projectIndex, project);
-
-    // non-deletable Personal project version
-    // do not create edit button for personal project
-    // if (projectIndex >= 1) nav.createEditProjectTitleButton(projectIndex, project);
     
     nav.toggleActiveProjectTabUI(projectIndex);
 
